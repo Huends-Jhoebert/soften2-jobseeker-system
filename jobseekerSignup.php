@@ -1,10 +1,29 @@
 <?php
 
-if (isset($_POST['doneBtn'])) {
-	echo $_POST['skills'];
+session_start();
+
+if (!isset($_GET['emailHasBeenUsed'])) {
+	$_SESSION['full_name'] = "";
+	$_SESSION['contact_number']  = "";
+	$_SESSION['email_address']  = "";
+	$_SESSION['password']  = "";
+	$_SESSION['address_more_info'] = "";
+	$_SESSION['barangay'] = "";
+	$_SESSION['city'] = "";
+	$_SESSION['postal_code'] = "";
+	$_SESSION['province'] = "";
+	$_SESSION['region'] = "";
+	$_SESSION['school'] = "";
+	$_SESSION['degree'] = "";
+	$_SESSION['field_study'] = "";
+	$_SESSION['start_year'] = "";
+	$_SESSION['year_ended'] = "";
+	$_SESSION['skills'] = "";
+	$_SESSION['coe'] = "";
 }
 
 ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -28,10 +47,13 @@ if (isset($_POST['doneBtn'])) {
 	<link rel="stylesheet" type="text/css" href="template-files/src/plugins/jquery-steps/jquery.steps.css">
 	<link rel="stylesheet" type="text/css" href="template-files/vendors/styles/style.css">
 	<link rel="stylesheet" type="text/css" href="template-files/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
+	<!-- <link rel="stylesheet" type="text/css" href="template-files/src/plugins/sweetalert2/sweetalert2.css"> -->
+	<link rel="stylesheet" href="template-files/sweetalert/sweetalert2.min.css">
 
 </head>
 
 <body class="login-page">
+
 	<div class="login-header box-shadow">
 		<div class="container-fluid d-flex justify-content-between align-items-center">
 			<div class="brand-logo">
@@ -55,7 +77,7 @@ if (isset($_POST['doneBtn'])) {
 				<div class="col-md-6 col-lg-5">
 					<div class="register-box bg-white box-shadow border-radius-10">
 						<div class="wizard-content">
-							<form class="tab-wizard2 wizard-circle wizard" action="user-otp/jobseekerOtp.php" method="POST">
+							<form class="tab-wizard2 wizard-circle wizard" action="user-otp/jobseekerOtp.php" method="POST" enctype="multipart/form-data">
 								<h5>Personal Information</h5>
 								<section>
 									<div class="form-wrap max-width-600 mx-auto">
@@ -69,26 +91,13 @@ if (isset($_POST['doneBtn'])) {
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Full Name*</label>
 											<div class="col-sm-8">
-												<input type="text" name="full_name" class="form-control">
-											</div>
-										</div>
-										<div class="form-group row align-items-center">
-											<label class="col-sm-4 col-form-label">Gender*</label>
-											<div class="col-sm-8">
-												<div class="custom-control custom-radio custom-control-inline pb-0">
-													<input type="radio" value="Male" id="male" name="gender" class="custom-control-input">
-													<label class="custom-control-label" for="male">Male</label>
-												</div>
-												<div class="custom-control custom-radio custom-control-inline pb-0">
-													<input type="radio" id="female" name="gender" class="custom-control-input" value="Female">
-													<label class="custom-control-label" for="female">Female</label>
-												</div>
+												<input type="text" name="full_name" class="form-control" value="<?php echo $_SESSION['full_name']; ?>">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Contact Number*</label>
 											<div class="col-sm-8">
-												<input type="text" name="contact_number" class="form-control">
+												<input type="text" name="contact_number" class="form-control" value="<?php echo $_SESSION['contact_number']; ?>">
 											</div>
 										</div>
 										<div class="form-group row">
@@ -100,7 +109,7 @@ if (isset($_POST['doneBtn'])) {
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Password*</label>
 											<div class="col-sm-8">
-												<input type="password" name="password" class="form-control">
+												<input type="password" name="password" class="form-control" value="<?php echo $_SESSION['password']; ?>">
 											</div>
 										</div>
 									</div>
@@ -112,37 +121,37 @@ if (isset($_POST['doneBtn'])) {
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Region*</label>
 											<div class="col-sm-8">
-												<input type="text" name="region" class="form-control">
+												<input type="text" name="region" class="form-control" value="<?php echo $_SESSION['region']; ?>">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Province*</label>
 											<div class="col-sm-8">
-												<input type="text" name="province" class="form-control">
+												<input type="text" name="province" class="form-control" value="<?php echo $_SESSION['province']; ?>">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">City*</label>
 											<div class="col-sm-8">
-												<input type="text" name="city" class="form-control">
+												<input type="text" name="city" class="form-control" value="<?php echo $_SESSION['city']; ?>">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Barangay*</label>
 											<div class="col-sm-8">
-												<input type="text" name="barangay" class="form-control">
+												<input type="text" name="barangay" class="form-control" value="<?php echo $_SESSION['barangay']; ?>">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Postal Code*</label>
 											<div class="col-sm-8">
-												<input type="text" name="postal_code" class="form-control">
+												<input type="text" name="postal_code" class="form-control" value="<?php echo $_SESSION['postal_code']; ?>">
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Street Name, Building, House No.*</label>
 											<div class="col-sm-8">
-												<input type="text" name="address_more_info" class="form-control">
+												<input type="text" name="address_more_info" class="form-control" value="<?php echo $_SESSION['address_more_info']; ?>">
 											</div>
 										</div>
 									</div>
@@ -154,31 +163,31 @@ if (isset($_POST['doneBtn'])) {
 										<div class="form-group row align-items-center">
 											<label class="col-sm-4 col-form-label">School*</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control" placeholder="ex. The Lewis College">
+												<input type="text" name="school" class="form-control" placeholder="ex. The Lewis College" value="<?php echo $_SESSION['school']; ?>">
 											</div>
 										</div>
 										<div class="form-group row align-items-center">
 											<label class="col-sm-4 col-form-label">Degree</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control" placeholder="ex. Bachelor's">
+												<input type="text" name="degree" class="form-control" placeholder="ex. Bachelor's" value="<?php echo $_SESSION['degree']; ?>">
 											</div>
 										</div>
 										<div class="form-group row align-items-center">
 											<label class="col-sm-4 col-form-label">Field of study</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control" placeholder="ex. Business">
+												<input type="text" name="field_study" class="form-control" placeholder="ex. Business" value="<?php echo $_SESSION['field_study']; ?>">
 											</div>
 										</div>
 										<div class="form-group row align-items-center">
 											<label class="col-sm-4 col-form-label">Start Year</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control">
+												<input type="text" name="start_year" class="form-control" value="<?php echo $_SESSION['start_year']; ?>">
 											</div>
 										</div>
 										<div class="form-group row align-items-center">
 											<label class="col-sm-4 col-form-label">Year Ended</label>
 											<div class="col-sm-8">
-												<input type="text" class="form-control">
+												<input type="text" name="year_ended" class="form-control" value="<?php echo $_SESSION['year_ended']; ?>">
 											</div>
 										</div>
 									</div>
@@ -191,19 +200,19 @@ if (isset($_POST['doneBtn'])) {
 											<li>
 												<div class="mb-30">
 													<h5 class="h5">Skills</h5>
-													<input type="text" data-role="tagsinput" style="display: none; height:500px;" class="w-100" name="skills">
+													<input type="text" data-role="tagsinput" style="display: none; height:500px;" class="w-100" name="skills" value="<?php echo $_SESSION['skills']; ?>">
 												</div>
 											</li>
 											<li>
 												<div class="mb-30">
 													<h5 class="h5">Certificate(s) of employment</h5>
-													<input type="text" data-role="tagsinput" style="display: none;" class="w-100" name="coe">
+													<input type="text" data-role="tagsinput" style="display: none;" class="w-100" name="coe" value="<?php echo $_SESSION['coe']; ?>">
 												</div>
 											</li>
 										</ul>
 										<!-- success Popup html Start -->
-										<button type="button" id="success-modal-btn" hidden data-toggle="modal" data-target="#success-modal" data-backdrop="static">Launch modal</button>
-										<div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+										<button type="submit" id="success-modal-btn" hidden data-toggle="modal" data-target="#success-modal" data-backdrop="static" name="jobSeekerSubmitBtn">Launch modal</button>
+										<!-- <div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 											<div class="modal-dialog modal-dialog-centered max-width-400" role="document">
 												<div class="modal-content">
 													<div class="modal-body text-center font-18">
@@ -212,11 +221,11 @@ if (isset($_POST['doneBtn'])) {
 														Verify Your account.
 													</div>
 													<div class="modal-footer justify-content-center">
-														<button type="submit" class="btn btn-primary" name="doneBtn">Veify my account</button>
+														<button class="btn btn-primary" name="doneBtn">Veify my account</button>
 													</div>
 												</div>
 											</div>
-										</div>
+										</div> -->
 										<!-- success Popup html End -->
 									</div>
 								</section>
@@ -235,11 +244,21 @@ if (isset($_POST['doneBtn'])) {
 	<script src="template-files/src/plugins/jquery-steps/jquery.steps.js"></script>
 	<script src="template-files/vendors/scripts/steps-setting.js"></script>
 	<script src="template-files/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+	<script src="template-files/sweetalert/sweetalert2.min.js"></script>
+
 </body>
 
-<script>
+<?php if (isset($_GET['emailHasBeenUsed'])) : ?>
+	<script>
+		var email = "<?php echo $_SESSION['email_address']; ?>";
+		Swal.fire({
+			title: 'Error!',
+			text: 'Email has been used by other',
+			icon: 'error',
+			confirmButtonText: 'Change email'
+		})
+	</script>
+<?php endif; ?>
 
-
-</script>
 
 </html>

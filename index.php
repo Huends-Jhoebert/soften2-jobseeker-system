@@ -1,5 +1,5 @@
 <?php include_once "header.php"; ?>
-
+<link rel="stylesheet" href="template-files/sweetalert/sweetalert2.min.css">
 <title>Jobseeker - Log in</title>
 </head>
 
@@ -82,7 +82,19 @@
 		</div>
 	</div>
 
+	<script src="template-files/sweetalert/sweetalert2.min.js"></script>
 
+	<?php if (isset($_GET['verifiedEmail'])) : ?>
+		<script>
+			Swal.fire({
+				position: 'top-end',
+				icon: 'success',
+				title: 'Your account is verified!',
+				showConfirmButton: false,
+				timer: 1500
+			})
+		</script>
+	<?php endif; ?>
 
 
 	<?php include_once "footer.php"; ?>

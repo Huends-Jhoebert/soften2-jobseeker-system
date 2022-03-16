@@ -205,7 +205,7 @@ if (!isset($_GET['emailHasBeenUsed'])) {
 											</li>
 											<li>
 												<div class="mb-30">
-													<h5 class="h5">Certificate(s) of employment</h5>
+													<h5 class="h5">Honors & Rewards</h5>
 													<input type="text" data-role="tagsinput" style="display: none;" class="w-100" name="coe" value="<?php echo $_SESSION['coe']; ?>">
 												</div>
 											</li>

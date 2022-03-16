@@ -26,6 +26,7 @@ if (isset($_POST["logInBtn"])) { //isset is used to check if a variable is prese
 				//code here
 				$_SESSION['user_id'] = $row['user_id'];
 				$_SESSION['email_address'] = $row['email_account'];
+				$_SESSION['password'] = $row['password'];
 				$_SESSION['name'] = $row['name'];
 				$_SESSION['password'] = $row['password'];
 				$_SESSION['contact_number'] = $row['contact_number'];
@@ -50,6 +51,21 @@ if (isset($_POST["logInBtn"])) { //isset is used to check if a variable is prese
 			} else {
 				//if Jobseeker is verified 
 				//code here
+				$_SESSION['user_id'] = $row['user_id'];
+				$_SESSION['email_address'] = $row['email_account'];
+				$_SESSION['name'] = $row['name'];
+				$_SESSION['password'] = $row['password'];
+				$_SESSION['contact_number'] = $row['contact_number'];
+				$_SESSION['address'] = $row['address'];
+				$_SESSION['school'] = $row['school'];
+				$_SESSION['degree'] = $row['degree'];
+				$_SESSION['study_field'] = $row['study_field'];
+				$_SESSION['study_years'] = $row['study_years'];
+				$_SESSION['skills'] = $row['skills'];
+				$_SESSION['coe'] = $row['coe'];
+				$_SESSION['type'] = $row['type'];
+				$_SESSION['p_p'] = $row['p_p'];
+				header("Location: ../user-account/jobseeker-account/userProfile.php");
 			}
 		} else
 			header("location:../index.php?invalid=1");

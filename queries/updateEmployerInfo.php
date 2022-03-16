@@ -7,11 +7,7 @@ $pword = "";
 $dbname = "jobseeker-system-db";
 $conn = new mysqli($server, $uname, $pword, $dbname);
 
-
 session_start();
-
-
-
 
 $_SESSION['email_address'] = ($_POST['email_address'] == "") ? $_SESSION['email_address'] : $_POST['email_address'];
 $_SESSION['name'] = ($_POST['name'] == "") ? $_SESSION['name'] : $_POST['name'];
@@ -30,4 +26,4 @@ $updateUserInfo =
 		contact_person = '$_SESSION[contact_person]'
   WHERE user_id='$_SESSION[user_id]'";
 
-$conn->query($updateImage);
+$conn->query($updateUserInfo);

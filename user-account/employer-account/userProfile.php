@@ -29,6 +29,7 @@ session_start();
 	<link rel="stylesheet" type="text/css" href="../../template-files/src/plugins/cropperjs/dist/cropper.css">
 	<link rel="stylesheet" type="text/css" href="../../template-files/vendors/styles/style.css">
 	<link rel="stylesheet" href="../../template-files/sweetalert/sweetalert2.min.css">
+	<link rel="icon" type="image/png" sizes="32x32" href="../../template-files/vendors/images/logo1-removebg.png">
 
 	<style>
 		.__notification {
@@ -322,16 +323,16 @@ session_start();
 							<div class="profile-tab height-100-p">
 								<div class="tab height-100-p">
 									<ul class="nav nav-tabs customtab" role="tablist">
-										<li class="nav-item">
+										<!-- <li class="nav-item">
 											<a class="nav-link active" data-toggle="tab" href="#timeline" role="tab" aria-selected="true">Timeline</a>
-										</li>
+										</li> -->
 										<li class="nav-item">
-											<a class="nav-link" data-toggle="tab" href="#setting" role="tab" aria-selected="false">Settings</a>
+											<a class="nav-link active" data-toggle="tab" href="#setting" role="tab" aria-selected="false">Settings</a>
 										</li>
 									</ul>
 									<div class="tab-content">
 										<!-- Timeline Tab start -->
-										<div class="tab-pane fade active show" id="timeline" role="tabpanel">
+										<!-- <div class="tab-pane fade active show" id="timeline" role="tabpanel">
 											<div class="pd-20">
 												<div class="profile-timeline">
 													<div class="timeline-month">
@@ -411,45 +412,45 @@ session_start();
 													</div>
 												</div>
 											</div>
-										</div>
+										</div> -->
 										<!-- Timeline Tab End -->
 
 										<!-- Setting Tab start -->
-										<div class="tab-pane fade height-25-p" id="setting" role="tabpanel">
+										<div class="tab-pane fade active show height-25-p" id="setting" role="tabpanel">
 											<div class="profile-setting">
-												<form>
+												<form id="profileEdit" method="POST">
 													<ul class="profile-edit-list row">
 														<li class="weight-500 col-md-6">
 															<h4 class="text-blue h5 mb-20">Edit Company Informations</h4>
 															<div class="form-group">
 																<label>Comapny Address</label>
-																<input class="form-control form-control-lg" type="text">
+																<input class="form-control form-control-lg" name="address" type="text">
 															</div>
 															<div class="form-group">
 																<label>Contact Person</label>
-																<input class="form-control form-control-lg" type="text">
+																<input class="form-control form-control-lg" name="contact_person" type="text">
 															</div>
 															<div class="form-group">
 																<label>Contact Number</label>
-																<input class="form-control form-control-lg" type="email">
+																<input class="form-control form-control-lg" name="contact_number" type="text">
 															</div>
 															<div class="form-group mb-0">
-																<input type="submit" class="btn btn-primary" value="Update Information">
+																<button type="submit" name="updateInfoBtn" class="btn btn-primary">Update Information</button>
 															</div>
 														</li>
 														<li class="weight-500 col-md-6">
 															<h4 class="text-blue h5 mb-20" style="visibility: hidden;">Edit Social Media links</h4>
 															<div class="form-group">
 																<label>Comapany Name:</label>
-																<input class="form-control form-control-lg" type="text">
+																<input class="form-control form-control-lg" name="name" type="text">
 															</div>
 															<div class="form-group">
 																<label>Company Email:</label>
-																<input class="form-control form-control-lg" type="text">
+																<input class="form-control form-control-lg" name="email_address" type="text">
 															</div>
 															<div class="form-group">
 																<label>Company Password:</label>
-																<input class="form-control form-control-lg" type="text">
+																<input class="form-control form-control-lg" name="password" type="text">
 															</div>
 														</li>
 													</ul>
@@ -513,31 +514,28 @@ session_start();
 
 	<script>
 		//CODE FOR AJAX INSERT
-		// $("#newLogo").submit(function(e) {
-		// 	e.preventDefault(); // avoid to execute the actual submit of the form.
-		// 	var form = $(this);
-		// 	$.ajax({
-		// 		type: "POST",
-		// 		url: "ajax-queries/updateImage.php",
-		// 		data: form.serialize(),
-		// 		success: function(data) {
-		// 			var closeModalBtn = document.getElementById("closeNewImageBtn");
-		// 			closeModalBtn.click();
-		// 			Swal.fire(
-		// 				'New Logo',
-		// 				'Is successfully added!',
-		// 				'success'
-		// 			).then((result) => {
-		// 				if (result) {
-		// 					location.reload();
-		// 				}
-		// 			})
-		// 		},
-		// 		cache: false,
-		// 		contentType: false,
-		// 		processData: false
-		// 	});
-		// });
+		$("#profileEdit").submit(function(e) {
+			e.preventDefault(); // avoid to execute the actual submit of the form.
+			var form = $(this);
+			$.ajax({
+				type: "POST",
+				url: "../../queries/updateEmployerInfo.php",
+				data: form.serialize(),
+				success: function(data) {
+					// var closeModalBtn = document.getElementById("closeNewImageBtn");
+					// closeModalBtn.click();
+					Swal.fire(
+						'Company Informations',
+						'Is successfully updated',
+						'success'
+					).then((result) => {
+						if (result) {
+							location.reload();
+						}
+					})
+				}
+			});
+		});
 		//END CODE FOR AJAX INSERT
 
 		// $("#newLogo").submit(function(e) {

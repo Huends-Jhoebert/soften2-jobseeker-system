@@ -8,18 +8,18 @@ $pword = "";
 $dbname = "jobseeker-system-db";
 $conn = new mysqli($server, $uname, $pword, $dbname);
 
-$getJobOffers = "SELECT * FROM job WHERE job_employer_id = '$_SESSION[user_id]' ORDER BY job_date_posted ASC";
+$jobOfferQuery = "SELECT * FROM job WHERE job_id = '$_GET[jobId]'";
 
-$getJobOffersQuery = mysqli_query($conn, $getJobOffers);
+$jobOfferQueryResult = $conn->query($jobOfferQuery);
 
-$jobOffers = mysqli_fetch_all($getJobOffersQuery, MYSQLI_ASSOC);
+// Associative array
+$jobOfferQueryResultArray = $jobOfferQueryResult->fetch_assoc();
 
 // echo "<pre>";
-// var_dump($jobOffers);
-
+// var_dump($jobOfferQueryResultArray);
 // echo "</pre>";
 
-// $number = 0;
+$number = 0;
 
 ?>
 
@@ -45,8 +45,8 @@ $jobOffers = mysqli_fetch_all($getJobOffersQuery, MYSQLI_ASSOC);
 	<link rel="stylesheet" type="text/css" href="../../template-files/vendors/styles/icon-font.min.css">
 	<link rel="stylesheet" type="text/css" href="../../template-files/src/plugins/datatables/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="../../template-files/src/plugins/datatables/css/responsive.bootstrap4.min.css">
-	<link rel="stylesheet" type="text/css" href="../../template-files/vendors/styles/style.css">
 	<link rel="stylesheet" href="../../template-files/sweetalert/sweetalert2.min.css">
+	<link rel="stylesheet" type="text/css" href="../../template-files/vendors/styles/style.css">
 
 	<style>
 		.__notification {
@@ -236,44 +236,83 @@ $jobOffers = mysqli_fetch_all($getJobOffersQuery, MYSQLI_ASSOC);
 				<!-- Simple Datatable start -->
 				<div class="card-box mb-30">
 					<div class="pd-20 d-flex justify-content-between align-items-center">
-						<h4 class="text-blue h4">MY JOB OFFERS</h4>
-						<a href="userJob.php" class="text-success">ADD JOB</a>
+						<h4 class="text-blue h3">JOB INFORMATION</h4>
+						<a href="#" class="text-danger h6" data-toggle="modal" data-target="#confirmation-modal" type="button">
+							DELETE
+						</a>
+						<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-body text-center font-18">
+										<h4 class="padding-top-30 mb-30 weight-500">Are you sure you want to continue?</h4>
+										<div class="padding-bottom-30 row" style="max-width: 170px; margin: 0 auto;">
+											<div class="col-6">
+												<button type="button" class="btn btn-secondary border-radius-100 btn-block confirmation-btn" data-dismiss="modal"><i class="fa fa-times"></i></button>
+												NO
+											</div>
+											<div class="col-6">
+												<a href="deleteJob.php?jobIdToDelete=<?php echo $jobOfferQueryResultArray['job_id']; ?>" type="button" class="btn btn-primary border-radius-100 btn-block confirmation-btn"><i class="fa fa-check"></i></a>
+												YES
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pb-20">
+						<div class="pd-20 pt-0">
+							<div class="row mb-20">
+								<div class="col-12">
+									<img src="../<?php echo $jobOfferQueryResultArray['job_image']; ?>" alt="" class="d-block w-100">
+								</div>
+							</div>
+							<p class="text-info h3"><?php echo $jobOfferQueryResultArray['job_title']; ?></p>
+							<p><span class="text-dark h6">Salary Range:</span>
+								<span class="text-info h5"><?php echo $jobOfferQueryResultArray['job_salary_range']; ?></span>
+							</p>
+							<p><span class="text-dark h6">Place:</span>
+								<span class="text-info h5"><?php echo $jobOfferQueryResultArray['job_place']; ?></span>
+							</p>
+						</div>
+					</div>
+				</div>
+				<!-- Simple Datatable End -->
+			</div>
+		</div>
+		<div class="pd-ltr-20 xs-pd-20-10">
+			<div class="min-height-200px">
+				<!-- Simple Datatable start -->
+				<div class="card-box mb-30">
+					<div class="pd-20">
+						<h4 class="text-blue h4">JOB APPLICANT</h4>
 					</div>
 					<div class="pb-20">
 						<table class="data-table table stripe hover nowrap">
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>Applicants #</th>
-									<th>Title</th>
-									<th>Place</th>
-									<th>Date Posted</th>
+									<th>Name</th>
+									<th>Date Submitted</th>
 									<th class="datatable-nosort">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								<?php foreach ($jobOffers as $key => $jobOffer) : ?>
-									<tr>
-										<td class="table-plus"><?php echo $key + 1; ?></td>
-										<td>25</td>
-										<td><?php echo $jobOffer['job_title']; ?></td>
-										<td><?php echo $jobOffer['job_place']; ?></td>
-										<td><?php
-											$date = $jobOffer['job_date_posted'];
-											echo date('h:i:s a m/d/Y', strtotime($date));
-											?></td>
-										<td>
-											<div class="dropdown">
-												<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-													<i class="dw dw-more"></i>
-												</a>
-												<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-													<a class="dropdown-item" href="viewJob.php?jobId=<?php echo $jobOffer['job_id'] ?>"><i class="dw dw-eye"></i> View</a>
-												</div>
+								<tr>
+									<td>1</td>
+									<td><a href="#">Jhoebert Huenda</a></td>
+									<td>3</td>
+									<td>
+										<div class="dropdown">
+											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+												<i class="dw dw-more"></i>
+											</a>
+											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+												<a class="dropdown-item" href="#"><i class="dw dw-download"></i> Resume</a>
 											</div>
-										</td>
-									</tr>
-								<?php endforeach; ?>
+										</div>
+									</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>
@@ -282,7 +321,9 @@ $jobOffers = mysqli_fetch_all($getJobOffersQuery, MYSQLI_ASSOC);
 			</div>
 		</div>
 	</div>
+
 	<!-- js -->
+	<script src="../../template-files/sweetalert/sweetalert2.all.min.js"></script>
 	<script src="../../template-files/vendors/scripts/core.js"></script>
 	<script src="../../template-files/vendors/scripts/script.min.js"></script>
 	<script src="../../template-files/vendors/scripts/process.js"></script>
@@ -301,18 +342,7 @@ $jobOffers = mysqli_fetch_all($getJobOffersQuery, MYSQLI_ASSOC);
 	<script src="../../template-files/src/plugins/datatables/js/vfs_fonts.js"></script>
 	<!-- Datatable Setting js -->
 	<script src="../../template-files/vendors/scripts/datatable-setting.js"></script>
-	<script src="../../template-files/sweetalert/sweetalert2.all.min.js"></script>
+
 </body>
-
-
-<?php if (isset($_GET['successfullyDeleted'])) : ?>
-	<script>
-		Swal.fire(
-			'Job',
-			'Is successfully deleted',
-			'success'
-		)
-	</script>
-<?php endif; ?>
 
 </html>

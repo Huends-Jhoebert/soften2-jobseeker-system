@@ -423,8 +423,8 @@ session_start();
 														<li class="weight-500 col-md-6">
 															<h4 class="text-blue h5 mb-20">Edit Company Informations</h4>
 															<div class="form-group">
-																<label>Comapny Address</label>
-																<input class="form-control form-control-lg" name="address" type="text">
+																<label>Comapany Name:</label>
+																<input class="form-control form-control-lg" name="name" type="text">
 															</div>
 															<div class="form-group">
 																<label>Contact Person</label>
@@ -435,15 +435,35 @@ session_start();
 																<input class="form-control form-control-lg" name="contact_number" type="text">
 															</div>
 															<div class="form-group mb-0">
-																<button type="submit" name="updateInfoBtn" class="btn btn-primary">Update Information</button>
+																<a href="#" class="btn btn-primary" data-backdrop="static" data-toggle="modal" data-target="#Medium-modal" type="button">
+																	Update Information
+																</a>
+																<div class="modal fade" id="Medium-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+																	<div class="modal-dialog modal-dialog-centered">
+																		<div class="modal-content">
+																			<div class="modal-header">
+																				<h4 class="modal-title" id="myLargeModalLabel">Input Old Password</h4>
+																				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+																			</div>
+																			<div class="modal-body">
+																				<div class="input-group custom">
+																					<input type="password" class="form-control form-control-lg" placeholder="**********" name="passwordRetype">
+																					<div class="input-group-append custom">
+																						<span class="input-group-text"><i class="dw dw-padlock1"></i></span>
+																					</div>
+																				</div>
+																			</div>
+																			<div class="modal-footer">
+																				<button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnClose">Close</button>
+																				<button type="submit" class="btn btn-primary" name="submitBtn">Update</button>
+																			</div>
+																		</div>
+																	</div>
+																</div>
 															</div>
 														</li>
 														<li class="weight-500 col-md-6">
 															<h4 class="text-blue h5 mb-20" style="visibility: hidden;">Edit Social Media links</h4>
-															<div class="form-group">
-																<label>Comapany Name:</label>
-																<input class="form-control form-control-lg" name="name" type="text">
-															</div>
 															<div class="form-group">
 																<label>Company Email:</label>
 																<input class="form-control form-control-lg" name="email_address" type="text">
@@ -451,6 +471,43 @@ session_start();
 															<div class="form-group">
 																<label>Company Password:</label>
 																<input class="form-control form-control-lg" name="password" type="text">
+															</div>
+														</li>
+													</ul>
+												</form>
+												<form id="addressEdit" method="POST">
+													<ul class="profile-edit-list row pt-0">
+														<li class="weight-500 col-md-6">
+															<h4 class="text-blue h5 mb-20">Edit Address Information</h4>
+															<div class="form-group">
+																<label>Region</label>
+																<input class="form-control form-control-lg" name="region" type="text">
+															</div>
+															<div class="form-group">
+																<label>City:</label>
+																<input class="form-control form-control-lg" name="city" type="text">
+															</div>
+															<div class="form-group">
+																<label>Postal Code:</label>
+																<input class="form-control form-control-lg" name="postal_code" type="text">
+															</div>
+															<div class="form-group mb-0">
+																<button type="submit" name="updateInfoBtn" class="btn btn-primary">Update Address</button>
+															</div>
+														</li>
+														<li class="weight-500 col-md-6">
+															<h4 class="text-blue h5 mb-20" style="visibility: hidden;">Edit Social Media links</h4>
+															<div class="form-group">
+																<label>Province:</label>
+																<input class="form-control form-control-lg" name="province" type="text">
+															</div>
+															<div class="form-group">
+																<label>Barangay:</label>
+																<input class="form-control form-control-lg" name="barangay" type="text">
+															</div>
+															<div class="form-group">
+																<label>Street Name, Building, House No.*:</label>
+																<input class="form-control form-control-lg" name="address_more_info" type="text">
 															</div>
 														</li>
 													</ul>
@@ -522,10 +579,51 @@ session_start();
 				url: "../../queries/updateEmployerInfo.php",
 				data: form.serialize(),
 				success: function(data) {
+					var closeModalBtn = document.getElementById("btnClose");
+					closeModalBtn.click();
+					Swal.fire(
+						'Personal Informations',
+						'Are successfully updated',
+						'success'
+					).then((result) => {
+						if (result) {
+							location.reload();
+						}
+					})
+				},
+				error: function(request, status, error) {
+					var closeModalBtn = document.getElementById("btnClose");
+					closeModalBtn.click();
+					if (error == "Bad Request") {
+						Swal.fire(
+							'Password',
+							'Is incorrect',
+							'error'
+						)
+					} else if (error == "Internal Server Error") {
+						Swal.fire(
+							'Email Account',
+							'Has been used by other',
+							'error'
+						)
+					}
+				}
+			});
+		});
+		//END CODE FOR AJAX INSERT
+
+		$("#addressEdit").submit(function(e) {
+			e.preventDefault(); // avoid to execute the actual submit of the form.
+			var form = $(this);
+			$.ajax({
+				type: "POST",
+				url: "../../queries/updateAddress.php",
+				data: form.serialize(),
+				success: function(data) {
 					// var closeModalBtn = document.getElementById("closeNewImageBtn");
 					// closeModalBtn.click();
 					Swal.fire(
-						'Company Informations',
+						'Address Information',
 						'Is successfully updated',
 						'success'
 					).then((result) => {
@@ -536,23 +634,6 @@ session_start();
 				}
 			});
 		});
-		//END CODE FOR AJAX INSERT
-
-		// $("#newLogo").submit(function(e) {
-		// 	e.preventDefault();
-		// 	var formData = new FormData(this);
-		// 	$.ajax({
-		// 		url: window.location.pathname,
-		// 		type: 'POST',
-		// 		data: formData,
-		// 		success: function(data) {
-		// 			alert(data)
-		// 		},
-		// 		cache: false,
-		// 		contentType: false,
-		// 		processData: false
-		// 	});
-		// });
 	</script>
 
 	<?php if (isset($_GET['newImage'])) : ?>

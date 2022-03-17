@@ -16,6 +16,7 @@ session_start();
 if ($_POST['passwordRetype'] == $_SESSION['password']) {
 	if ($_POST['email_address'] == "") {
 		$_SESSION['name'] = ($_POST['name'] == "") ? $_SESSION['name'] : $_POST['name'];
+		$_SESSION['password'] = ($_POST['password'] == "") ? $_SESSION['password'] : $_POST['password'];
 
 		$_SESSION['contact_number'] = ($_POST['number'] == "") ? $_SESSION['contact_number'] : $_POST['number'];
 

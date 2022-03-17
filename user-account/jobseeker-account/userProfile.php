@@ -583,7 +583,6 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 																		</div>
 																	</div>
 																</div>
-																<!-- <button name="updateInfoBtn" class="btn btn-primary">Update Information</button> -->
 															</div>
 														</li>
 														<li class="weight-500 col-md-6">

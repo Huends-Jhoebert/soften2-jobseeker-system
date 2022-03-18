@@ -36,7 +36,7 @@ if (isset($_POST['searchJobBtn'])) {
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>Employer - Jobs</title>
+	<title>Jobseeker - Jobs</title>
 
 	<!-- Site favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
@@ -285,6 +285,11 @@ if (isset($_POST['searchJobBtn'])) {
 								$sql = "SELECT * from users WHERE user_id = '$job[job_employer_id]'";
 								$result = $conn->query($sql);
 								$row = $result->fetch_assoc();
+
+								$numberOfApplicantsSql = "SELECT COUNT(job_applicant_jobseeker_id) AS NumberOfApplicants FROM job_applicant WHERE job_id = '$job[job_id]'";
+								$numberOfApplicantsSqlResult = $conn->query($numberOfApplicantsSql);
+								$applicants = $numberOfApplicantsSqlResult->fetch_assoc();
+
 								?>
 								<li class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
 									<div class="contact-directory-box">
@@ -297,7 +302,7 @@ if (isset($_POST['searchJobBtn'])) {
 											<div class="contact-name">
 												<h4><?php echo $job['job_title']; ?>
 												</h4>
-												<p><?php echo $row['name']; ?><span class="badge badge-pill badge-primary ml-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Number of applicants">+ 8</span></p>
+												<p><?php echo $row['name']; ?><span class="badge badge-pill badge-primary ml-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Number of applicants">+ <?php echo $applicants['NumberOfApplicants']; ?></span></p>
 												<div class="work text-success"><span class="icon-copy ti-location-pin"></span> <?php echo $job['job_place']; ?></div>
 											</div>
 											<div class="contact-skill">

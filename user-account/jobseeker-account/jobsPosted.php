@@ -2,16 +2,15 @@
 
 session_start();
 
-if (!isset($_GET['moreSkills'])) {
-	$_SESSION['added_job_core_skills'] = "";
-	$_SESSION['added_job_title'] = "";
-	$_SESSION['added_job_place'] =
-		"";
-	$_SESSION['added_job_salary_range'] =
-		"";
-	$_SESSION['added_job_description'] =
-		"";
-}
+include_once "db-connection.php";
+
+$getAllJobSql = "SELECT * FROM job";
+
+$getAllJobSqlresult = mysqli_query($conn, $getAllJobSql);
+$jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
+
+
+
 ?>
 
 
@@ -21,7 +20,7 @@ if (!isset($_GET['moreSkills'])) {
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>Employer - Profile</title>
+	<title>Employer - Jobs</title>
 
 	<!-- Site favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
@@ -201,12 +200,12 @@ if (!isset($_GET['moreSkills'])) {
 					<div class="sidebar-menu icon-style-1 icon-list-style-1">
 						<ul id="accordion-menu">
 							<li class="dropdown">
-								<a href="userProfile.php" class="dropdown-toggle no-arrow" data-option="off">
+								<a href="#" class="dropdown-toggle no-arrow" data-option="off">
 									<span class="micon dw dw-user-1"></span><span class="mtext">Profile</span>
 								</a>
 							</li>
 							<li class="dropdown">
-								<a href="userJobOffers.php" class="dropdown-toggle no-arrow" data-option="off">
+								<a href="jobsPosted.php" class="dropdown-toggle no-arrow" data-option="off">
 									<span class="micon dw dw-briefcase"></span><span class="mtext">Jobs</span>
 								</a>
 							</li>
@@ -231,70 +230,98 @@ if (!isset($_GET['moreSkills'])) {
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="min-height-200px">
-				<div class="page-header">
-					<div class="row">
-						<div class="col-md-6 col-sm-12">
-							<nav aria-label="breadcrumb" role="navigation">
-								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="userProfile.php">Home</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Jobs</li>
-								</ol>
-							</nav>
+				<div class="container pd-0">
+					<div class="page-header">
+						<div class="row">
+							<div class="col-md-12 col-sm-12">
+								<div class="title">
+									<h4>JOBS POSTED</h4>
+								</div>
+								<nav aria-label="breadcrumb" role="navigation">
+									<ol class="breadcrumb">
+										<li class="breadcrumb-item"><a href="#">Home</a></li>
+										<li class="breadcrumb-item active" aria-current="page">Jobs</li>
+									</ol>
+								</nav>
+							</div>
 						</div>
 					</div>
-				</div>
-				<!-- Default Basic Forms Start -->
-				<div class="pd-20 card-box mb-30">
-					<div class="clearfix">
-						<div class="pull-left">
-							<h4 class="text-blue h4">JOB FORM</h4>
-							<p class="mb-30">ENTER JOB INFORMATIONS</p>
-						</div>
+					<div class="contact-directory-list">
+						<ul class="row justify-content-center">
+							<?php foreach ($jobs as $job) : ?>
+								<?php
+								$sql = "SELECT * from users WHERE user_id = '$job[job_employer_id]'";
+								$result = $conn->query($sql);
+								$row = $result->fetch_assoc();
+								?>
+								<li class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+									<div class="contact-directory-box">
+										<div class="contact-dire-info text-center">
+											<div class="contact-avatar">
+												<span>
+													<img src="../<?php echo $row['p_p']; ?>" alt="" class="h-100">
+												</span>
+											</div>
+											<div class="contact-name">
+												<h4><?php echo $job['job_title']; ?>
+												</h4>
+												<p><?php echo $row['name']; ?><span class="badge badge-pill badge-primary ml-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Number of applicants">+ 8</span></p>
+												<div class="work text-success"><span class="icon-copy ti-location-pin"></span> <?php echo $job['job_place']; ?></div>
+											</div>
+											<div class="contact-skill">
+												<?php $jobSkills = (explode(",", $job['job_skills'])); ?>
+												<?php foreach ($jobSkills as $jobSkill) : ?>
+													<span class="badge badge-pill" style="text-transform: capitalize;"><?php echo $jobSkill; ?></span>
+												<?php endforeach; ?>
+												<!-- <span class="badge badge-pill">UI</span> -->
+												<!-- <span class="badge badge-pill badge-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Number of applicants">+ 8</span> -->
+											</div>
+											<div class="profile-sort-desc" style=" overflow:hidden;height: 30px;">
+												<span> <?php echo $job['job_description']; ?></span>
+											</div><span>...</span>
+										</div>
+										<div class="view-contact">
+											<a href="#">Read More</a>
+										</div>
+									</div>
+								</li>
+							<?php endforeach; ?>
+							<!-- <li class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+								<div class="contact-directory-box">
+									<div class="contact-dire-info text-center">
+										<div class="contact-avatar">
+											<span>
+												<img src="vendors/images/photo2.jpg" alt="">
+											</span>
+										</div>
+										<div class="contact-name">
+											<h4>Wade Wilson</h4>
+											<p>UI/UX designer</p>
+											<div class="work text-success"><i class="ion-android-person"></i> Freelancer</div>
+										</div>
+										<div class="contact-skill">
+											<span class="badge badge-pill">UI</span>
+											<span class="badge badge-pill">UX</span>
+											<span class="badge badge-pill">Photoshop</span>
+											<span class="badge badge-pill badge-primary">+ 8</span>
+										</div>
+										<div class="profile-sort-desc">
+											Lorem ipsum dolor sit amet, consectetur adipisicing magna aliqua.
+										</div>
+									</div>
+									<div class="view-contact">
+										<a href="#">View Profile</a>
+									</div>
+								</div>
+							</li> -->
+						</ul>
 					</div>
-					<form action="../../queries/addEmployerJob.php" method="POST" enctype="multipart/form-data">
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Job Title</label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control" type="text" placeholder="Enter Job Title" value="<?php echo $_SESSION['added_job_title']; ?>" name="title" required>
-							</div>
-						</div>
-						<div class="form-group row align-items-center">
-							<label class="col-sm-12 col-md-2 col-form-label"><span>Job Image</span> <span class="d-block text-muted">Hd image is recommended</span></label>
-							<div class="col-sm-12 col-md-10">
-								<input type="file" class="form-control-file form-control height-auto" name="image" required>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Job Place</label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control" type="text" placeholder="Enter Job Place" name="place" value="<?php echo $_SESSION['added_job_place'];  ?>" required>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Salary Range</label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control" type="text" placeholder="ex: 15000 - 25000" name="salary_range" value="<?php echo $_SESSION['added_job_salary_range']; ?>" required>
-							</div>
-						</div>
-						<div class="form-group row align-items-center">
-							<label class="col-sm-12 col-md-2 col-form-label">Core Skills <span class="d-block text-muted">Enter 3 Core Skills</span></label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control" data-role="tagsinput" type="text" name="skills" value="<?php echo $_SESSION['added_job_core_skills']; ?>" required>
-							</div>
-						</div>
-						<div class=" form-group">
-							<label>Job Description</label>
-							<textarea class="form-control" name="description" required><?php echo $_SESSION['added_job_description']; ?></textarea>
-						</div>
-						<div>
-							<button type="submit" name="submitBtn" class="btn btn-primary">Submit</button>
-						</div>
-					</form>
 				</div>
-				<!-- Default Basic Forms End -->
 			</div>
+			<!-- <div class="footer-wrap pd-20 mb-20 card-box">
+				DeskApp - Bootstrap 4 Admin Template By <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
+			</div> -->
 		</div>
-	</div>
 	</div>
 
 	<!-- js -->
@@ -336,30 +363,6 @@ if (!isset($_GET['moreSkills'])) {
 		});
 	</script>
 
-	<?php if (isset($_GET['jobAdded'])) : ?>
-		<script>
-			Swal.fire(
-				'Address Information',
-				'Is successfully updated',
-				'success'
-			)
-		</script>
-	<?php endif; ?>
-
-	<?php if (isset($_GET['moreSkills'])) : ?>
-		<script>
-			Swal.fire(
-				'Core Skills',
-				'Must not exceed more than 3 skills',
-				'error'
-			)
-		</script>
-	<?php endif; ?>
-
-	<!-- <script>
-		var textArea = document.getElementsByTagName("textarea");
-		textArea.value = "asdasdasd";
-	</script> -->
 
 </body>
 

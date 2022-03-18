@@ -203,7 +203,7 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 								</a>
 							</li>
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle no-arrow" data-option="off">
+								<a href="jobsPosted.php" class="dropdown-toggle no-arrow" data-option="off">
 									<span class="micon dw dw-briefcase"></span><span class="mtext">Jobs</span>
 								</a>
 							</li>

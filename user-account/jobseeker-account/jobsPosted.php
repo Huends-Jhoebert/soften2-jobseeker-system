@@ -3,11 +3,27 @@
 session_start();
 
 include_once "db-connection.php";
+include_once "timeAgo.php";
 
-$getAllJobSql = "SELECT * FROM job";
-
-$getAllJobSqlresult = mysqli_query($conn, $getAllJobSql);
-$jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
+if (isset($_POST['searchJobBtn'])) {
+	if ($_POST['find_job_location'] != "" && $_POST['find_title'] == "") {
+		$getAllJobSql = "SELECT * FROM job WHERE job_place LIKE '%$_POST[find_job_location]%' ORDER BY job_date_posted DESC";
+		$getAllJobSqlresult = mysqli_query($conn, $getAllJobSql);
+		$jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
+	} else if ($_POST['find_job_location'] == "" && $_POST['find_title'] != "") {
+		$getAllJobSql = "SELECT * FROM job WHERE job_title LIKE '%$_POST[find_title]%' ORDER BY job_date_posted DESC";
+		$getAllJobSqlresult = mysqli_query($conn, $getAllJobSql);
+		$jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
+	} else if ($_POST['find_job_location'] != "" && $_POST['find_title'] != "") {
+		$getAllJobSql = "SELECT * FROM job WHERE job_title LIKE '%$_POST[find_title]%' AND job_place LIKE '%$_POST[find_job_location]%' ORDER BY job_date_posted DESC";
+		$getAllJobSqlresult = mysqli_query($conn, $getAllJobSql);
+		$jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
+	}
+} else {
+	$getAllJobSql = "SELECT * FROM job ORDER BY job_date_posted DESC";
+	$getAllJobSqlresult = mysqli_query($conn, $getAllJobSql);
+	$jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
+}
 
 
 
@@ -39,6 +55,7 @@ $jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
 	<link rel="stylesheet" type="text/css" href="../../template-files/vendors/styles/style.css">
 	<link rel="stylesheet" href="../../template-files/sweetalert/sweetalert2.min.css">
 	<link rel="stylesheet" type="text/css" href="../../template-files/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 	<link rel="icon" type="image/png" sizes="32x32" href="../../template-files/vendors/images/logo1-removebg.png">
 
 	<style>
@@ -200,7 +217,7 @@ $jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
 					<div class="sidebar-menu icon-style-1 icon-list-style-1">
 						<ul id="accordion-menu">
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle no-arrow" data-option="off">
+								<a href="userProfile.php" class="dropdown-toggle no-arrow" data-option="off">
 									<span class="micon dw dw-user-1"></span><span class="mtext">Profile</span>
 								</a>
 							</li>
@@ -246,6 +263,21 @@ $jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
 							</div>
 						</div>
 					</div>
+					<div class="page-header rounded-0">
+						<form action="" method="POST">
+							<div class="row justify-content-center">
+								<div class="col-md-4 col-sm-12">
+									<input class="form-control" placeholder="&#xF002; Job title" type="search" style="font-family:Arial, FontAwesome" name="find_title">
+								</div>
+								<div class="col-md-4 col-sm-12">
+									<input class="form-control" type="search" placeholder="&#xf041; Job location" style="font-family:Arial, FontAwesome" name="find_job_location">
+								</div>
+								<div class="col-md-2 col-sm-12">
+									<button type="submit" name="searchJobBtn" class="btn btn-primary">SEARCH</button>
+								</div>
+							</div>
+						</form>
+					</div>
 					<div class="contact-directory-list">
 						<ul class="row justify-content-center">
 							<?php foreach ($jobs as $job) : ?>
@@ -276,14 +308,13 @@ $jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
 												<!-- <span class="badge badge-pill">UI</span> -->
 												<!-- <span class="badge badge-pill badge-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Number of applicants">+ 8</span> -->
 											</div>
-											<div class="profile-sort-desc" style=" overflow:hidden;height: 30px;">
-												<span> <?php echo $job['job_description']; ?></span>
-											</div><span>...</span>
+											<div class="profile-sort-desc">
+												<?php echo last_seen($job['job_date_posted']); ?>
+											</div>
+											<div class="view-contact mt-3">
+												<a href="#">Read More</a>
+											</div>
 										</div>
-										<div class="view-contact">
-											<a href="#">Read More</a>
-										</div>
-									</div>
 								</li>
 							<?php endforeach; ?>
 							<!-- <li class="col-xl-4 col-lg-4 col-md-6 col-sm-12">

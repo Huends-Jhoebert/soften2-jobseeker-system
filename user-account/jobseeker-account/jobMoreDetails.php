@@ -2,31 +2,17 @@
 
 session_start();
 
-include_once "db-connection.php";
 include_once "timeAgo.php";
 
-if (isset($_POST['searchJobBtn'])) {
-	if ($_POST['find_job_location'] != "" && $_POST['find_title'] == "") {
-		$getAllJobSql = "SELECT * FROM job WHERE job_place LIKE '%$_POST[find_job_location]%' ORDER BY job_date_posted DESC";
-		$getAllJobSqlresult = mysqli_query($conn, $getAllJobSql);
-		$jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
-	} else if ($_POST['find_job_location'] == "" && $_POST['find_title'] != "") {
-		$getAllJobSql = "SELECT * FROM job WHERE job_title LIKE '%$_POST[find_title]%' ORDER BY job_date_posted DESC";
-		$getAllJobSqlresult = mysqli_query($conn, $getAllJobSql);
-		$jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
-	} else if ($_POST['find_job_location'] != "" && $_POST['find_title'] != "") {
-		$getAllJobSql = "SELECT * FROM job WHERE job_title LIKE '%$_POST[find_title]%' AND job_place LIKE '%$_POST[find_job_location]%' ORDER BY job_date_posted DESC";
-		$getAllJobSqlresult = mysqli_query($conn, $getAllJobSql);
-		$jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
-	}
-} else {
-	$getAllJobSql = "SELECT * FROM job ORDER BY job_date_posted DESC";
-	$getAllJobSqlresult = mysqli_query($conn, $getAllJobSql);
-	$jobs = mysqli_fetch_all($getAllJobSqlresult, MYSQLI_ASSOC);
-}
+include_once "db-connection.php";
 
+$getJobDetails = "SELECT * FROM job WHERE job_id = '$_GET[jobId]'";
+$getJobDetailsresult = $conn->query($getJobDetails);
+$job = $getJobDetailsresult->fetch_assoc();
 
-
+$getEmployerDetails = "SELECT * FROM users WHERE user_id = '$job[job_employer_id]'";
+$getEmployerDetailsresult = $conn->query($getEmployerDetails);
+$employer = $getEmployerDetailsresult->fetch_assoc();
 ?>
 
 
@@ -36,12 +22,10 @@ if (isset($_POST['searchJobBtn'])) {
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>Employer - Jobs</title>
+	<title>Employer - Profile</title>
 
 	<!-- Site favicon -->
-	<link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="vendors/images/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="vendors/images/favicon-16x16.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="../../template-files/vendors/images/logo1-removebg.png">
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -54,8 +38,6 @@ if (isset($_POST['searchJobBtn'])) {
 	<link rel="stylesheet" type="text/css" href="../../template-files/src/plugins/cropperjs/dist/cropper.css">
 	<link rel="stylesheet" type="text/css" href="../../template-files/vendors/styles/style.css">
 	<link rel="stylesheet" href="../../template-files/sweetalert/sweetalert2.min.css">
-	<link rel="stylesheet" type="text/css" href="../../template-files/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 	<link rel="icon" type="image/png" sizes="32x32" href="../../template-files/vendors/images/logo1-removebg.png">
 
 	<style>
@@ -217,7 +199,7 @@ if (isset($_POST['searchJobBtn'])) {
 					<div class="sidebar-menu icon-style-1 icon-list-style-1">
 						<ul id="accordion-menu">
 							<li class="dropdown">
-								<a href="userProfile.php" class="dropdown-toggle no-arrow" data-option="off">
+								<a href="#" class="dropdown-toggle no-arrow" data-option="off">
 									<span class="micon dw dw-user-1"></span><span class="mtext">Profile</span>
 								</a>
 							</li>
@@ -247,112 +229,125 @@ if (isset($_POST['searchJobBtn'])) {
 	<div class="main-container">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="min-height-200px">
-				<div class="container pd-0">
-					<div class="page-header">
-						<div class="row">
-							<div class="col-md-12 col-sm-12">
-								<div class="title">
-									<h4>JOBS POSTED</h4>
-								</div>
-								<nav aria-label="breadcrumb" role="navigation">
-									<ol class="breadcrumb">
-										<li class="breadcrumb-item"><a href="#">Home</a></li>
-										<li class="breadcrumb-item active" aria-current="page">Jobs</li>
-									</ol>
-								</nav>
+				<div class="page-header">
+					<div class="row">
+						<div class="col-md-12 col-sm-12">
+							<div class="title">
+								<h4>JOB</h4>
+							</div>
+							<nav aria-label="breadcrumb" role="navigation">
+								<ol class="breadcrumb">
+									<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+									<li class="breadcrumb-item active" aria-current="page">JOBS</li>
+								</ol>
+							</nav>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
+						<div class="pd-20 card-box height-50-p">
+							<div class="profile-photo">
+								<img src="../<?php echo $employer['p_p']; ?>" alt="" class="avatar-photo">
+							</div>
+							<h5 class="text-center h5 mb-0"><?php echo $employer['name']; ?></h5>
+							<p class="text-center text-muted font-14 d-hide"><?php echo $employer['type']; ?></p>
+							<div class="profile-info">
+								<h5 class="mb-20 h5 text-blue">Contact Information</h5>
+								<ul>
+									<li>
+										<span>Email Address:</span>
+										<?php echo $employer['email_account']; ?>
+									</li>
+									<li>
+										<span>Contact Person:</span>
+										<?php echo $employer['contact_person']; ?>
+									</li>
+									<li>
+										<span>Contact Number:</span>
+										<?php echo $employer['contact_number']; ?>
+									</li>
+									<li>
+										<span>Address:</span>
+										<?php echo $employer['address']; ?>
+									</li>
+								</ul>
 							</div>
 						</div>
 					</div>
-					<div class="page-header rounded-0">
-						<form action="" method="POST">
-							<div class="row justify-content-center">
-								<div class="col-md-4 col-sm-12">
-									<input class="form-control" placeholder="&#xF002; Job title" type="search" style="font-family:Arial, FontAwesome" name="find_title">
-								</div>
-								<div class="col-md-4 col-sm-12">
-									<input class="form-control" type="search" placeholder="&#xf041; Job location" style="font-family:Arial, FontAwesome" name="find_job_location">
-								</div>
-								<div class="col-md-2 col-sm-12">
-									<button type="submit" name="searchJobBtn" class="btn btn-primary">SEARCH</button>
+					<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-30">
+						<div class="card-box height-100-p overflow-hidden">
+							<div class="profile-tab height-100-p">
+								<div class="tab height-100-p">
+									<ul class="nav nav-tabs customtab" role="tablist">
+										<!-- <li class="nav-item">
+											<a class="nav-link active" data-toggle="tab" href="#timeline" role="tab" aria-selected="true">Timeline</a>
+										</li> -->
+										<li class="nav-item">
+											<a class="nav-link active" data-toggle="tab" href="#setting" role="tab" aria-selected="false">JOB INFORMATION</a>
+										</li>
+									</ul>
+									<div class="tab-content p-3">
+										<!-- Setting Tab start -->
+										<div class="tab-pane fade active show height-25-p" id="setting" role="tabpanel">
+											<div class="profile-setting">
+												<div class="mt-2">
+													<img src="../<?php echo $job['job_image']; ?>" class="d-block" alt="" width="100%" style="height: 250px;">
+												</div>
+											</div>
+										</div>
+										<div class="d-flex justify-content-between align-items-center">
+											<h5 class="text-dark mt-3 h3"><?php echo $job['job_title']; ?></h5>
+											<a href="#" class="text-primary" data-toggle="modal" data-target="#modal">Send resume</a>
+											<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" style="display: none;">
+												<div class="modal-dialog modal-dialog-centered" role="document">
+													<div class="modal-content">
+														<form action="../../queries/uploadJobseekerResume.php" method="POST" enctype="multipart/form-data">
+															<div class="modal-body pd-5 p-2">
+																<h5 class="mb-3">Insert Resume or CV</h5>
+																<div class="form-group">
+																	<input type="file" class="form-control-file form-control height-auto" name="my_file" required>
+																</div>
+																<input type="hidden" name="job_id" value="<?php echo $job['job_id']; ?>">
+																<input type="hidden" name="job_employer_id" value="<?php echo $employer['user_id']; ?>">
+																<input type="hidden" name="job_applicant_jobseeker_id" value="<?php echo $_SESSION['user_id']; ?>">
+															</div>
+															<div class="modal-footer">
+																<button type="submit" class="btn btn-primary" name="submitResumeBtn">Submit</button>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div>
+											<p class="h6 m-0"><?php echo $job['job_place']; ?></p>
+											<p class="m-0">Salary <?php echo $job['job_salary_range']; ?></p>
+											<p>Posted <?php echo last_seen($job['job_date_posted']); ?></p>
+										</div>
+										<div class="mt-5">
+											<h5 class="h5">
+												Job description
+											</h5>
+											<p class="text-justify">
+												<?php
+												echo $job['job_description'];
+												?>
+											</p>
+										</div>
+									</div>
 								</div>
 							</div>
-						</form>
-					</div>
-					<div class="contact-directory-list">
-						<ul class="row justify-content-center">
-							<?php foreach ($jobs as $job) : ?>
-								<?php
-								$sql = "SELECT * from users WHERE user_id = '$job[job_employer_id]'";
-								$result = $conn->query($sql);
-								$row = $result->fetch_assoc();
-								?>
-								<li class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-									<div class="contact-directory-box">
-										<div class="contact-dire-info text-center">
-											<div class="contact-avatar">
-												<span>
-													<img src="../<?php echo $row['p_p']; ?>" alt="" class="h-100">
-												</span>
-											</div>
-											<div class="contact-name">
-												<h4><?php echo $job['job_title']; ?>
-												</h4>
-												<p><?php echo $row['name']; ?><span class="badge badge-pill badge-primary ml-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Number of applicants">+ 8</span></p>
-												<div class="work text-success"><span class="icon-copy ti-location-pin"></span> <?php echo $job['job_place']; ?></div>
-											</div>
-											<div class="contact-skill">
-												<?php $jobSkills = (explode(",", $job['job_skills'])); ?>
-												<?php foreach ($jobSkills as $jobSkill) : ?>
-													<span class="badge badge-pill" style="text-transform: capitalize;"><?php echo $jobSkill; ?></span>
-												<?php endforeach; ?>
-											</div>
-											<div class="profile-sort-desc">
-												<?php echo last_seen($job['job_date_posted']); ?>
-											</div>
-											<div class="view-contact mt-3">
-												<a href="jobMoreDetails.php?jobId=<?php echo $job['job_id']; ?>">Read More</a>
-											</div>
-										</div>
-								</li>
-							<?php endforeach; ?>
-							<!-- <li class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-								<div class="contact-directory-box">
-									<div class="contact-dire-info text-center">
-										<div class="contact-avatar">
-											<span>
-												<img src="vendors/images/photo2.jpg" alt="">
-											</span>
-										</div>
-										<div class="contact-name">
-											<h4>Wade Wilson</h4>
-											<p>UI/UX designer</p>
-											<div class="work text-success"><i class="ion-android-person"></i> Freelancer</div>
-										</div>
-										<div class="contact-skill">
-											<span class="badge badge-pill">UI</span>
-											<span class="badge badge-pill">UX</span>
-											<span class="badge badge-pill">Photoshop</span>
-											<span class="badge badge-pill badge-primary">+ 8</span>
-										</div>
-										<div class="profile-sort-desc">
-											Lorem ipsum dolor sit amet, consectetur adipisicing magna aliqua.
-										</div>
-									</div>
-									<div class="view-contact">
-										<a href="#">View Profile</a>
-									</div>
-								</div>
-							</li> -->
-						</ul>
+							<!-- Setting Tab End -->
+						</div>
 					</div>
 				</div>
 			</div>
-			<!-- <div class="footer-wrap pd-20 mb-20 card-box">
-				DeskApp - Bootstrap 4 Admin Template By <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
-			</div> -->
 		</div>
 	</div>
-
+	</div>
+	</div>
+	</div>
 	<!-- js -->
 	<script src="../../template-files/vendors/scripts/core.js"></script>
 	<script src="../../template-files/vendors/scripts/script.min.js"></script>
@@ -360,7 +355,6 @@ if (isset($_POST['searchJobBtn'])) {
 	<script src="../../template-files/vendors/scripts/layout-settings.js"></script>
 	<script src="../../template-files/src/plugins/cropperjs/dist/cropper.js"></script>
 	<script src="../../template-files/sweetalert/sweetalert2.min.js"></script>
-	<script src="../../template-files/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 	<script>
 		window.addEventListener('DOMContentLoaded', function() {
 			var image = document.getElementById('image');
@@ -392,16 +386,7 @@ if (isset($_POST['searchJobBtn'])) {
 		});
 	</script>
 
-	<?php if (isset($_GET['resumeSent'])) : ?>
-		<script>
-			Swal.fire(
-				'Resume',
-				'Is successfully submitted',
-				'success'
-			)
-		</script>
-	<?php endif ?> -->
-
+	<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
 
 
 </body>

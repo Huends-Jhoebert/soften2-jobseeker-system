@@ -840,15 +840,6 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 		</script>
 	<?php endif ?>
 	<!--
-	<?php if (isset($_GET['newInfo'])) : ?>
-		<script>
-			Swal.fire(
-				'Personal Informations',
-				'Are successfully updated',
-				'success'
-			)
-		</script>
-	<?php endif ?> -->
 
 </body>
 

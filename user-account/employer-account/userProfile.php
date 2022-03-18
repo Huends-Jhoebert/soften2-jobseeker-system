@@ -280,40 +280,6 @@ session_start();
 									</li>
 								</ul>
 							</div>
-							<!-- <div class="profile-social">
-								<h5 class="mb-20 h5 text-blue">Social Links</h5>
-								<ul class="clearfix">
-									<li><a href="#" class="btn" data-bgcolor="#3b5998" data-color="#ffffff" style="color: rgb(255, 255, 255); background-color: rgb(59, 89, 152);"><i class="fa fa-facebook"></i></a></li>
-									<li><a href="#" class="btn" data-bgcolor="#1da1f2" data-color="#ffffff" style="color: rgb(255, 255, 255); background-color: rgb(29, 161, 242);"><i class="fa fa-twitter"></i></a></li>
-									<li><a href="#" class="btn" data-bgcolor="#007bb5" data-color="#ffffff" style="color: rgb(255, 255, 255); background-color: rgb(0, 123, 181);"><i class="fa fa-linkedin"></i></a></li>
-									<li><a href="#" class="btn" data-bgcolor="#f46f30" data-color="#ffffff" style="color: rgb(255, 255, 255); background-color: rgb(244, 111, 48);"><i class="fa fa-instagram"></i></a></li>
-									<li><a href="#" class="btn" data-bgcolor="#c32361" data-color="#ffffff" style="color: rgb(255, 255, 255); background-color: rgb(195, 35, 97);"><i class="fa fa-dribbble"></i></a></li>
-									<li><a href="#" class="btn" data-bgcolor="#3d464d" data-color="#ffffff" style="color: rgb(255, 255, 255); background-color: rgb(61, 70, 77);"><i class="fa fa-dropbox"></i></a></li>
-									<li><a href="#" class="btn" data-bgcolor="#db4437" data-color="#ffffff" style="color: rgb(255, 255, 255); background-color: rgb(219, 68, 55);"><i class="fa fa-google-plus"></i></a></li>
-									<li><a href="#" class="btn" data-bgcolor="#bd081c" data-color="#ffffff" style="color: rgb(255, 255, 255); background-color: rgb(189, 8, 28);"><i class="fa fa-pinterest-p"></i></a></li>
-									<li><a href="#" class="btn" data-bgcolor="#00aff0" data-color="#ffffff" style="color: rgb(255, 255, 255); background-color: rgb(0, 175, 240);"><i class="fa fa-skype"></i></a></li>
-									<li><a href="#" class="btn" data-bgcolor="#00b489" data-color="#ffffff" style="color: rgb(255, 255, 255); background-color: rgb(0, 180, 137);"><i class="fa fa-vine"></i></a></li>
-								</ul>
-							</div> -->
-							<!-- <div class="profile-skills">
-								<h5 class="mb-20 h5 text-blue">Key Skills</h5>
-								<h6 class="mb-5 font-14">HTML</h6>
-								<div class="progress mb-20" style="height: 6px;">
-									<div class="progress-bar" role="progressbar" style="width: 90%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-								</div>
-								<h6 class="mb-5 font-14">Css</h6>
-								<div class="progress mb-20" style="height: 6px;">
-									<div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-								</div>
-								<h6 class="mb-5 font-14">jQuery</h6>
-								<div class="progress mb-20" style="height: 6px;">
-									<div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-								</div>
-								<h6 class="mb-5 font-14">Bootstrap</h6>
-								<div class="progress mb-20" style="height: 6px;">
-									<div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-								</div>
-							</div> -->
 						</div>
 					</div>
 					<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-30">
@@ -329,89 +295,6 @@ session_start();
 										</li>
 									</ul>
 									<div class="tab-content">
-										<!-- Timeline Tab start -->
-										<!-- <div class="tab-pane fade active show" id="timeline" role="tabpanel">
-											<div class="pd-20">
-												<div class="profile-timeline">
-													<div class="timeline-month">
-														<h5>August, 2020</h5>
-													</div>
-													<div class="profile-timeline-list">
-														<ul>
-															<li>
-																<div class="date">12 Aug</div>
-																<div class="task-name"><i class="ion-android-alarm-clock"></i> Task Added</div>
-																<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-																<div class="task-time">09:30 am</div>
-															</li>
-															<li>
-																<div class="date">10 Aug</div>
-																<div class="task-name"><i class="ion-ios-chatboxes"></i> Task Added</div>
-																<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-																<div class="task-time">09:30 am</div>
-															</li>
-															<li>
-																<div class="date">10 Aug</div>
-																<div class="task-name"><i class="ion-ios-clock"></i> Event Added</div>
-																<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-																<div class="task-time">09:30 am</div>
-															</li>
-															<li>
-																<div class="date">10 Aug</div>
-																<div class="task-name"><i class="ion-ios-clock"></i> Event Added</div>
-																<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-																<div class="task-time">09:30 am</div>
-															</li>
-														</ul>
-													</div>
-													<div class="timeline-month">
-														<h5>July, 2020</h5>
-													</div>
-													<div class="profile-timeline-list">
-														<ul>
-															<li>
-																<div class="date">12 July</div>
-																<div class="task-name"><i class="ion-android-alarm-clock"></i> Task Added</div>
-																<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-																<div class="task-time">09:30 am</div>
-															</li>
-															<li>
-																<div class="date">10 July</div>
-																<div class="task-name"><i class="ion-ios-chatboxes"></i> Task Added</div>
-																<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-																<div class="task-time">09:30 am</div>
-															</li>
-														</ul>
-													</div>
-													<div class="timeline-month">
-														<h5>June, 2020</h5>
-													</div>
-													<div class="profile-timeline-list">
-														<ul>
-															<li>
-																<div class="date">12 June</div>
-																<div class="task-name"><i class="ion-android-alarm-clock"></i> Task Added</div>
-																<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-																<div class="task-time">09:30 am</div>
-															</li>
-															<li>
-																<div class="date">10 June</div>
-																<div class="task-name"><i class="ion-ios-chatboxes"></i> Task Added</div>
-																<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-																<div class="task-time">09:30 am</div>
-															</li>
-															<li>
-																<div class="date">10 June</div>
-																<div class="task-name"><i class="ion-ios-clock"></i> Event Added</div>
-																<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-																<div class="task-time">09:30 am</div>
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</div> -->
-										<!-- Timeline Tab End -->
 
 										<!-- Setting Tab start -->
 										<div class="tab-pane fade active show height-25-p" id="setting" role="tabpanel">

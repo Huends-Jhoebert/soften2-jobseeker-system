@@ -18,6 +18,7 @@ if (isset($_POST['submitBtn'])) {
 	$jobSalaryRange = $_POST['salary_range'];
 	$jobDescription = $_POST['description'];
 	$jobImage = "";
+
 	$filename = $_FILES["image"]["name"];
 	$tempname = $_FILES["image"]["tmp_name"];
 	$folder = "../dist/job-images/" . randomString(8) . "/" . $filename;
@@ -28,8 +29,7 @@ if (isset($_POST['submitBtn'])) {
 		$jobImage = $folder;
 	}
 
-	$sql = "INSERT INTO job (job_employer_id, job_title, job_image, job_place, job_salary_range, job_description)
-        VALUES ('$_SESSION[user_id]', '$jobTitle', '$jobImage', '$jobPlace', '$jobSalaryRange', '$jobDescription')";
+	$sql = "INSERT INTO job (job_employer_id, job_title, job_image, job_place, job_salary_range, job_description) VALUES ('$_SESSION[user_id]', '$jobTitle', '$jobImage', '$jobPlace', '$jobSalaryRange', '$jobDescription')";
 
 	if ($conn->query($sql) === TRUE) {
 		header("Location: ../user-account/employer-account/userJob.php?jobAdded=1");

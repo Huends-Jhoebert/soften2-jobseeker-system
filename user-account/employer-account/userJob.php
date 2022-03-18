@@ -247,8 +247,8 @@ session_start();
 								<input class="form-control" type="text" placeholder="Enter Job Title" name="title">
 							</div>
 						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Job Image</label>
+						<div class="form-group row align-items-center">
+							<label class="col-sm-12 col-md-2 col-form-label"><span>Job Image</span> <span class="d-block text-muted">Hd image is recommended</span></label>
 							<div class="col-sm-12 col-md-10">
 								<input type="file" class="form-control-file form-control height-auto" name="image">
 							</div>

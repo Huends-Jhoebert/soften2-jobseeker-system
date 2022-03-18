@@ -18,7 +18,7 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>Employer - Profile</title>
+	<title>Jobseeker - Profile</title>
 
 	<!-- Site favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
@@ -254,7 +254,7 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 										<div class="modal-content">
 											<form action="../../queries/updateImage.php" method="POST" enctype="multipart/form-data">
 												<div class="modal-body pd-5 p-2">
-													<h5 class="mb-3">Insert New Logo</h5>
+													<h5 class="mb-3">Insert new image</h5>
 													<div class="form-group">
 														<input type="file" class="form-control-file form-control height-auto" name="image">
 													</div>

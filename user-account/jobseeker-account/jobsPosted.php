@@ -280,81 +280,63 @@ if (isset($_POST['searchJobBtn'])) {
 					</div>
 					<div class="contact-directory-list">
 						<ul class="row justify-content-center">
-							<?php foreach ($jobs as $job) : ?>
-								<?php
-								$sql = "SELECT * from users WHERE user_id = '$job[job_employer_id]'";
-								$result = $conn->query($sql);
-								$row = $result->fetch_assoc();
+							<?php if (count($jobs) > 0) : ?>
+								<?php foreach ($jobs as $job) : ?>
+									<?php
+									$sql = "SELECT * from users WHERE user_id = '$job[job_employer_id]'";
+									$result = $conn->query($sql);
+									$row = $result->fetch_assoc();
 
-								$numberOfApplicantsSql = "SELECT COUNT(job_applicant_jobseeker_id) AS NumberOfApplicants FROM job_applicant WHERE job_id = '$job[job_id]'";
-								$numberOfApplicantsSqlResult = $conn->query($numberOfApplicantsSql);
-								$applicants = $numberOfApplicantsSqlResult->fetch_assoc();
+									$numberOfApplicantsSql = "SELECT COUNT(job_applicant_jobseeker_id) AS NumberOfApplicants FROM job_applicant WHERE job_id = '$job[job_id]'";
+									$numberOfApplicantsSqlResult = $conn->query($numberOfApplicantsSql);
+									$applicants = $numberOfApplicantsSqlResult->fetch_assoc();
 
-								?>
-								<li class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-									<div class="contact-directory-box">
-										<div class="contact-dire-info text-center">
-											<div class="contact-avatar">
-												<span>
-													<img src="../<?php echo $row['p_p']; ?>" alt="" class="h-100">
-												</span>
+									?>
+									<li class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
+										<div class="contact-directory-box">
+											<div class="contact-dire-info text-center">
+												<div class="contact-avatar">
+													<span>
+														<img src="../<?php echo $row['p_p']; ?>" alt="" class="h-100">
+													</span>
+												</div>
+												<div class="contact-name">
+													<h4><?php echo $job['job_title']; ?>
+													</h4>
+													<p><?php echo $row['name']; ?><span class="badge badge-pill badge-primary ml-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Number of applicants">+ <?php echo $applicants['NumberOfApplicants']; ?></span></p>
+													<div class="work text-success"><span class="icon-copy ti-location-pin"></span> <?php echo $job['job_place']; ?></div>
+												</div>
+												<div class="contact-skill">
+													<?php $jobSkills = (explode(",", $job['job_skills'])); ?>
+													<?php foreach ($jobSkills as $jobSkill) : ?>
+														<span class="badge badge-pill" style="text-transform: capitalize;"><?php echo $jobSkill; ?></span>
+													<?php endforeach; ?>
+												</div>
+												<div class="profile-sort-desc">
+													<?php echo last_seen($job['job_date_posted']); ?>
+												</div>
+												<div class="view-contact mt-3">
+													<a href="jobMoreDetails.php?jobId=<?php echo $job['job_id']; ?>">Read More</a>
+												</div>
 											</div>
-											<div class="contact-name">
-												<h4><?php echo $job['job_title']; ?>
-												</h4>
-												<p><?php echo $row['name']; ?><span class="badge badge-pill badge-primary ml-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Number of applicants">+ <?php echo $applicants['NumberOfApplicants']; ?></span></p>
-												<div class="work text-success"><span class="icon-copy ti-location-pin"></span> <?php echo $job['job_place']; ?></div>
-											</div>
-											<div class="contact-skill">
-												<?php $jobSkills = (explode(",", $job['job_skills'])); ?>
-												<?php foreach ($jobSkills as $jobSkill) : ?>
-													<span class="badge badge-pill" style="text-transform: capitalize;"><?php echo $jobSkill; ?></span>
-												<?php endforeach; ?>
-											</div>
-											<div class="profile-sort-desc">
-												<?php echo last_seen($job['job_date_posted']); ?>
-											</div>
-											<div class="view-contact mt-3">
-												<a href="jobMoreDetails.php?jobId=<?php echo $job['job_id']; ?>">Read More</a>
+									</li>
+								<?php endforeach; ?>
+							<?php endif; ?>
+							<?php if (count($jobs) < 1) : ?>
+								<div class="page-header">
+									<div class="row">
+										<div class="col-md-12 col-sm-12">
+											<div class="title">
+												<h1 class="h1">Nothing Found..</h1>
 											</div>
 										</div>
-								</li>
-							<?php endforeach; ?>
-							<!-- <li class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-								<div class="contact-directory-box">
-									<div class="contact-dire-info text-center">
-										<div class="contact-avatar">
-											<span>
-												<img src="vendors/images/photo2.jpg" alt="">
-											</span>
-										</div>
-										<div class="contact-name">
-											<h4>Wade Wilson</h4>
-											<p>UI/UX designer</p>
-											<div class="work text-success"><i class="ion-android-person"></i> Freelancer</div>
-										</div>
-										<div class="contact-skill">
-											<span class="badge badge-pill">UI</span>
-											<span class="badge badge-pill">UX</span>
-											<span class="badge badge-pill">Photoshop</span>
-											<span class="badge badge-pill badge-primary">+ 8</span>
-										</div>
-										<div class="profile-sort-desc">
-											Lorem ipsum dolor sit amet, consectetur adipisicing magna aliqua.
-										</div>
-									</div>
-									<div class="view-contact">
-										<a href="#">View Profile</a>
 									</div>
 								</div>
-							</li> -->
+							<?php endif; ?>
 						</ul>
 					</div>
 				</div>
 			</div>
-			<!-- <div class="footer-wrap pd-20 mb-20 card-box">
-				DeskApp - Bootstrap 4 Admin Template By <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
-			</div> -->
 		</div>
 	</div>
 

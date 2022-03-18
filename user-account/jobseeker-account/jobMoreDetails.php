@@ -199,7 +199,7 @@ $employer = $getEmployerDetailsresult->fetch_assoc();
 					<div class="sidebar-menu icon-style-1 icon-list-style-1">
 						<ul id="accordion-menu">
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle no-arrow" data-option="off">
+								<a href="userProfile.php" class="dropdown-toggle no-arrow" data-option="off">
 									<span class="micon dw dw-user-1"></span><span class="mtext">Profile</span>
 								</a>
 							</li>

@@ -1,5 +1,5 @@
 <?php
-
+include_once "timeAgo.php";
 session_start();
 
 $server = "localhost";
@@ -20,6 +20,14 @@ $jobOfferQueryResultArray = $jobOfferQueryResult->fetch_assoc();
 // echo "</pre>";
 
 $number = 0;
+
+$applicantsQuery = "SELECT * FROM job_applicant WHERE job_id = '$_GET[jobId]' ORDER BY job_applicant_submitted_time DESC";
+
+$applicantsQueryResult = $conn->query($applicantsQuery);
+
+// Associative array
+$applicants = mysqli_fetch_all($applicantsQueryResult, MYSQLI_ASSOC);
+
 
 ?>
 
@@ -293,26 +301,38 @@ $number = 0;
 								<tr>
 									<th>#</th>
 									<th>Name</th>
-									<th>Date Submitted</th>
+									<th>Time Submitted</th>
 									<th class="datatable-nosort">Action</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td>1</td>
-									<td><a href="#">Jhoebert Huenda</a></td>
-									<td>3</td>
-									<td>
-										<div class="dropdown">
-											<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-												<i class="dw dw-more"></i>
-											</a>
-											<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-												<a class="dropdown-item" href="#"><i class="dw dw-download"></i> Resume</a>
+								<?php foreach ($applicants as $key => $applicant) : ?>
+									<?php
+
+									$userQuery = "SELECT * FROM users WHERE user_id = '$applicant[job_applicant_jobseeker_id]'";
+
+									$userQueryResult = $conn->query($userQuery);
+
+									// Associative array
+									$jobseeker = $userQueryResult->fetch_assoc();
+
+									?>
+									<tr>
+										<td><?php echo $key + 1; ?></td>
+										<td><a href="#"><?php echo $jobseeker['name']; ?></a></td>
+										<td><?php echo last_seen($applicant['job_applicant_submitted_time']); ?></td>
+										<td>
+											<div class="dropdown">
+												<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+													<i class="dw dw-more"></i>
+												</a>
+												<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+													<a class="dropdown-item" href="../<?php echo $applicant['job_applicant_file']; ?>" target="_blank"><i class="dw dw-download"></i> Resume</a>
+												</div>
 											</div>
-										</div>
-									</td>
-								</tr>
+										</td>
+									</tr>
+								<?php endforeach; ?>
 							</tbody>
 						</table>
 					</div>

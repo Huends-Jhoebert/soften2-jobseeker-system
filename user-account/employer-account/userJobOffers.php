@@ -244,8 +244,8 @@ $jobOffers = mysqli_fetch_all($getJobOffersQuery, MYSQLI_ASSOC);
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>Applicants #</th>
 									<th>Title</th>
+									<th># Applicants</th>
 									<th>Place</th>
 									<th>Date Posted</th>
 									<th class="datatable-nosort">Action</th>
@@ -253,10 +253,17 @@ $jobOffers = mysqli_fetch_all($getJobOffersQuery, MYSQLI_ASSOC);
 							</thead>
 							<tbody>
 								<?php foreach ($jobOffers as $key => $jobOffer) : ?>
+									<?php
+									$sql = "SELECT COUNT(job_applicant_jobseeker_id) AS NumberOfApplicants FROM job_applicant WHERE job_id = '$jobOffer[job_id]'";
+									$result = $conn->query($sql);
+									$row = $result->fetch_assoc();
+									?>
 									<tr>
 										<td class="table-plus"><?php echo $key + 1; ?></td>
-										<td>25</td>
 										<td><?php echo $jobOffer['job_title']; ?></td>
+										<td>
+											<?php echo $row['NumberOfApplicants']; ?>
+										</td>
 										<td><?php echo $jobOffer['job_place']; ?></td>
 										<td><?php
 											$date = $jobOffer['job_date_posted'];

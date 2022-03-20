@@ -327,7 +327,7 @@ $applicants = mysqli_fetch_all($applicantsQueryResult, MYSQLI_ASSOC);
 													<i class="dw dw-more"></i>
 												</a>
 												<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-													<a class="dropdown-item" href="../<?php echo $applicant['job_applicant_file']; ?>" target="_blank"><i class="dw dw-download"></i> Resume</a>
+													<a class="dropdown-item" href="<?php echo $applicant['job_applicant_file']; ?>" target="_blank"><i class="dw dw-download"></i> Resume</a>
 												</div>
 											</div>
 										</td>

@@ -326,7 +326,7 @@ $employer = $getEmployerDetailsresult->fetch_assoc();
 										<div>
 											<p class="h6 m-0"><?php echo $job['job_place']; ?></p>
 											<p class="m-0">Salary <?php echo $job['job_salary_range']; ?></p>
-											<p>Posted <?php echo last_seen($job['job_date_posted']); ?></p>
+											<p class="text-muted" style="font-size: 13px;">Posted <?php echo last_seen($job['job_date_posted']); ?></p>
 										</div>
 										<div class="mt-5">
 											<h5 class="h5">

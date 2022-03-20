@@ -22,7 +22,7 @@ function last_seen($date_time)
 
 		$diff = round($diff);
 		if ($diff < 59 && $strTime[$i] == "second") {
-			return 'Active';
+			return $diff . " " . $strTime[$i] . "(s) ago ";
 		} else {
 			return $diff . " " . $strTime[$i] . "(s) ago ";
 		}

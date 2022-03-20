@@ -25,7 +25,7 @@ $employer = $getEmployerDetailsresult->fetch_assoc();
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>Employer - Profile</title>
+	<title>Jobseeker - Jobs</title>
 
 	<!-- Site favicon -->
 	<link rel="icon" type="image/png" sizes="32x32" href="../../template-files/vendors/images/logo1-removebg.png">

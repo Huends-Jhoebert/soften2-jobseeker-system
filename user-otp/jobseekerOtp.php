@@ -23,7 +23,7 @@ if (isset($_POST['jobSeekerSubmitBtn'])) {
 	$_SESSION['postal_code'] = $_POST['postal_code'];
 	$_SESSION['province'] = $_POST['province'];
 	$_SESSION['region'] = $_POST['region'];
-	$_SESSION['address'] =  $_POST['address_more_info'] . " " . $_POST['barangay'] . ", " . $_POST['city'] . " City" . " " .	$_POST['postal_code'] . " " . $_POST['province'] . " " . $_POST['region'];
+	$_SESSION['address'] =  $_POST['address_more_info'] . " " . $_POST['barangay'] . ", " . $_POST['city'] . " " .	$_POST['postal_code'] . " " . $_POST['province'] . " " . $_POST['region'];
 	$_SESSION['school'] = $_POST['school'];
 	$_SESSION['degree'] = $_POST['degree'];
 	$_SESSION['field_study'] = $_POST['field_study'];

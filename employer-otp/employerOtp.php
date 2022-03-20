@@ -24,7 +24,7 @@ if (isset($_POST['employerSignUpBtn'])) {
 	$_SESSION['postal_code'] = $_POST['postal_code'];
 	$_SESSION['province'] = $_POST['province'];
 	$_SESSION['region'] = $_POST['region'];
-	$_SESSION['address'] =  $_POST['address_more_info'] . " " . $_POST['barangay'] . ", " . $_POST['city'] . " City" . " " .	$_POST['postal_code'] . " " . $_POST['province'] . " " . $_POST['region'];
+	$_SESSION['address'] =  $_POST['address_more_info'] . " " . $_POST['barangay'] . ", " . $_POST['city'] .  " " .	$_POST['postal_code'] . " " . $_POST['province'] . " " . $_POST['region'];
 	$date = date("y-m-d");
 
 	$searchEmail = "SELECT * FROM users WHERE email_account LIKE '%$_SESSION[email_address]%'";

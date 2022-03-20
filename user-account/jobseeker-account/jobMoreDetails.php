@@ -4,6 +4,8 @@ session_start();
 
 include_once "timeAgo.php";
 
+include_once "randomString.php";
+
 include_once "db-connection.php";
 
 $getJobDetails = "SELECT * FROM job WHERE job_id = '$_GET[jobId]'";
@@ -13,6 +15,7 @@ $job = $getJobDetailsresult->fetch_assoc();
 $getEmployerDetails = "SELECT * FROM users WHERE user_id = '$job[job_employer_id]'";
 $getEmployerDetailsresult = $conn->query($getEmployerDetails);
 $employer = $getEmployerDetailsresult->fetch_assoc();
+
 ?>
 
 
@@ -302,7 +305,7 @@ $employer = $getEmployerDetailsresult->fetch_assoc();
 											<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" style="display: none;">
 												<div class="modal-dialog modal-dialog-centered" role="document">
 													<div class="modal-content">
-														<form action="../../queries/uploadJobseekerResume.php" method="POST" enctype="multipart/form-data">
+														<form action="" method="POST" enctype="multipart/form-data">
 															<div class="modal-body pd-5 p-2">
 																<h5 class="mb-3">Insert Resume or CV</h5>
 																<div class="form-group">
@@ -388,6 +391,48 @@ $employer = $getEmployerDetailsresult->fetch_assoc();
 
 	<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> -->
 
+	<?php if (isset($_POST['submitResumeBtn'])) {
+
+		$checkIfExist = "SELECT * FROM job_applicant WHERE job_id = '$job[job_id]' AND job_applicant_jobseeker_id = '$_SESSION[user_id]'";
+		$getEmployerDetailsresult = $conn->query($checkIfExist);
+		if ($getEmployerDetailsresult->num_rows > 0) {
+			echo "<script>";
+			echo "Swal.fire(";
+			echo	"'Your Resume',";
+			echo "'Is already submitted',";
+			echo "'error'";
+			echo ")";
+			echo "</script>";
+		} else {
+			$jobId = $_POST['job_id'];
+			$jobEmployerId = $_POST['job_employer_id'];
+			$jobResumeSenderId = $_POST['job_applicant_jobseeker_id'];
+			$resumeFile = "";
+			$filename = $_FILES["my_file"]["name"];
+			$tempname = $_FILES["my_file"]["tmp_name"];
+			$folder = "../../dist/jobseeker-files/" . randomString(8) . "/" . $filename;
+
+			mkdir(dirname($folder));
+			if (move_uploaded_file($tempname, $folder)) {
+				$resumeFile = $folder;
+			}
+			$sql = "INSERT INTO job_applicant (job_id, job_applicant_employer_id, job_applicant_jobseeker_id, job_applicant_file) VALUES ('$jobId', '$jobEmployerId', '$jobResumeSenderId', '$resumeFile')";
+
+			if ($conn->query($sql) === TRUE) {
+				echo "<script>";
+				echo "Swal.fire(";
+				echo	"'Resume',";
+				echo "'Is successfully submitted',";
+				echo "'success'";
+				echo ")";
+				echo "</script>";
+				$conn->close();
+			} else {
+				echo "Error: " . $sql . "<br>" . $conn->error;
+			}
+		}
+	}
+	?>
 
 </body>
 

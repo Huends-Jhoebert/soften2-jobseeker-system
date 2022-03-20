@@ -84,32 +84,32 @@ if (!isset($_GET['emailHasBeenUsed'])) {
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Profile Image*</label>
 											<div class="col-sm-8">
-												<input type="file" name="image" class="form-control-file form-control height-auto" accept="image/*">
+												<input type="file" name="image" class="form-control-file form-control height-auto" accept="image/*" required>
 											</div>
 
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Full Name*</label>
 											<div class="col-sm-8">
-												<input type="text" name="full_name" class="form-control" value="<?php echo $_SESSION['full_name']; ?>">
+												<input type="text" name="full_name" class="form-control" value="<?php echo $_SESSION['full_name']; ?>" required>
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Contact Number*</label>
 											<div class="col-sm-8">
-												<input type="text" name="contact_number" class="form-control" value="<?php echo $_SESSION['contact_number']; ?>">
+												<input type="text" name="contact_number" class="form-control" value="<?php echo $_SESSION['contact_number']; ?>" required>
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Email Address*</label>
 											<div class="col-sm-8">
-												<input type="email" name="email_address" class="form-control">
+												<input type="email" name="email_address" class="form-control" required>
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Password*</label>
 											<div class="col-sm-8">
-												<input type="password" name="password" class="form-control" value="<?php echo $_SESSION['password']; ?>">
+												<input type="password" name="password" class="form-control" value="<?php echo $_SESSION['password']; ?>" required>
 											</div>
 										</div>
 									</div>
@@ -121,37 +121,37 @@ if (!isset($_GET['emailHasBeenUsed'])) {
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Region*</label>
 											<div class="col-sm-8">
-												<input type="text" name="region" class="form-control" value="<?php echo $_SESSION['region']; ?>">
+												<input type="text" name="region" class="form-control" value="<?php echo $_SESSION['region']; ?>" required>
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Province*</label>
 											<div class="col-sm-8">
-												<input type="text" name="province" class="form-control" value="<?php echo $_SESSION['province']; ?>">
+												<input type="text" name="province" class="form-control" value="<?php echo $_SESSION['province']; ?>" required>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-sm-4 col-form-label">City*</label>
+											<label class="col-sm-4 col-form-label">City/Municipality *</label>
 											<div class="col-sm-8">
-												<input type="text" name="city" class="form-control" value="<?php echo $_SESSION['city']; ?>">
+												<input type="text" name="city" class="form-control" value="<?php echo $_SESSION['city']; ?>" required>
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Barangay*</label>
 											<div class="col-sm-8">
-												<input type="text" name="barangay" class="form-control" value="<?php echo $_SESSION['barangay']; ?>">
+												<input type="text" name="barangay" class="form-control" value="<?php echo $_SESSION['barangay']; ?>" required>
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Postal Code*</label>
 											<div class="col-sm-8">
-												<input type="text" name="postal_code" class="form-control" value="<?php echo $_SESSION['postal_code']; ?>">
+												<input type="text" name="postal_code" class="form-control" value="<?php echo $_SESSION['postal_code']; ?>" required>
 											</div>
 										</div>
 										<div class="form-group row">
 											<label class="col-sm-4 col-form-label">Street Name, Building, House No.*</label>
 											<div class="col-sm-8">
-												<input type="text" name="address_more_info" class="form-control" value="<?php echo $_SESSION['address_more_info']; ?>">
+												<input type="text" name="address_more_info" class="form-control" value="<?php echo $_SESSION['address_more_info']; ?>" required>
 											</div>
 										</div>
 									</div>
@@ -161,7 +161,7 @@ if (!isset($_GET['emailHasBeenUsed'])) {
 								<section>
 									<div class="form-wrap max-width-600 mx-auto">
 										<div class="form-group row align-items-center">
-											<label class="col-sm-4 col-form-label">School*</label>
+											<label class="col-sm-4 col-form-label">School</label>
 											<div class="col-sm-8">
 												<input type="text" name="school" class="form-control" placeholder="ex. The Lewis College" value="<?php echo $_SESSION['school']; ?>">
 											</div>

@@ -35,7 +35,7 @@ if (isset($_POST["logInBtn"])) { //isset is used to check if a variable is prese
 				$_SESSION['type'] = $row['type'];
 				$_SESSION['p_p'] = $row['p_p'];
 
-				header("Location: ../user-account/employer-account/userProfile.php");
+				header("Location: ../user-account/employer-account/userJobOffers.php");
 			}
 		} else
 			header("location:../index.php?invalid=1");
@@ -65,7 +65,7 @@ if (isset($_POST["logInBtn"])) { //isset is used to check if a variable is prese
 				$_SESSION['coe'] = $row['coe'];
 				$_SESSION['type'] = $row['type'];
 				$_SESSION['p_p'] = $row['p_p'];
-				header("Location: ../user-account/jobseeker-account/userProfile.php");
+				header("Location: ../user-account/jobseeker-account/jobsPosted.php");
 			}
 		} else
 			header("location:../index.php?invalid=1");

@@ -485,7 +485,7 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 																<input class="form-control form-control-lg" name="region" type="text">
 															</div>
 															<div class="form-group">
-																<label>City:</label>
+																<label>City/Municipality </label>
 																<input class="form-control form-control-lg" name="city" type="text">
 															</div>
 															<div class="form-group">

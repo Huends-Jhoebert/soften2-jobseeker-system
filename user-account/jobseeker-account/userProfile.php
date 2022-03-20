@@ -499,7 +499,7 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 														<li class="weight-500 col-md-6">
 															<h4 class="text-blue h5 mb-20" style="visibility: hidden;">Edit Social Media links</h4>
 															<div class="form-group">
-																<label>Province:</label>
+																<label>Province/District:</label>
 																<input class="form-control form-control-lg" name="province" type="text">
 															</div>
 															<div class="form-group">
@@ -714,7 +714,7 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 			)
 		</script>
 	<?php endif ?>
-	<!--
+
 
 </body>
 

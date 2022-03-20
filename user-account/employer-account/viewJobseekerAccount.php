@@ -1,17 +1,24 @@
 <?php
 
 session_start();
+include_once "db-connection.php";
+include_once "timeAgo.php";
 
-if (!isset($_GET['moreSkills'])) {
-	$_SESSION['added_job_core_skills'] = "";
-	$_SESSION['added_job_title'] = "";
-	$_SESSION['added_job_place'] =
-		"";
-	$_SESSION['added_job_salary_range'] =
-		"";
-	$_SESSION['added_job_description'] =
-		"";
-}
+$selectQueryUser = "SELECT * FROM users WHERE user_id = '$_GET[userId]'";
+$selectQueryUserResult = $conn->query($selectQueryUser);
+$userInformation = $selectQueryUserResult->fetch_assoc();
+
+$getJobQuery = "SELECT * FROM job WHERE job_id = '$_GET[jobId]'";
+$getJobQueryResult = $conn->query($getJobQuery);
+$job = $getJobQueryResult->fetch_assoc();
+
+$skills = (explode(",", $userInformation['skills']));
+$certs = (explode(",", $userInformation['coe']));
+
+$schools = (explode(",", $userInformation['school']));
+$degrees = (explode(",", $userInformation['degree']));
+$studyField = (explode(",", $userInformation['study_field']));
+$studyYears = (explode(",", $userInformation['study_years']));
 ?>
 
 
@@ -21,7 +28,7 @@ if (!isset($_GET['moreSkills'])) {
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>Employer - Profile</title>
+	<title>Jobseeker - Profile</title>
 
 	<!-- Site favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
@@ -232,69 +239,127 @@ if (!isset($_GET['moreSkills'])) {
 			<div class="min-height-200px">
 				<div class="page-header">
 					<div class="row">
-						<div class="col-md-6 col-sm-12">
+						<div class="col-md-12 col-sm-12">
 							<nav aria-label="breadcrumb" role="navigation">
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="userProfile.php">Home</a></li>
-									<li class="breadcrumb-item" aria-current="page"><a href="userJobOffers.php">Jobs</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Add job</li>
+									<li class="breadcrumb-item" aria-current="page"><a href="#">Jobs</a></li>
+									<li class="breadcrumb-item" aria-current="page"><a href="#">Job Information</a></li>
+									<li class="breadcrumb-item active" aria-current="page">Jobseeker Profile</li>
 								</ol>
 							</nav>
 						</div>
 					</div>
 				</div>
-				<!-- Default Basic Forms Start -->
-				<div class="pd-20 card-box mb-30">
-					<div class="clearfix">
-						<div class="pull-left">
-							<h4 class="text-blue h4">JOB FORM</h4>
-							<p class="mb-30">ENTER JOB INFORMATIONS</p>
+				<div class="row">
+					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
+						<div class="pd-20 card-box height-50-p">
+							<div class="profile-photo">
+								<img src="../<?php echo $userInformation['p_p']; ?>" alt="" class="avatar-photo">
+							</div>
+							<h5 class="text-center h5 mb-0"><?php echo $userInformation['name']; ?></h5>
+							<p class="text-center text-muted font-14 d-hide"><?php echo $userInformation['type']; ?></p>
+							<div class="profile-info">
+								<h5 class="mb-20 h5 text-blue">Contact Information</h5>
+								<ul>
+									<li>
+										<span>Email Address:</span>
+										<?php echo $userInformation['email_account']; ?>
+									</li>
+									<li>
+										<span>Contact Number:</span>
+										<?php echo $userInformation['contact_number']; ?>
+									</li>
+									<li>
+										<span>Address:</span>
+										<?php echo $userInformation['address']; ?>
+									</li>
+								</ul>
+							</div>
+							<div class="profile-info">
+								<div class="d-flex justify-content-between">
+									<h5 class="mb-20 h5 text-blue" style="margin-bottom: 10px!important;">Education</h5>
+								</div>
+								<ul>
+									<?php for ($start = 0; $start < count($schools); $start++) : ?>
+										<li>
+											<span class="text-dark m-0 p-0" style="font-weight: bolder!important;"><?php echo $schools[$start]; ?></span>
+											<span class="m-0 p-0 text-dark">
+												<?php echo $degrees[$start] . " - " . $studyField[$start]; ?>
+											</span>
+											<span class="text-muted"><?php echo $studyYears[$start] ?></span>
+										</li>
+									<?php endfor; ?>
+								</ul>
+							</div>
+							<div class="profile-skills">
+								<div class="d-flex justify-content-between">
+									<h5 class="mb-20 h5 text-blue" style="margin-bottom: 10px!important;">Key Skills</h5>
+								</div>
+								<div class="bootstrap-tagsinput text-left" style="border: none !important;">
+									<?php foreach ($skills as $skill) : ?>
+										<span class="tag label label-info bg-info text-uppercase"><?php echo $skill; ?></span>
+									<?php endforeach; ?>
+									<input type="text" placeholder="" style="border: none !important;">
+								</div>
+							</div>
+							<div class="profile-skills">
+								<div class="d-flex justify-content-between">
+									<h5 class="mb-20 h5 text-blue" style="margin-bottom: 10px!important;">Honors & awards</h5>
+								</div>
+								<div class="bootstrap-tagsinput text-left" style="border: none !important;">
+									<?php foreach ($certs as $cert) : ?>
+										<span class="tag label label-info bg-success text-uppercase"><?php echo $cert; ?></span>
+									<?php endforeach; ?>
+									<input type="text" placeholder="" style="border: none !important;">
+								</div>
+							</div>
 						</div>
 					</div>
-					<form action="../../queries/addEmployerJob.php" method="POST" enctype="multipart/form-data">
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Job Title</label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control" type="text" placeholder="Enter Job Title" value="<?php echo $_SESSION['added_job_title']; ?>" name="title" required>
+					<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-30">
+						<div class="card-box height-50-p overflow-hidden">
+							<div class="profile-tab height-100-p">
+								<div class="tab height-100-p">
+									<ul class="nav nav-tabs customtab" role="tablist">
+										<li class="nav-item">
+											<a class="nav-link active" data-toggle="tab" href="#setting" role="tab" aria-selected="false">JOB INFORMATION</a>
+										</li>
+									</ul>
+									<div class="tab-content p-3">
+
+										<div class="tab-pane fade active show height-25-p" id="setting" role="tabpanel">
+											<div class="profile-setting">
+												<div class="mt-2">
+													<img src="../<?php echo $job['job_image']; ?>" class="d-block" alt="" width="100%" style="height: 250px;">
+												</div>
+											</div>
+										</div>
+										<div class="d-flex justify-content-between align-items-center">
+											<h5 class="text-dark mt-3 h3"><?php echo $job['job_title']; ?></h5>
+										</div>
+										<div>
+											<p class="h6 m-0"><?php echo $job['job_place']; ?></p>
+											<p class="m-0">Salary <?php echo $job['job_salary_range']; ?></p>
+											<p class="text-muted" style="font-size: 13px;">Posted <?php echo last_seen($job['job_date_posted']); ?></p>
+										</div>
+										<div class="mt-5">
+											<h5 class="h5">
+												Job description
+											</h5>
+											<p class="text-justify">
+												<?php
+												echo $job['job_description'];
+												?>
+											</p>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-						<div class="form-group row align-items-center">
-							<label class="col-sm-12 col-md-2 col-form-label"><span>Job Image</span> <span class="d-block text-muted">Hd image is recommended</span></label>
-							<div class="col-sm-12 col-md-10">
-								<input type="file" class="form-control-file form-control height-auto" name="image" required>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Job Place</label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control" type="text" placeholder="Enter Job Place" name="place" value="<?php echo $_SESSION['added_job_place'];  ?>" required>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-12 col-md-2 col-form-label">Salary Range</label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control" type="text" placeholder="ex: 15000 - 25000" name="salary_range" value="<?php echo $_SESSION['added_job_salary_range']; ?>" required>
-							</div>
-						</div>
-						<div class="form-group row align-items-center">
-							<label class="col-sm-12 col-md-2 col-form-label">Core Skills <span class="d-block text-muted">Enter 3 Core Skills</span></label>
-							<div class="col-sm-12 col-md-10">
-								<input class="form-control" data-role="tagsinput" type="text" name="skills" value="<?php echo $_SESSION['added_job_core_skills']; ?>" required>
-							</div>
-						</div>
-						<div class=" form-group">
-							<label>Job Description</label>
-							<textarea class="form-control" name="description" required><?php echo $_SESSION['added_job_description']; ?></textarea>
-						</div>
-						<div>
-							<button type="submit" name="submitBtn" class="btn btn-primary">Submit</button>
-						</div>
-					</form>
+					</div>
 				</div>
-				<!-- Default Basic Forms End -->
 			</div>
 		</div>
-	</div>
 	</div>
 
 	<!-- js -->
@@ -335,31 +400,6 @@ if (!isset($_GET['moreSkills'])) {
 			});
 		});
 	</script>
-
-	<?php if (isset($_GET['jobAdded'])) : ?>
-		<script>
-			Swal.fire(
-				'Address Information',
-				'Is successfully updated',
-				'success'
-			)
-		</script>
-	<?php endif; ?>
-
-	<?php if (isset($_GET['moreSkills'])) : ?>
-		<script>
-			Swal.fire(
-				'Core Skills',
-				'Must not exceed more than 3 skills',
-				'error'
-			)
-		</script>
-	<?php endif; ?>
-
-	<!-- <script>
-		var textArea = document.getElementsByTagName("textarea");
-		textArea.value = "asdasdasd";
-	</script> -->
 
 </body>
 

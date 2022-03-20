@@ -125,7 +125,7 @@ if (!isset($_GET['emailHasBeenUsed'])) {
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-sm-4 col-form-label">Province*</label>
+											<label class="col-sm-4 col-form-label">Province/District*</label>
 											<div class="col-sm-8">
 												<input type="text" name="province" class="form-control" value="<?php echo $_SESSION['province']; ?>" required>
 											</div>

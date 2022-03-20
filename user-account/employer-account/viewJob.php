@@ -80,7 +80,6 @@ $applicants = mysqli_fetch_all($applicantsQueryResult, MYSQLI_ASSOC);
 	<div class="header">
 		<div class="header-left">
 			<div class="menu-icon dw dw-menu"></div>
-			<div class="search-toggle-icon dw dw-search2" data-toggle="header_search"></div>
 		</div>
 		<div class="header-right">
 			<div class="dashboard-setting user-notification">
@@ -235,7 +234,8 @@ $applicants = mysqli_fetch_all($applicantsQueryResult, MYSQLI_ASSOC);
 							<nav aria-label="breadcrumb" role="navigation">
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="userProfile.php">Home</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Jobs</li>
+									<li class="breadcrumb-item" aria-current="page"><a href="userJobOffers.php">Jobs</a></li>
+									<li class="breadcrumb-item active" aria-current="page">Job information</li>
 								</ol>
 							</nav>
 						</div>
@@ -319,7 +319,7 @@ $applicants = mysqli_fetch_all($applicantsQueryResult, MYSQLI_ASSOC);
 									?>
 									<tr>
 										<td><?php echo $key + 1; ?></td>
-										<td><a href="#"><?php echo $jobseeker['name']; ?></a></td>
+										<td><a href="viewJobseekerAccount.php?userId=<?php echo $jobseeker['user_id'] ?>&jobId=<?php echo $jobOfferQueryResultArray['job_id']; ?>"><?php echo $jobseeker['name']; ?></a></td>
 										<td><?php echo last_seen($applicant['job_applicant_submitted_time']); ?></td>
 										<td>
 											<div class="dropdown">

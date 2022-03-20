@@ -54,7 +54,6 @@ session_start();
 	<div class="header">
 		<div class="header-left">
 			<div class="menu-icon dw dw-menu"></div>
-			<div class="search-toggle-icon dw dw-search2" data-toggle="header_search"></div>
 		</div>
 		<div class="header-right">
 			<div class="dashboard-setting user-notification">
@@ -379,7 +378,7 @@ session_start();
 														<li class="weight-500 col-md-6">
 															<h4 class="text-blue h5 mb-20" style="visibility: hidden;">Edit Social Media links</h4>
 															<div class="form-group">
-																<label>Province:</label>
+																<label>Province/District:</label>
 																<input class="form-control form-control-lg" name="province" type="text">
 															</div>
 															<div class="form-group">

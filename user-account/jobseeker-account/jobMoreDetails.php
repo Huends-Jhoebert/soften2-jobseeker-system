@@ -68,7 +68,6 @@ $employer = $getEmployerDetailsresult->fetch_assoc();
 	<div class="header">
 		<div class="header-left">
 			<div class="menu-icon dw dw-menu"></div>
-			<div class="search-toggle-icon dw dw-search2" data-toggle="header_search"></div>
 		</div>
 		<div class="header-right">
 			<div class="dashboard-setting user-notification">
@@ -235,13 +234,11 @@ $employer = $getEmployerDetailsresult->fetch_assoc();
 				<div class="page-header">
 					<div class="row">
 						<div class="col-md-12 col-sm-12">
-							<div class="title">
-								<h4>JOB</h4>
-							</div>
 							<nav aria-label="breadcrumb" role="navigation">
 								<ol class="breadcrumb">
-									<li class="breadcrumb-item"><a href="index.html">Home</a></li>
-									<li class="breadcrumb-item active" aria-current="page">JOBS</li>
+									<li class="breadcrumb-item"><a href="#">Home</a></li>
+									<li class="breadcrumb-item" aria-current="page"><a href="jobsPosted.php">Jobs</a></li>
+									<li class="breadcrumb-item active" aria-current="page">Job information</li>
 								</ol>
 							</nav>
 						</div>

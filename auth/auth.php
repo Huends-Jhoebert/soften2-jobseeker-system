@@ -25,6 +25,7 @@ if (isset($_POST["logInBtn"])) { //isset is used to check if a variable is prese
 				//if employer is verified 
 				//code here
 				$_SESSION['user_id'] = $row['user_id'];
+				$_SESSION['username'] = $row['name'];
 				$_SESSION['email_address'] = $row['email_account'];
 				$_SESSION['password'] = $row['password'];
 				$_SESSION['name'] = $row['name'];
@@ -65,6 +66,7 @@ if (isset($_POST["logInBtn"])) { //isset is used to check if a variable is prese
 				$_SESSION['coe'] = $row['coe'];
 				$_SESSION['type'] = $row['type'];
 				$_SESSION['p_p'] = $row['p_p'];
+				$_SESSION['username'] = $row['name'];
 				header("Location: ../user-account/jobseeker-account/jobsPosted.php");
 			}
 		} else

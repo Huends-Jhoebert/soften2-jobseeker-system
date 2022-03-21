@@ -16,7 +16,7 @@ session_start();
 if ($_POST['passwordRetype'] == $_SESSION['password']) {
 	if ($_POST['email_address'] == "") {
 		$_SESSION['name'] = ($_POST['name'] == "") ? $_SESSION['name'] : $_POST['name'];
-
+		$_SESSION['username'] = $_SESSION['name'];
 		$_SESSION['contact_number'] = ($_POST['number'] == "") ? $_SESSION['contact_number'] : $_POST['number'];
 
 		$_SESSION['password'] = ($_POST['password'] == "") ? $_SESSION['password'] : $_POST['password'];
@@ -43,6 +43,7 @@ if ($_POST['passwordRetype'] == $_SESSION['password']) {
 		} else {
 			//if email has not been used execute this line of code
 			$_SESSION['name'] = ($_POST['name'] == "") ? $_SESSION['name'] : $_POST['name'];
+			$_SESSION['username'] = $_SESSION['name'];
 
 			$_SESSION['email_address'] = ($_POST['email_address'] == "") ? $_SESSION['email_address'] : $_POST['email_address'];
 

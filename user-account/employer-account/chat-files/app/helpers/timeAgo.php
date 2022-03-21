@@ -1,11 +1,11 @@
 <?php
 
 // setting up the time Zone
-// // It Depends on your location or your P.c settings
-// define('TIMEZONE', 'Asia/Manila');
-// date_default_timezone_set(TIMEZONE);
+// It Depends on your location or your P.c settings
+define('TIMEZONE', 'Asia/Manila');
+date_default_timezone_set(TIMEZONE);
 
-function time_past($date_time)
+function last_seen($date_time)
 {
 
 	$timestamp = strtotime($date_time);
@@ -22,7 +22,7 @@ function time_past($date_time)
 
 		$diff = round($diff);
 		if ($diff < 59 && $strTime[$i] == "second") {
-			return $diff . " " . $strTime[$i] . "(s) ago ";
+			return 'Active';
 		} else {
 			return $diff . " " . $strTime[$i] . "(s) ago ";
 		}

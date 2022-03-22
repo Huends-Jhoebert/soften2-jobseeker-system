@@ -90,10 +90,10 @@ $conversations = getConversation($user['user_id'], $conn);
 			<div class="dashboard-setting user-notification">
 				<div class="dropdown">
 					<a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
-						<?php if ($numberOfUnread[0]['unreadMessages'] > 1) : ?>
+						<?php if (intval($numberOfUnread[0]['unreadMessages']) > 0) : ?>
 							<i class="fa fa-comment __notification" aria-hidden="true"></i><span class="__badge bg-danger"><?= $numberOfUnread[0]['unreadMessages'];  ?></span>
 						<?php endif; ?>
-						<?php if ($numberOfUnread[0]['unreadMessages'] < 1) : ?>
+						<?php if (intval($numberOfUnread[0]['unreadMessages']) < 1) : ?>
 							<i class="fa fa-comment __notification" aria-hidden="true"></i>
 						<?php endif; ?>
 					</a>
@@ -124,7 +124,7 @@ $conversations = getConversation($user['user_id'], $conn);
 	<div class="right-sidebar">
 		<div class="sidebar-title">
 			<h3 class="weight-600 font-16 text-blue text-uppercase">
-				Search a jobseeker
+				Search jobseeker
 			</h3>
 			<div class="close-sidebar" data-toggle="right-sidebar-close">
 				<i class="icon-copy ion-close-round"></i>
@@ -163,11 +163,6 @@ $conversations = getConversation($user['user_id'], $conn);
 																echo lastChat($_SESSION['user_id'], $conversation['user_id'], $conn);
 																?>
 															</small>
-															<?php if (last_seen($conversation['last_seen']) == "Active") { ?>
-																<div title="online">
-																	<div class="online"></div>
-																</div>
-															<?php } ?>
 														</h3>
 													</div>
 													<?php if (last_seen($conversation['last_seen']) == "Active") { ?>
@@ -365,10 +360,51 @@ $conversations = getConversation($user['user_id'], $conn);
 		</script>
 	<?php endif; ?>
 
-	<!-- <script>
-		var textArea = document.getElementsByTagName("textarea");
-		textArea.value = "asdasdasd";
-	</script> -->
+	<script>
+		$(document).ready(function() {
+
+			// Search
+			$("#searchText").on("input", function() {
+				var searchText = $(this).val();
+				if (searchText == "") return;
+				$.post('chat-files/app/ajax/search.php', {
+						key: searchText
+					},
+					function(data, status) {
+						$("#chatList").html(data);
+					});
+			});
+
+			// Search using the button
+			$("#serachBtn").on("click", function() {
+				var searchText = $("#searchText").val();
+				if (searchText == "") return;
+				$.post('app/ajax/search.php', {
+						key: searchText
+					},
+					function(data, status) {
+						$("#chatList").html(data);
+					});
+			});
+
+
+			/** 
+			auto update last seen 
+			for logged in user
+			**/
+			let lastSeenUpdate = function() {
+				$.get("chat-files/app/ajax/update_last_seen.php");
+			}
+			lastSeenUpdate();
+			/** 
+			auto update last seen 
+			every 10 sec
+			**/
+			// setInterval(lastSeenUpdate, 5000);
+
+		});
+	</script>
+
 
 </body>
 

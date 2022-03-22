@@ -2,12 +2,16 @@
 
 session_start();
 
-include_once "db-connection.php";
+include_once "db-connection2.php";
 
 $sql = "SELECT COUNT(opened) as unreadMessages FROM chats WHERE to_id = '$_SESSION[user_id]' AND opened = '0'";
 
-$result = mysqli_query($conn, $sql);
+$result = mysqli_query($conn2, $sql);
 $numberOfUnread = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+// echo "<pre>";
+// var_dump($numberOfUnread);
+// echo "</pre>";
 
 # database connection file
 include 'chat-files/app/db.conn.php';
@@ -79,10 +83,10 @@ $conversations = getConversation($user['user_id'], $conn);
 			<div class="dashboard-setting user-notification">
 				<div class="dropdown">
 					<a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
-						<?php if ($numberOfUnread[0]['unreadMessages'] > 1) : ?>
-							<i class="fa fa-comment __notification" aria-hidden="true"></i><span class="__badge bg-danger"><?= $numberOfUnread[0]['unreadMessages'];  ?></span>
+						<?php if (intval($numberOfUnread[0]['unreadMessages']) > 0) : ?>
+							<i class="fa fa-comment __notification" aria-hidden="true"></i><span class="__badge bg-danger"><?php echo $numberOfUnread[0]['unreadMessages']; ?></span>
 						<?php endif; ?>
-						<?php if ($numberOfUnread[0]['unreadMessages'] < 1) : ?>
+						<?php if (intval($numberOfUnread[0]['unreadMessages']) < 1) : ?>
 							<i class="fa fa-comment __notification" aria-hidden="true"></i>
 						<?php endif; ?>
 					</a>
@@ -113,7 +117,7 @@ $conversations = getConversation($user['user_id'], $conn);
 	<div class="right-sidebar">
 		<div class="sidebar-title">
 			<h3 class="weight-600 font-16 text-blue text-uppercase">
-				Search a jobseeker
+				Search jobseeker
 			</h3>
 			<div class="close-sidebar" data-toggle="right-sidebar-close">
 				<i class="icon-copy ion-close-round"></i>
@@ -154,7 +158,6 @@ $conversations = getConversation($user['user_id'], $conn);
 															</small>
 															<?php if (last_seen($conversation['last_seen']) == "Active") { ?>
 																<div title="online">
-																	<div class="online"></div>
 																</div>
 															<?php } ?>
 														</h3>
@@ -546,7 +549,6 @@ $conversations = getConversation($user['user_id'], $conn);
 	<?php endif ?>
 
 	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
-
 	<script>
 		$(document).ready(function() {
 
@@ -591,16 +593,6 @@ $conversations = getConversation($user['user_id'], $conn);
 
 		});
 	</script>
-
-
-	<!-- <script>
-		var backArrow = document.querySelector(".back-arrow");
-		var searchText = document.querySelector("#searchText");
-
-		searchText.addEventListener("keyup", event => {
-			backArrow.style.display = "block";
-		});
-	</script> -->
 </body>
 
 </html>

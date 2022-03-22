@@ -9,6 +9,27 @@ $schools = (explode(",", $_SESSION['school']));
 $degrees = (explode(",", $_SESSION['degree']));
 $studyField = (explode(",", $_SESSION['study_field']));
 $studyYears = (explode(",", $_SESSION['study_years']));
+
+include_once "db-connection.php";
+
+$sql = "SELECT COUNT(opened) as unreadMessages FROM chats WHERE to_id = '$_SESSION[user_id]' AND opened = '0'";
+
+$result = mysqli_query($conn, $sql);
+$numberOfUnread = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+# database connection file
+include 'chat-files/app/db.conn.php';
+
+include 'chat-files/app/helpers/user.php';
+include 'chat-files/app/helpers/conversations.php';
+include 'chat-files/app/helpers/timeAgo.php';
+include 'chat-files/app/helpers/last_chat.php';
+
+# Getting User data data
+$user = getUser($_SESSION['name'], $conn);
+
+# Getting User conversations
+$conversations = getConversation($user['user_id'], $conn);
 ?>
 
 
@@ -38,6 +59,7 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 	<link rel="stylesheet" href="../../template-files/sweetalert/sweetalert2.min.css">
 	<link rel="stylesheet" type="text/css" href="../../template-files/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
 	<link rel="icon" type="image/png" sizes="32x32" href="../../template-files/vendors/images/logo1-removebg.png">
+	<link rel="stylesheet" href="chat-files/css/style.css">
 
 	<style>
 		.__notification {
@@ -69,7 +91,12 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 			<div class="dashboard-setting user-notification">
 				<div class="dropdown">
 					<a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
-						<i class="fa fa-comment __notification" aria-hidden="true"></i><span class="__badge bg-danger">4</span>
+						<?php if (intval($numberOfUnread[0]['unreadMessages']) > 0) : ?>
+							<i class="fa fa-comment __notification" aria-hidden="true"></i><span class="__badge bg-danger"><?= $numberOfUnread[0]['unreadMessages'];  ?></span>
+						<?php endif; ?>
+						<?php if (intval($numberOfUnread[0]['unreadMessages']) < 1) : ?>
+							<i class="fa fa-comment __notification" aria-hidden="true"></i>
+						<?php endif; ?>
 					</a>
 				</div>
 			</div>
@@ -97,9 +124,8 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 
 	<div class="right-sidebar">
 		<div class="sidebar-title">
-			<h3 class="weight-600 font-16 text-blue">
-				Layout Settings
-				<span class="btn-block font-weight-400 font-12">User Interface Settings</span>
+			<h3 class="weight-600 font-16 text-blue text-uppercase">
+				Search employer
 			</h3>
 			<div class="close-sidebar" data-toggle="right-sidebar-close">
 				<i class="icon-copy ion-close-round"></i>
@@ -108,76 +134,70 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 		<div class="right-sidebar-body customscroll mCustomScrollbar _mCS_2 mCS_no_scrollbar">
 			<div id="mCSB_2" class="mCustomScrollBox mCS-dark-2 mCSB_vertical mCSB_inside" tabindex="0" style="max-height: none;">
 				<div id="mCSB_2_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-					<div class="right-sidebar-body-content">
-						<h4 class="weight-600 font-18 pb-10">Header Background</h4>
-						<div class="sidebar-btn-group pb-30 mb-10">
-							<a href="javascript:void(0);" class="btn btn-outline-primary header-white active">White</a>
-							<a href="javascript:void(0);" class="btn btn-outline-primary header-dark">Dark</a>
-						</div>
-
-						<h4 class="weight-600 font-18 pb-10">Sidebar Background</h4>
-						<div class="sidebar-btn-group pb-30 mb-10">
-							<a href="javascript:void(0);" class="btn btn-outline-primary sidebar-light">White</a>
-							<a href="javascript:void(0);" class="btn btn-outline-primary sidebar-dark active">Dark</a>
-						</div>
-
-						<h4 class="weight-600 font-18 pb-10">Menu Dropdown Icon</h4>
-						<div class="sidebar-radio-group pb-10 mb-10">
-							<div class="custom-control custom-radio custom-control-inline">
-								<input type="radio" id="sidebaricon-1" name="menu-dropdown-icon" class="custom-control-input" value="icon-style-1" checked="">
-								<label class="custom-control-label" for="sidebaricon-1"><i class="fa fa-angle-down"></i></label>
+					<div class="right-sidebar-body-content p-0">
+						<div class="p-2">
+							<div class="">
+								<div class="d-flex align-items-center">
+									<!-- <a href="home.php" class="fs-4 link-dark me-3 back-arrow" style="display: none;">&#8592;</a> -->
+									<div class="input-group mb-3">
+										<input type="text" placeholder="Search..." id="searchText" class="form-control">
+										<button class="btn btn-primary" id="serachBtn">
+											<i class="fa fa-search"></i>
+										</button>
+									</div>
+								</div>
+								<ul id="chatList" class="list-group mvh-50 overflow-auto">
+									<?php if (!empty($conversations)) { ?>
+										<?php
+										foreach ($conversations as $conversation) { ?>
+											<li class="list-group-item">
+												<a href="chat.php?user=<?= $conversation['user_id'] ?>" class="d-flex
+	    				          justify-content-between
+	    				          align-items-center p-2">
+													<div class="d-flex
+	    					            align-items-center">
+														<img src="../<?= $conversation['p_p'] ?>" class="w-10 rounded-circle">
+														<h3 class="fs-xs m-2">
+															<?= $conversation['name'] ?><br>
+															<small>
+																<?php
+																echo lastChat($_SESSION['user_id'], $conversation['user_id'], $conn);
+																?>
+															</small>
+															<?php if (last_seen($conversation['last_seen']) == "Active") { ?>
+																<div title="online">
+																</div>
+															<?php } ?>
+														</h3>
+													</div>
+													<?php if (last_seen($conversation['last_seen']) == "Active") { ?>
+														<div title="online">
+															<div class="online"></div>
+														</div>
+													<?php } ?>
+												</a>
+											</li>
+										<?php } ?>
+									<?php } else { ?>
+										<div class="alert alert-info 
+    				            text-center">
+											<i class="fa fa-comments d-block fs-big"></i>
+											No messages yet, Start the conversation
+										</div>
+									<?php } ?>
+								</ul>
 							</div>
-							<div class="custom-control custom-radio custom-control-inline">
-								<input type="radio" id="sidebaricon-2" name="menu-dropdown-icon" class="custom-control-input" value="icon-style-2">
-								<label class="custom-control-label" for="sidebaricon-2"><i class="ion-plus-round"></i></label>
-							</div>
-							<div class="custom-control custom-radio custom-control-inline">
-								<input type="radio" id="sidebaricon-3" name="menu-dropdown-icon" class="custom-control-input" value="icon-style-3">
-								<label class="custom-control-label" for="sidebaricon-3"><i class="fa fa-angle-double-right"></i></label>
-							</div>
-						</div>
-
-						<h4 class="weight-600 font-18 pb-10">Menu List Icon</h4>
-						<div class="sidebar-radio-group pb-30 mb-10">
-							<div class="custom-control custom-radio custom-control-inline">
-								<input type="radio" id="sidebariconlist-1" name="menu-list-icon" class="custom-control-input" value="icon-list-style-1" checked="">
-								<label class="custom-control-label" for="sidebariconlist-1"><i class="ion-minus-round"></i></label>
-							</div>
-							<div class="custom-control custom-radio custom-control-inline">
-								<input type="radio" id="sidebariconlist-2" name="menu-list-icon" class="custom-control-input" value="icon-list-style-2">
-								<label class="custom-control-label" for="sidebariconlist-2"><i class="fa fa-circle-o" aria-hidden="true"></i></label>
-							</div>
-							<div class="custom-control custom-radio custom-control-inline">
-								<input type="radio" id="sidebariconlist-3" name="menu-list-icon" class="custom-control-input" value="icon-list-style-3">
-								<label class="custom-control-label" for="sidebariconlist-3"><i class="dw dw-check"></i></label>
-							</div>
-							<div class="custom-control custom-radio custom-control-inline">
-								<input type="radio" id="sidebariconlist-4" name="menu-list-icon" class="custom-control-input" value="icon-list-style-4" checked="">
-								<label class="custom-control-label" for="sidebariconlist-4"><i class="icon-copy dw dw-next-2"></i></label>
-							</div>
-							<div class="custom-control custom-radio custom-control-inline">
-								<input type="radio" id="sidebariconlist-5" name="menu-list-icon" class="custom-control-input" value="icon-list-style-5">
-								<label class="custom-control-label" for="sidebariconlist-5"><i class="dw dw-fast-forward-1"></i></label>
-							</div>
-							<div class="custom-control custom-radio custom-control-inline">
-								<input type="radio" id="sidebariconlist-6" name="menu-list-icon" class="custom-control-input" value="icon-list-style-6">
-								<label class="custom-control-label" for="sidebariconlist-6"><i class="dw dw-next"></i></label>
-							</div>
-						</div>
-
-						<div class="reset-options pt-30 text-center">
-							<button class="btn btn-danger" id="reset-settings">Reset Settings</button>
 						</div>
 					</div>
 				</div>
-				<div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-dark-2 mCSB_scrollTools_vertical mCSB_scrollTools_onDrag_expand" style="display: none;">
+				<!-- <div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-dark-2 mCSB_scrollTools_vertical mCSB_scrollTools_onDrag_expand" style="display: none;">
 					<div class="mCSB_draggerContainer">
 						<div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 0px; max-height: 461px; top: 0px;">
 							<div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
 						</div>
 						<div class="mCSB_draggerRail"></div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</div>
 	</div>
@@ -714,6 +734,51 @@ $studyYears = (explode(",", $_SESSION['study_years']));
 			)
 		</script>
 	<?php endif ?>
+
+	<script>
+		$(document).ready(function() {
+
+			// Search
+			$("#searchText").on("input", function() {
+				var searchText = $(this).val();
+				if (searchText == "") return;
+				$.post('chat-files/app/ajax/search.php', {
+						key: searchText
+					},
+					function(data, status) {
+						$("#chatList").html(data);
+					});
+			});
+
+			// Search using the button
+			$("#serachBtn").on("click", function() {
+				var searchText = $("#searchText").val();
+				if (searchText == "") return;
+				$.post('app/ajax/search.php', {
+						key: searchText
+					},
+					function(data, status) {
+						$("#chatList").html(data);
+					});
+			});
+
+
+			/** 
+			auto update last seen 
+			for logged in user
+			**/
+			let lastSeenUpdate = function() {
+				$.get("chat-files/app/ajax/update_last_seen.php");
+			}
+			lastSeenUpdate();
+			/** 
+			auto update last seen 
+			every 10 sec
+			**/
+			// setInterval(lastSeenUpdate, 5000);
+
+		});
+	</script>
 
 
 </body>

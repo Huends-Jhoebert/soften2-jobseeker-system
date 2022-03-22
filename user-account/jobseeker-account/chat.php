@@ -98,7 +98,7 @@ opened($chatWith['user_id'], $conn, $chats);
 		ul.gfg {
 			margin: 5px;
 			padding: 5px;
-			height: 215px;
+			height: 310px;
 			overflow: auto;
 		}
 	</style>

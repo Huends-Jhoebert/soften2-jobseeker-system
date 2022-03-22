@@ -191,7 +191,7 @@ opened($chatWith['user_id'], $conn, $chats);
 				</div>
 				<div class="row">
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30 bg-light p-2">
-						<h5 class="h5 mt-2">Contacts</h5>
+						<h5 class="h5 mt-2 pl-3">Contacts</h5>
 						<div class="pd-20  height-50-p mt-3 p-0 bg-light">
 							<div class="d-flex p-3">
 								<a href="chat.php?user=<?php echo $_GET['user']; ?>" class="fs-4 link-dark back-arrow pt-2 mr-2" style="display: none;">&#8592;</a>

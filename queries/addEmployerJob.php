@@ -26,7 +26,7 @@ if (isset($_POST['submitBtn'])) {
 		$_SESSION['added_job_title'] = $_POST['title'];
 		$_SESSION['added_job_place'] = $_POST['place'];
 		$_SESSION['added_job_salary_range'] = $_POST['salary_range'];
-		$_SESSION['added_job_description'] = $_POST['description'];
+		// $_SESSION['added_job_description'] = $_POST['description'];
 		$_SESSION['added_job_image'] = "";
 		$filename = $_FILES["image"]["name"];
 		$tempname = $_FILES["image"]["tmp_name"];
@@ -37,6 +37,8 @@ if (isset($_POST['submitBtn'])) {
 		if (move_uploaded_file($tempname, $folder)) {
 			$_SESSION['added_job_image'] = $folder;
 		}
+
+		$_SESSION['added_job_description'] = $conn->real_escape_string($_POST['description']);
 
 		$sql = "INSERT INTO job (job_employer_id, job_title, job_image, job_place, job_skills, job_salary_range, job_description) VALUES ('$_SESSION[user_id]', '$_SESSION[added_job_title]', '$_SESSION[added_job_image]', '$_SESSION[added_job_place]', '$_SESSION[added_job_core_skills]', '$_SESSION[added_job_salary_range]', '$_SESSION[added_job_description]')";
 

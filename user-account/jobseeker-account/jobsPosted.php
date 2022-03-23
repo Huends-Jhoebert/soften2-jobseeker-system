@@ -287,7 +287,7 @@ $conversations = getConversation($user['user_id'], $conn);
 								<div class="col-lg-4 col-md-4 col-sm-4 search-div">
 									<input class="form-control d-block" type="search" placeholder="&#xf041; Job location" style="font-family:Arial, FontAwesome" name="find_job_location">
 								</div>
-								<div class="col-lg-2 col-md-2 col-sm-4 search-div">
+								<div class="col-lg-2 col-md-2 col-sm-4 search-div   ">
 									<button type="submit" name="searchJobBtn" class="btn btn-primary d-block">SEARCH</button>
 								</div>
 							</div>

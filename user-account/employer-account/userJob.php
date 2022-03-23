@@ -288,7 +288,7 @@ $conversations = getConversation($user['user_id'], $conn);
 						</div>
 						<div class=" form-group">
 							<label>Job Description</label>
-							<textarea class="form-control" name="description" required><?php echo $_SESSION['added_job_description']; ?></textarea>
+							<textarea class="form-control" name="description" maxlength="10000" required><?php echo $_SESSION['added_job_description']; ?></textarea>
 						</div>
 						<div>
 							<button type="submit" name="submitBtn" class="btn btn-primary">Submit</button>

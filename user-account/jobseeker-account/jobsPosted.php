@@ -93,6 +93,12 @@ $conversations = getConversation($user['user_id'], $conn);
 			color: white;
 			font-size: .6rem;
 		}
+
+		@media screen and (max-width: 480px) {
+			.search-div {
+				margin-top: 1rem;
+			}
+		}
 	</style>
 
 
@@ -275,14 +281,14 @@ $conversations = getConversation($user['user_id'], $conn);
 					<div class="page-header rounded-0">
 						<form action="" method="POST">
 							<div class="row justify-content-center">
-								<div class="col-md-4 col-sm-12">
-									<input class="form-control" placeholder="&#xF002; Job title" type="search" style="font-family:Arial, FontAwesome" name="find_title">
+								<div class="col-lg-4 col-md-4 col-sm-4 search-div">
+									<input class="form-control d-block" placeholder="&#xF002; Job title" type="search" style="font-family:Arial, FontAwesome" name="find_title">
 								</div>
-								<div class="col-md-4 col-sm-12">
-									<input class="form-control" type="search" placeholder="&#xf041; Job location" style="font-family:Arial, FontAwesome" name="find_job_location">
+								<div class="col-lg-4 col-md-4 col-sm-4 search-div">
+									<input class="form-control d-block" type="search" placeholder="&#xf041; Job location" style="font-family:Arial, FontAwesome" name="find_job_location">
 								</div>
-								<div class="col-md-2 col-sm-12">
-									<button type="submit" name="searchJobBtn" class="btn btn-primary">SEARCH</button>
+								<div class="col-lg-2 col-md-2 col-sm-4 search-div">
+									<button type="submit" name="searchJobBtn" class="btn btn-primary d-block">SEARCH</button>
 								</div>
 							</div>
 						</form>
@@ -396,7 +402,7 @@ $conversations = getConversation($user['user_id'], $conn);
 				'success'
 			)
 		</script>
-	<?php endif ?> -->
+	<?php endif ?>
 
 
 

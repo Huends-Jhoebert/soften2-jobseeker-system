@@ -216,7 +216,7 @@ $numberOfUnread = mysqli_fetch_all($unreadMessageQueryResult, MYSQLI_ASSOC);
 								</a>
 							</li>
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle no-arrow" data-option="off">
+								<a href="userFeedback.php" class="dropdown-toggle no-arrow" data-option="off">
 									<span class="micon dw dw-chat"></span><span class="mtext">Feedback</span>
 								</a>
 							</li>

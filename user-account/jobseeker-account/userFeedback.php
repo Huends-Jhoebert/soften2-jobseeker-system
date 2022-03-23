@@ -2,34 +2,24 @@
 
 session_start();
 
-include_once "db-connection2.php";
-
-$getJobOffers = "SELECT * FROM job WHERE job_employer_id = '$_SESSION[user_id]' ORDER BY job_date_posted ASC";
-
-$getJobOffersQuery = mysqli_query($conn2, $getJobOffers);
-
-$jobOffers = mysqli_fetch_all($getJobOffersQuery, MYSQLI_ASSOC);
-
-$unreadMessageQuery = "SELECT COUNT(opened) as unreadMessages FROM chats WHERE to_id = '$_SESSION[user_id]' AND opened = '0'";
-
-$unreadMessageQueryResult = mysqli_query($conn2, $unreadMessageQuery);
-$numberOfUnread = mysqli_fetch_all($unreadMessageQueryResult, MYSQLI_ASSOC);
-
 # database connection file
 include 'chat-files/app/db.conn.php';
-
+include_once "db-connection2.php";
 include 'chat-files/app/helpers/user.php';
 include 'chat-files/app/helpers/conversations.php';
 include 'chat-files/app/helpers/timeAgo.php';
 include 'chat-files/app/helpers/last_chat.php';
+$unreadMessageQuery = "SELECT COUNT(opened) as unreadMessages FROM chats WHERE to_id = '$_SESSION[user_id]' AND opened = '0'";
 
+$unreadMessageQueryResult = mysqli_query($conn2, $unreadMessageQuery);
+$numberOfUnread = mysqli_fetch_all($unreadMessageQueryResult, MYSQLI_ASSOC);
 # Getting User data data
 $user = getUser($_SESSION['name'], $conn);
 
 # Getting User conversations
 $conversations = getConversation($user['user_id'], $conn);
-
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -37,24 +27,26 @@ $conversations = getConversation($user['user_id'], $conn);
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>Employer - Jobs</title>
-
+	<title>Jobseeker - Feedback</title>
 
 	<!-- Site favicon -->
-	<link rel="icon" type="image/png" sizes="32x32" href="../../template-files/vendors/images/logo1-removebg.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="vendors/images/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="vendors/images/favicon-16x16.png">
 
 	<!-- Mobile Specific Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 	<!-- Google Font -->
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
 	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="../../template-files/vendors/styles/core.css">
 	<link rel="stylesheet" type="text/css" href="../../template-files/vendors/styles/icon-font.min.css">
-	<link rel="stylesheet" type="text/css" href="../../template-files/src/plugins/datatables/css/dataTables.bootstrap4.min.css">
-	<link rel="stylesheet" type="text/css" href="../../template-files/src/plugins/datatables/css/responsive.bootstrap4.min.css">
+	<link rel="stylesheet" type="text/css" href="../../template-files/src/plugins/cropperjs/dist/cropper.css">
 	<link rel="stylesheet" type="text/css" href="../../template-files/vendors/styles/style.css">
 	<link rel="stylesheet" href="../../template-files/sweetalert/sweetalert2.min.css">
+	<link rel="stylesheet" type="text/css" href="../../template-files/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css">
+	<link rel="icon" type="image/png" sizes="32x32" href="../../template-files/vendors/images/logo1-removebg.png">
 	<link rel="stylesheet" href="chat-files/css/style.css">
 
 	<style>
@@ -75,9 +67,10 @@ $conversations = getConversation($user['user_id'], $conn);
 		}
 	</style>
 
+
 </head>
 
-<body>
+<body class="header-white sidebar-dark">
 	<div class="header">
 		<div class="header-left">
 			<div class="menu-icon dw dw-menu"></div>
@@ -110,6 +103,9 @@ $conversations = getConversation($user['user_id'], $conn);
 						<a class="dropdown-item" href="logout.php"><i class="dw dw-logout"></i> Log Out</a>
 					</div>
 				</div>
+			</div>
+			<div class="github-link">
+				<a href="https://github.com/dropways/deskapp" target="_blank"><img src="vendors/images/github.svg" alt=""></a>
 			</div>
 		</div>
 	</div>
@@ -202,7 +198,7 @@ $conversations = getConversation($user['user_id'], $conn);
 								</a>
 							</li>
 							<li class="dropdown">
-								<a href="userJobOffers.php" class="dropdown-toggle no-arrow" data-option="off">
+								<a href="jobsPosted.php" class="dropdown-toggle no-arrow" data-option="off">
 									<span class="micon dw dw-briefcase"></span><span class="mtext">Jobs</span>
 								</a>
 							</li>
@@ -233,65 +229,43 @@ $conversations = getConversation($user['user_id'], $conn);
 							<nav aria-label="breadcrumb" role="navigation">
 								<ol class="breadcrumb">
 									<li class="breadcrumb-item"><a href="userProfile.php">Home</a></li>
-									<li class="breadcrumb-item active" aria-current="page">Jobs</li>
+									<li class="breadcrumb-item" aria-current="page"><a href="userJobOffers.php">Jobs</a></li>
+									<li class="breadcrumb-item active" aria-current="page">Feedback</li>
 								</ol>
 							</nav>
 						</div>
 					</div>
 				</div>
-				<!-- Simple Datatable start -->
-				<div class="card-box mb-30">
-					<div class="pd-20 d-flex justify-content-between align-items-center">
-						<h4 class="text-blue h4">MY JOB OFFERS</h4>
-						<a href="userJob.php" class="text-success">ADD JOB</a>
+				<!-- Default Basic Forms Start -->
+				<div class="pd-20 card-box mb-30">
+					<div class="clearfix">
+						<div class="pull-left">
+							<h4 class="text-blue h4">FEEDBACK</h4>
+							<p class="mb-30">Jobseeker Feedback lets you send JobSeeker suggestions about this system. We welcome problem reports, features ideas and general comments.</p>
+						</div>
 					</div>
-					<div class="pb-20">
-						<table class="data-table table stripe hover nowrap">
-							<thead>
-								<tr>
-									<th>#</th>
-									<th>Title</th>
-									<th># Applicants</th>
-									<th>Place</th>
-									<th>Date Posted</th>
-									<th class="datatable-nosort">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php foreach ($jobOffers as $key => $jobOffer) : ?>
-									<?php
-									$sql = "SELECT COUNT(job_applicant_jobseeker_id) AS NumberOfApplicants FROM job_applicant WHERE job_id = '$jobOffer[job_id]'";
-									$result = $conn2->query($sql);
-									$row = $result->fetch_assoc();
-									?>
-									<tr>
-										<td class="table-plus"><?php echo $key + 1; ?></td>
-										<td><?php echo $jobOffer['job_title']; ?></td>
-										<td>
-											<?php echo $row['NumberOfApplicants']; ?>
-										</td>
-										<td><?php echo $jobOffer['job_place']; ?></td>
-										<td><?php
-											$date = $jobOffer['job_date_posted'];
-											echo date('h:i:s a m/d/Y', strtotime($date));
-											?></td>
-										<td>
-											<div class="dropdown">
-												<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-													<i class="dw dw-more"></i>
-												</a>
-												<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-													<a class="dropdown-item" href="viewJob.php?jobId=<?php echo $jobOffer['job_id'] ?>"><i class="dw dw-eye"></i> View</a>
-												</div>
-											</div>
-										</td>
-									</tr>
-								<?php endforeach; ?>
-							</tbody>
-						</table>
-					</div>
+					<form id="feedback">
+						<div class="row">
+							<div class="col-md-4 col-sm-12">
+								<div class="dropdown bootstrap-select form-control" id="mySelectDiv">
+									<select class="selectpicker form-control selectType" data-size="5" data-style="btn-outline-info" name="type" tabindex="-98">
+										<option class="bg-white text-light d-none"><b>Feedback Type</b></option>
+										<option value="Good" class="bg-primary text-white">Good Review</option>
+										<option value="Bad" class="bg-danger text-white myOption">Bad Review</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<input type="hidden" name="userId" value="<?php echo $_SESSION['user_id']; ?>">
+						<div class="form-group mt-4">
+							<label>Feedback</label>
+							<textarea class="form-control" name="feedbackMessage" required></textarea>
+						</div>
+						<div>
+							<button type="submit" name="submitBtn" class="btn btn-primary">Submit</button>
+						</div>
+					</form>
 				</div>
-				<!-- Simple Datatable End -->
 			</div>
 		</div>
 	</div>
@@ -300,77 +274,111 @@ $conversations = getConversation($user['user_id'], $conn);
 	<script src="../../template-files/vendors/scripts/script.min.js"></script>
 	<script src="../../template-files/vendors/scripts/process.js"></script>
 	<script src="../../template-files/vendors/scripts/layout-settings.js"></script>
-	<script src="../../template-files/src/plugins/datatables/js/jquery.dataTables.min.js"></script>
-	<script src="../../template-files/src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
-	<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-	<script src=" ../../template-files/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
-	<!-- buttons for Export datatable -->
-	<script src="../../template-files/src/plugins/datatables/js/dataTables.buttons.min.js"></script>
-	<script src="../../template-files/src/plugins/datatables/js/buttons.bootstrap4.min.js"></script>
-	<script src="../../template-files/src/plugins/datatables/js/buttons.print.min.js"></script>
-	<script src="../../template-files/src/plugins/datatables/js/buttons.html5.min.js"></script>
-	<script src="../../template-files/src/plugins/datatables/js/buttons.flash.min.js"></script>
-	<script src="../../template-files/src/plugins/datatables/js/pdfmake.min.js"></script>
-	<script src="../../template-files/src/plugins/datatables/js/vfs_fonts.js"></script>
-	<!-- Datatable Setting js -->
-	<script src="../../template-files/vendors/scripts/datatable-setting.js"></script>
-	<script src="../../template-files/sweetalert/sweetalert2.all.min.js"></script>
-</body>
-
-
-<?php if (isset($_GET['successfullyDeleted'])) : ?>
+	<script src="../../template-files/src/plugins/cropperjs/dist/cropper.js"></script>
+	<script src="../../template-files/sweetalert/sweetalert2.min.js"></script>
+	<script src="../../template-files/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
 	<script>
-		Swal.fire(
-			'Job',
-			'Is successfully deleted',
-			'success'
-		)
+		window.addEventListener('DOMContentLoaded', function() {
+			var image = document.getElementById('image');
+			var cropBoxData;
+			var canvasData;
+			var cropper;
+
+			$('#modal').on('shown.bs.modal', function() {
+				cropper = new Cropper(image, {
+					autoCropArea: 0.5,
+					dragMode: 'move',
+					aspectRatio: 3 / 3,
+					restore: false,
+					guides: false,
+					center: false,
+					highlight: false,
+					cropBoxMovable: false,
+					cropBoxResizable: false,
+					toggleDragModeOnDblclick: false,
+					ready: function() {
+						cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
+					}
+				});
+			}).on('hidden.bs.modal', function() {
+				cropBoxData = cropper.getCropBoxData();
+				canvasData = cropper.getCanvasData();
+				cropper.destroy();
+			});
+		});
 	</script>
-<?php endif; ?>
 
-<script>
-	$(document).ready(function() {
+	<script>
+		$(document).ready(function() {
 
-		// Search
-		$("#searchText").on("input", function() {
-			var searchText = $(this).val();
-			if (searchText == "") return;
-			$.post('chat-files/app/ajax/search.php', {
-					key: searchText
-				},
-				function(data, status) {
-					$("#chatList").html(data);
-				});
+			// Search
+			$("#searchText").on("input", function() {
+				var searchText = $(this).val();
+				if (searchText == "") return;
+				$.post('chat-files/app/ajax/search.php', {
+						key: searchText
+					},
+					function(data, status) {
+						$("#chatList").html(data);
+					});
+			});
+
+			// Search using the button
+			$("#serachBtn").on("click", function() {
+				var searchText = $("#searchText").val();
+				if (searchText == "") return;
+				$.post('app/ajax/search.php', {
+						key: searchText
+					},
+					function(data, status) {
+						$("#chatList").html(data);
+					});
+			});
+
+
+			/** 
+			auto update last seen 
+			for logged in user
+			**/
+			let lastSeenUpdate = function() {
+				$.get("chat-files/app/ajax/update_last_seen.php");
+			}
+			lastSeenUpdate();
+			/** 
+			auto update last seen 
+			every 10 sec
+			**/
+			// setInterval(lastSeenUpdate, 5000);
+
 		});
+	</script>
 
-		// Search using the button
-		$("#serachBtn").on("click", function() {
-			var searchText = $("#searchText").val();
-			if (searchText == "") return;
-			$.post('app/ajax/search.php', {
-					key: searchText
-				},
-				function(data, status) {
-					$("#chatList").html(data);
-				});
+	<script>
+		$("#feedback").submit(function(e) {
+			e.preventDefault(); // avoid to execute the actual submit of the form.
+			var form = $(this);
+			$.ajax({
+				type: "POST",
+				url: "../../queries/addFeedback.php",
+				data: form.serialize(),
+				success: function(data) {
+					// var closeModalBtn = document.getElementById("closeNewImageBtn");
+					// closeModalBtn.click();
+					Swal.fire(
+						'Feedback',
+						'Is successfully sent',
+						'success'
+					).then((result) => {
+						if (result) {
+							location.reload();
+						}
+					})
+				}
+			});
 		});
+	</script>
 
 
-		/** 
-		auto update last seen 
-		for logged in user
-		**/
-		let lastSeenUpdate = function() {
-			$.get("chat-files/app/ajax/update_last_seen.php");
-		}
-		lastSeenUpdate();
-		/** 
-		auto update last seen 
-		every 10 sec
-		**/
-		// setInterval(lastSeenUpdate, 5000);
-
-	});
-</script>
+</body>
 
 </html>

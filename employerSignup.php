@@ -66,7 +66,7 @@ if (!isset($_GET['emailHasBeenUsed'])) {
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-md-6 col-lg-7">
-					<img src="template-files/src/images/employer.png" alt="" style="  mix-blend-mode: darken;">
+					<img src="template-files/src/images/employer.png" alt="" style="mix-blend-mode: darken;">
 				</div>
 				<div class="col-md-6 col-lg-5">
 					<div class="register-box bg-white box-shadow border-radius-10">

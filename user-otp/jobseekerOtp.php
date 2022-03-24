@@ -79,8 +79,8 @@ if (isset($_POST['jobSeekerSubmitBtn'])) {
 			}
 
 
-			$sql = "INSERT INTO users (name, password, contact_number, email_account, address, school, degree, study_field, study_years, type, p_p, skills, coe, signup_date, verification_code, verification_status)
-        VALUES ('$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '	$_SESSION[email_address]', '$_SESSION[address]', '$_SESSION[school]', '$_SESSION[degree]', '$_SESSION[field_study]', '$_SESSION[year]', 'Jobseeker','$_SESSION[p_p]', '$_SESSION[skills]', '$_SESSION[coe]', '$date', $verification_code, 'unverified')";
+			$sql = "INSERT INTO users (name, password, contact_number, email_account, address, school, degree, study_field, study_years, type, p_p, skills, coe, verification_code, verification_status)
+        VALUES ('$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '	$_SESSION[email_address]', '$_SESSION[address]', '$_SESSION[school]', '$_SESSION[degree]', '$_SESSION[field_study]', '$_SESSION[year]', 'Jobseeker','$_SESSION[p_p]', '$_SESSION[skills]', '$_SESSION[coe]', $verification_code, 'unverified')";
 
 			if ($conn->query($sql) === TRUE) {
 				$_SESSION['user_id'] = $conn->insert_id;

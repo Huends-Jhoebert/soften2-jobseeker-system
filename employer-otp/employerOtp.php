@@ -71,8 +71,8 @@ if (isset($_POST['employerSignUpBtn'])) {
 				$_SESSION["p_p"] = $folder;
 			}
 
-			$sql = "INSERT INTO users (name, password, contact_number, email_account, address, type, contact_person, p_p, signup_date, verification_code, verification_status)
-        VALUES ('$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '	$_SESSION[email_address]', '$_SESSION[address]', 'Employer', '$_SESSION[contact_person]','$_SESSION[p_p]', '$date', $verification_code, 'unverified')";
+			$sql = "INSERT INTO users (name, password, contact_number, email_account, address, type, contact_person, p_p, verification_code, verification_status)
+        VALUES ('$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '	$_SESSION[email_address]', '$_SESSION[address]', 'Employer', '$_SESSION[contact_person]','$_SESSION[p_p]', $verification_code, 'unverified')";
 
 			if ($conn->query($sql) === TRUE) {
 				$_SESSION['user_id'] = $conn->insert_id;

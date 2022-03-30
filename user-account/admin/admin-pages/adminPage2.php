@@ -31,7 +31,7 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>Admin - Users</title>
+	<title>Admin - Feedbacks</title>
 
 	<!-- Site favicon -->
 	<link rel="icon" type="image/png" sizes="32x32" href="../../../template-files/vendors/images/logo1-removebg.png">
@@ -48,8 +48,6 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 	<link rel="stylesheet" type="text/css" href="../../../template-files/vendors/styles/style.css">
 	<link rel="stylesheet" href="../../../template-files/sweetalert/sweetalert2.min.css">
 	<link rel="icon" type="image/png" sizes="32x32" href="../../../template-files/vendors/images/logo1-removebg.png">
-	<link rel="stylesheet" type="text/css" href="../../../template-files/src/plugins/datatables/css/dataTables.bootstrap4.min.css">
-	<link rel="stylesheet" type="text/css" href="../../../template-files/src/plugins/datatables/css/responsive.bootstrap4.min.css">
 
 </head>
 
@@ -118,10 +116,10 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 			<div class="col-xl-3 mb-30 text-center">
 				<div class="card-box height-100-p widget-style1">
 					<div class="d-flex flex-wrap align-items-center">
-						<i class="icon-copy fa fa-users text-primary" style="font-size: 4.5rem;" aria-hidden="true"></i>
+						<i class="icon-copy fa fa-pencil text-secondary" style="font-size: 4.5rem;" aria-hidden="true"></i>
 						<div class="widget-data">
 							<div class="h4 mb-0"><?php echo $numberOfUsers['numberOfUsers']; ?></div>
-							<div class="weight-600 font-14">Total Users</div>
+							<div class="weight-600 font-14 text-uppercase">Total Feedbacks</div>
 						</div>
 					</div>
 				</div>
@@ -129,10 +127,10 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 			<div class="col-xl-3 mb-30 text-center">
 				<div class="card-box height-100-p widget-style1">
 					<div class="d-flex flex-wrap align-items-center">
-						<i class="icon-copy fa fa-briefcase text-info" style="font-size: 5rem;" aria-hidden="true"></i>
+						<i class="icon-copy fa fa-thumbs-up text-info" style="font-size: 5rem;" aria-hidden="true"></i>
 						<div class="widget-data">
 							<div class="h4 mb-0"><?php echo $numberOfJobseekers['numberOfJobseekers']; ?></div>
-							<div class="weight-600 font-14">Total Jobseekers</div>
+							<div class="weight-600 font-14 text-uppercase">Total Good REVIEWS</div>
 						</div>
 					</div>
 				</div>
@@ -140,61 +138,16 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 			<div class="col-xl-3 mb-30 text-center">
 				<div class="card-box height-100-p widget-style1">
 					<div class="d-flex flex-wrap align-items-center">
-						<i class="icon-copy fa fa-user text-info" style="font-size: 5rem;" aria-hidden="true"></i>
+						<i class="icon-copy fa fa-thumbs-down text-danger" style="font-size: 5rem;" aria-hidden="true"></i>
 						<div class="widget-data">
 							<div class="h4 mb-0"><?php echo $numberOfEmployers['numberOfEmployers']; ?></div>
-							<div class="weight-600 font-14">Total Employers</div>
+							<div class="weight-600 font-14 text-uppercase">Total Good REVIEWS</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- Simple Datatable start -->
-		<div class="card-box mb-30">
-			<div class="pd-20 d-flex justify-content-between align-items-center">
-				<h4 class="text-blue h4">Users Data</h4>
-			</div>
-			<div class="pb-20">
-				<table class="data-table table stripe hover nowrap">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Full Name</th>
-							<th>Account Type</th>
-							<th>Sign Up Date</th>
-							<th>Last Seen</th>
-							<th class="datatable-nosort">Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php foreach ($allUsersData as $key => $userData) : ?>
-							<tr>
-								<td><?= $key + 1; ?></td>
-								<td><?= $userData['name']; ?></td>
-								<td><?= $userData['type']; ?></td>
-								<td>
-									<?php
-									$date = $userData['signup_date'];
-									echo date('h:i:s a m/d/Y', strtotime($date));
-									?></td>
-								<td><?= last_seen($userData['last_seen']); ?></td>
-								<td>
-									<div class="dropdown">
-										<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-											<i class="dw dw-more"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-											<a class="dropdown-item bg-danger text-white" href="../queries/removeUser.php?userId=<?= $userData['user_id']; ?>"><i class="icon-copy fi-trash"></i>Remove</a>
-										</div>
-									</div>
-								</td>
-							</tr>
-						<?php endforeach; ?>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<!-- Simple Datatable End -->
+
 	</div>
 	<!-- js -->
 	<script src="../../../template-files/vendors/scripts/core.js"></script>
@@ -204,20 +157,7 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 	<script src="../../../template-files/src/plugins/cropperjs/dist/cropper.js"></script>
 	<script src="../../../template-files/sweetalert/sweetalert2.min.js"></script>
 
-	<script src="../../../template-files/src/plugins/datatables/js/jquery.dataTables.min.js"></script>
-	<script src="../../../template-files/src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
-	<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-	<script src=" ../../../template-files/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
-	<!-- buttons for Export datatable -->
-	<script src="../../../template-files/src/plugins/datatables/js/dataTables.buttons.min.js"></script>
-	<script src="../../../template-files/src/plugins/datatables/js/buttons.bootstrap4.min.js"></script>
-	<script src="../../../template-files/src/plugins/datatables/js/buttons.print.min.js"></script>
-	<script src="../../../template-files/src/plugins/datatables/js/buttons.html5.min.js"></script>
-	<script src="../../../template-files/src/plugins/datatables/js/buttons.flash.min.js"></script>
-	<script src="../../../template-files/src/plugins/datatables/js/pdfmake.min.js"></script>
-	<script src="../../../template-files/src/plugins/datatables/js/vfs_fonts.js"></script>
-	<!-- Datatable Setting js -->
-	<script src="../../../template-files/vendors/scripts/datatable-setting.js"></script>
+
 
 
 	<script>

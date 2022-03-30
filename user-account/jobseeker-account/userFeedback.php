@@ -245,21 +245,25 @@ $conversations = getConversation($user['user_id'], $conn);
 						</div>
 					</div>
 					<form id="feedback">
-						<div class="row">
-							<div class="col-md-4 col-sm-12">
-								<div class="dropdown bootstrap-select form-control" id="mySelectDiv">
-									<select class="selectpicker form-control selectType" data-size="5" data-style="btn-outline-info" name="type" tabindex="-98">
-										<option class="bg-white text-light d-none"><b>Feedback Type</b></option>
-										<option value="Good" class="bg-primary text-white">Good Review</option>
-										<option value="Bad" class="bg-danger text-white myOption">Bad Review</option>
-									</select>
-								</div>
+						<div class="select-role mt-3">
+							<div class="btn-group btn-group-toggle" data-toggle="buttons">
+								<label class="btn p-0 py-2 border-0 col-2">
+									<input type="radio" name="type" value="good" required>
+									<div class="text-center">
+										<i class="icon-copy ti-face-smile text-primary" style="font-size: 5rem;"></i>
+									</div>
+								</label>
+								<label class="btn p-0 py-2 border-0 col-2">
+									<input type="radio" name="type" value="bad" require_once>
+									<div class="text-center">
+										<i class="icon-copy ti-face-sad text-danger" style="font-size: 5rem;"></i>
+									</div>
+								</label>
 							</div>
 						</div>
 						<input type="hidden" name="userId" value="<?php echo $_SESSION['user_id']; ?>">
-						<div class="form-group mt-4">
-							<label>Feedback</label>
-							<textarea class="form-control" name="feedbackMessage" required></textarea>
+						<div class="form-group mt-5">
+							<textarea class="form-control" name="feedbackMessage" placeholder="...." required></textarea>
 						</div>
 						<div>
 							<button type="submit" name="submitBtn" class="btn btn-primary">Submit</button>

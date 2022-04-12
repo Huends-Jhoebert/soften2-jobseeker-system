@@ -2,8 +2,8 @@
 
 // setting up the time Zone
 // // It Depends on your location or your P.c settings
-// define('TIMEZONE', 'Asia/Manila');
-// date_default_timezone_set(TIMEZONE);
+define('TIMEZONE', 'Asia/Manila');
+date_default_timezone_set(TIMEZONE);
 
 function time_past($date_time)
 {

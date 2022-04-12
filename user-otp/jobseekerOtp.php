@@ -14,6 +14,7 @@ require 'PHPMailer/src/SMTP.php';
 
 if (isset($_POST['jobSeekerSubmitBtn'])) {
 	$_SESSION['full_name'] = $_POST['full_name'];
+	$_SESSION['unique_id'] = $ran_id = rand(time(), 100000000);
 	$_SESSION['contact_number']  = $_POST['contact_number'];
 	$_SESSION['email_address']  = $_POST['email_address'];
 	$_SESSION['password']  = $_POST['password'];
@@ -79,8 +80,8 @@ if (isset($_POST['jobSeekerSubmitBtn'])) {
 			}
 
 
-			$sql = "INSERT INTO users (name, password, contact_number, email_account, address, school, degree, study_field, study_years, type, p_p, skills, coe, verification_code, verification_status)
-        VALUES ('$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '	$_SESSION[email_address]', '$_SESSION[address]', '$_SESSION[school]', '$_SESSION[degree]', '$_SESSION[field_study]', '$_SESSION[year]', 'Jobseeker','$_SESSION[p_p]', '$_SESSION[skills]', '$_SESSION[coe]', $verification_code, 'unverified')";
+			$sql = "INSERT INTO users (unique_id, name, password, contact_number, email_account, address, school, degree, study_field, study_years, type, p_p, skills, coe, verification_code, verification_status)
+        VALUES ('$_SESSION[unique_id]','$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '$_SESSION[email_address]', '$_SESSION[address]', '$_SESSION[school]', '$_SESSION[degree]', '$_SESSION[field_study]', '$_SESSION[year]', 'Jobseeker','$_SESSION[p_p]', '$_SESSION[skills]', '$_SESSION[coe]', $verification_code, 'unverified')";
 
 			if ($conn->query($sql) === TRUE) {
 				$_SESSION['user_id'] = $conn->insert_id;

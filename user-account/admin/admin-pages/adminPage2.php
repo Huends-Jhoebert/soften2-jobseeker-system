@@ -4,22 +4,26 @@ session_start();
 include_once "../queries/db-connection.php";
 include_once "timeAgo.php";
 
-$countNumberOfUsers = "SELECT COUNT(user_id) as numberOfUsers from users";
-$countNumberOfUsersResult = $conn->query($countNumberOfUsers);
-$numberOfUsers = $countNumberOfUsersResult->fetch_assoc();
+$countNumberOfFeedbacks = "SELECT COUNT(feedback_id) as numberOfFeedbacks from feedback";
+$countNumberOfFeedbacksResult = $conn->query($countNumberOfFeedbacks);
+$numberOfFeedbacks = $countNumberOfFeedbacksResult->fetch_assoc();
 
-$countNumberOfJobseekers = "SELECT COUNT(user_id) as numberOfJobseekers from users WHERE type = 'Jobseeker'";
-$countNumberOfJobseekersResult = $conn->query($countNumberOfJobseekers);
-$numberOfJobseekers = $countNumberOfJobseekersResult->fetch_assoc();
+$countNumberOfGoodReview = "SELECT COUNT(feedback_id) as numberOfGoodReviews from feedback WHERE type = 'good'";
+$countNumberOfGoodReviewResult = $conn->query($countNumberOfGoodReview);
+$numberOfGoodReviews = $countNumberOfGoodReviewResult->fetch_assoc();
 
-$countNumberOfEmployers = "SELECT COUNT(user_id) as numberOfEmployers from users WHERE type = 'Employer'";
-$countNumberOfEmployersResult = $conn->query($countNumberOfEmployers);
-$numberOfEmployers = $countNumberOfEmployersResult->fetch_assoc();
+$countNumberOfBadReview = "SELECT COUNT(feedback_id) as numberOfBadReviews from feedback WHERE type = 'bad'";
+$countNumberOfBadReviewResult = $conn->query($countNumberOfBadReview);
+$NumberOfBadReviews = $countNumberOfBadReviewResult->fetch_assoc();
+
+// $countNumberOfEmployers = "SELECT COUNT(user_id) as numberOfEmployers from users WHERE type = 'Employer'";
+// $countNumberOfEmployersResult = $conn->query($countNumberOfEmployers);
+// $numberOfEmployers = $countNumberOfEmployersResult->fetch_assoc();
 
 
-$getAllUsersData = "SELECT * FROM users";
-$getAllUsersDataSql = $conn->query($getAllUsersData);
-$allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
+$getAllFeedbackData = "SELECT * FROM feedback";
+$getAllFeedbackDataSql = $conn->query($getAllFeedbackData);
+$getAllFeedbackDatas = $getAllFeedbackDataSql->fetch_all(MYSQLI_ASSOC);
 
 
 ?>
@@ -118,7 +122,7 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 					<div class="d-flex flex-wrap align-items-center">
 						<i class="icon-copy fa fa-pencil text-secondary" style="font-size: 4.5rem;" aria-hidden="true"></i>
 						<div class="widget-data">
-							<div class="h4 mb-0"><?php echo $numberOfUsers['numberOfUsers']; ?></div>
+							<div class="h4 mb-0"><?php echo $numberOfFeedbacks['numberOfFeedbacks']; ?></div>
 							<div class="weight-600 font-14 text-uppercase">Total Feedbacks</div>
 						</div>
 					</div>
@@ -129,7 +133,7 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 					<div class="d-flex flex-wrap align-items-center">
 						<i class="icon-copy fa fa-thumbs-up text-info" style="font-size: 5rem;" aria-hidden="true"></i>
 						<div class="widget-data">
-							<div class="h4 mb-0"><?php echo $numberOfJobseekers['numberOfJobseekers']; ?></div>
+							<div class="h4 mb-0"><?php echo $numberOfGoodReviews['numberOfGoodReviews']; ?></div>
 							<div class="weight-600 font-14 text-uppercase">Total Good REVIEWS</div>
 						</div>
 					</div>
@@ -140,14 +144,56 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 					<div class="d-flex flex-wrap align-items-center">
 						<i class="icon-copy fa fa-thumbs-down text-danger" style="font-size: 5rem;" aria-hidden="true"></i>
 						<div class="widget-data">
-							<div class="h4 mb-0"><?php echo $numberOfEmployers['numberOfEmployers']; ?></div>
-							<div class="weight-600 font-14 text-uppercase">Total Good REVIEWS</div>
+							<div class="h4 mb-0"><?php echo $NumberOfBadReviews['numberOfBadReviews']; ?></div>
+							<div class="weight-600 font-14 text-uppercase">Total Bad REVIEWS</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
+		<div class="container px-0">
+			<div class="row">
+				<?php foreach ($getAllFeedbackDatas as $key => $feedbackData) : ?>
+					<?php if ($feedbackData['type'] == "good") : ?>
+						<div class="col-md-4 mb-30">
+							<div class="card-box pricing-card mt-30 mb-30">
+								<div class="pricing-icon">
+									<img src="vendors/images/icon-Cash.png" alt="">
+								</div>
+								<div class="price-title">
+									Good Review
+								</div>
+								<div class="text">
+									<?= $feedbackData['feedback_message']; ?>
+								</div>
+								<div class="cta">
+									<a href="../queries/removeFeedback.php?feedBackId=<?= $feedbackData['feedback_id']; ?>" class="btn btn-primary btn-rounded btn-lg">Readed</a>
+								</div>
+							</div>
+						</div>
+					<?php endif; ?>
+					<?php if ($feedbackData['type'] == "bad") : ?>
+						<div class="col-md-4 mb-30">
+							<div class="card-box pricing-card mt-30 mb-30">
+								<div class="pricing-icon">
+									<img src="vendors/images/icon-Cash.png" alt="">
+								</div>
+								<div class="price-title text-danger">
+									Bad Review
+								</div>
+								<div class="text">
+									<?= $feedbackData['feedback_message']; ?>
+								</div>
+								<div class="cta">
+									<a href="../queries/removeFeedback.php?feedBackId=<?= $feedbackData['feedback_id']; ?>" class="btn btn-primary btn-rounded btn-lg">Readed</a>
+								</div>
+							</div>
+						</div>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			</div>
+		</div>
 	</div>
 	<!-- js -->
 	<script src="../../../template-files/vendors/scripts/core.js"></script>
@@ -200,5 +246,15 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 		</script>
 	<?php endif; ?>
 </body>
+
+<?php if (isset($_GET['feedbackRemoved'])) : ?>
+	<script>
+		Swal.fire(
+			'Feedback',
+			'Is successfully removed',
+			'success'
+		)
+	</script>
+<?php endif; ?>
 
 </html>

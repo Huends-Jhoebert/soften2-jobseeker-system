@@ -20,6 +20,6 @@ if (isset($_POST["logInBtn"])) { //isset is used to check if a variable is prese
 		$_SESSION["p_p"] = $row["p_p"];
 		header("Location: ../admin-pages/adminPage1.php");
 	} else {
-		header("Location: ../adminLogin.php?successfull=1");
+		header("Location: ../adminLogin.php?wrong=1");
 	}
 }

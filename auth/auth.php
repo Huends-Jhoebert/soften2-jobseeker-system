@@ -24,7 +24,14 @@ if (isset($_POST["logInBtn"])) { //isset is used to check if a variable is prese
 			} else {
 				//if employer is verified 
 				//code here
+				$updateActiveState = "UPDATE users
+SET status = 'Active now'
+WHERE user_id = '$row[user_id]'";
+
+				$conn->query($updateActiveState);
+
 				$_SESSION['user_id'] = $row['user_id'];
+				$_SESSION['unique_id'] = $row['unique_id'];
 				$_SESSION['username'] = $row['name'];
 				$_SESSION['email_address'] = $row['email_account'];
 				$_SESSION['password'] = $row['password'];
@@ -52,7 +59,14 @@ if (isset($_POST["logInBtn"])) { //isset is used to check if a variable is prese
 			} else {
 				//if Jobseeker is verified 
 				//code here
+				$updateActiveState = "UPDATE users
+SET status = 'Active now'
+WHERE user_id = '$row[user_id]'";
+
+				$conn->query($updateActiveState);
+
 				$_SESSION['user_id'] = $row['user_id'];
+				$_SESSION['unique_id'] = $row['unique_id'];
 				$_SESSION['email_address'] = $row['email_account'];
 				$_SESSION['name'] = $row['name'];
 				$_SESSION['password'] = $row['password'];

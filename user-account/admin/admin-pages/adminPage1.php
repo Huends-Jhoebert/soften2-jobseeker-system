@@ -17,7 +17,7 @@ $countNumberOfEmployersResult = $conn->query($countNumberOfEmployers);
 $numberOfEmployers = $countNumberOfEmployersResult->fetch_assoc();
 
 
-$getAllUsersData = "SELECT * FROM users";
+$getAllUsersData = "SELECT * FROM users WHERE type <> 'user'";
 $getAllUsersDataSql = $conn->query($getAllUsersData);
 $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 

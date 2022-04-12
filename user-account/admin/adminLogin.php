@@ -95,7 +95,7 @@
 	</script>
 <?php endif; ?>
 
-<?php if (isset($_GET['successfull'])) : ?>
+<?php if (isset($_GET['wrong'])) : ?>
 	<script>
 		Swal.fire({
 			title: 'Error!',

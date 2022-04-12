@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+include_once "db-connection2.php";
 
 $skills = (explode(",", $_SESSION['skills']));
 $certs = (explode(",", $_SESSION['coe']));
@@ -10,26 +11,27 @@ $degrees = (explode(",", $_SESSION['degree']));
 $studyField = (explode(",", $_SESSION['study_field']));
 $studyYears = (explode(",", $_SESSION['study_years']));
 
-include_once "db-connection.php";
+$getlastChat = "SELECT incoming_msg_id FROM messages WHERE outgoing_msg_id = '$_SESSION[unique_id]' ORDER BY msg_id DESC LIMIT 1";
 
-$sql = "SELECT COUNT(opened) as unreadMessages FROM chats WHERE to_id = '$_SESSION[user_id]' AND opened = '0'";
+$getlastChatResult = $conn2->query($getlastChat);
+$lastChat = $getlastChatResult->fetch_assoc();
 
-$result = mysqli_query($conn, $sql);
-$numberOfUnread = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$getlastChat1 = "SELECT outgoing_msg_id FROM messages WHERE incoming_msg_id = '$_SESSION[unique_id]' ORDER BY msg_id DESC LIMIT 1";
+$getlastChatResult1 = $conn2->query($getlastChat1);
+$lastChat1 = $getlastChatResult1->fetch_assoc();
 
-# database connection file
-include 'chat-files/app/db.conn.php';
+if ($lastChat == NULL && $lastChat1 == NULL) {
+	$chatUserId = "522287705";
+} else if ($lastChat != NULL) {
+	$chatUserId = $lastChat['incoming_msg_id'];
+} else if ($lastChat1 != NULL) {
+	$chatUserId = $lastChat1['outgoing_msg_id'];
+}
 
-include 'chat-files/app/helpers/user.php';
-include 'chat-files/app/helpers/conversations.php';
-include 'chat-files/app/helpers/timeAgo.php';
-include 'chat-files/app/helpers/last_chat.php';
+// echo "<pre>";
+// var_dump($lastChat);
+// echo "</pre>";
 
-# Getting User data data
-$user = getUser($_SESSION['name'], $conn);
-
-# Getting User conversations
-$conversations = getConversation($user['user_id'], $conn);
 ?>
 
 
@@ -61,24 +63,6 @@ $conversations = getConversation($user['user_id'], $conn);
 	<link rel="icon" type="image/png" sizes="32x32" href="../../template-files/vendors/images/logo1-removebg.png">
 	<link rel="stylesheet" href="chat-files/css/style.css">
 
-	<style>
-		.__notification {
-			position: relative;
-			display: inline-block;
-			font-size: 1.1rem;
-		}
-
-		.__badge {
-			position: absolute;
-			padding: 3px 7px;
-			top: 3px;
-			right: 0px;
-			border-radius: 50%;
-			color: white;
-			font-size: .6rem;
-		}
-	</style>
-
 
 </head>
 
@@ -88,18 +72,6 @@ $conversations = getConversation($user['user_id'], $conn);
 			<div class="menu-icon dw dw-menu"></div>
 		</div>
 		<div class="header-right">
-			<div class="dashboard-setting user-notification">
-				<div class="dropdown">
-					<a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
-						<?php if (intval($numberOfUnread[0]['unreadMessages']) > 0) : ?>
-							<i class="fa fa-comment __notification" aria-hidden="true"></i><span class="__badge bg-danger"><?= $numberOfUnread[0]['unreadMessages'];  ?></span>
-						<?php endif; ?>
-						<?php if (intval($numberOfUnread[0]['unreadMessages']) < 1) : ?>
-							<i class="fa fa-comment __notification" aria-hidden="true"></i>
-						<?php endif; ?>
-					</a>
-				</div>
-			</div>
 			<div class="user-info-dropdown">
 				<div class="dropdown">
 					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
@@ -122,86 +94,6 @@ $conversations = getConversation($user['user_id'], $conn);
 		</div>
 	</div>
 
-	<div class="right-sidebar">
-		<div class="sidebar-title">
-			<h3 class="weight-600 font-16 text-blue text-uppercase">
-				Search employer
-			</h3>
-			<div class="close-sidebar" data-toggle="right-sidebar-close">
-				<i class="icon-copy ion-close-round"></i>
-			</div>
-		</div>
-		<div class="right-sidebar-body customscroll mCustomScrollbar _mCS_2 mCS_no_scrollbar">
-			<div id="mCSB_2" class="mCustomScrollBox mCS-dark-2 mCSB_vertical mCSB_inside" tabindex="0" style="max-height: none;">
-				<div id="mCSB_2_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
-					<div class="right-sidebar-body-content p-0">
-						<div class="p-2">
-							<div class="">
-								<div class="d-flex align-items-center">
-									<!-- <a href="home.php" class="fs-4 link-dark me-3 back-arrow" style="display: none;">&#8592;</a> -->
-									<div class="input-group mb-3">
-										<input type="text" placeholder="Search..." id="searchText" class="form-control">
-										<button class="btn btn-primary" id="serachBtn">
-											<i class="fa fa-search"></i>
-										</button>
-									</div>
-								</div>
-								<ul id="chatList" class="list-group mvh-50 overflow-auto">
-									<?php if (!empty($conversations)) { ?>
-										<?php
-										foreach ($conversations as $conversation) { ?>
-											<li class="list-group-item">
-												<a href="chat.php?user=<?= $conversation['user_id'] ?>" class="d-flex
-	    				          justify-content-between
-	    				          align-items-center p-2">
-													<div class="d-flex
-	    					            align-items-center">
-														<img src="../<?= $conversation['p_p'] ?>" class="w-10 rounded-circle">
-														<h3 class="fs-xs m-2">
-															<?= $conversation['name'] ?><br>
-															<small>
-																<?php
-																echo lastChat($_SESSION['user_id'], $conversation['user_id'], $conn);
-																?>
-															</small>
-															<?php if (last_seen($conversation['last_seen']) == "Active") { ?>
-																<div title="online">
-																</div>
-															<?php } ?>
-														</h3>
-													</div>
-													<?php if (last_seen($conversation['last_seen']) == "Active") { ?>
-														<div title="online">
-															<div class="online"></div>
-														</div>
-													<?php } ?>
-												</a>
-											</li>
-										<?php } ?>
-									<?php } else { ?>
-										<div class="alert alert-info 
-    				            text-center">
-											<i class="fa fa-comments d-block fs-big"></i>
-											No messages yet, Start the conversation
-										</div>
-									<?php } ?>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- <div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-dark-2 mCSB_scrollTools_vertical mCSB_scrollTools_onDrag_expand" style="display: none;">
-					<div class="mCSB_draggerContainer">
-						<div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; display: block; height: 0px; max-height: 461px; top: 0px;">
-							<div class="mCSB_dragger_bar" style="line-height: 30px;"></div>
-						</div>
-						<div class="mCSB_draggerRail"></div>
-					</div>
-				</div> -->
-			</div>
-		</div>
-	</div>
-
 	<div class="left-side-bar">
 		<div class="brand-logo">
 			<a href="#">
@@ -219,6 +111,11 @@ $conversations = getConversation($user['user_id'], $conn);
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle no-arrow" data-option="off">
 									<span class="micon dw dw-user-1"></span><span class="mtext">Profile</span>
+								</a>
+							</li>
+							<li class="dropdown">
+								<a href="chat-files/chat.php?user_id=<?= $chatUserId; ?>" class="dropdown-toggle no-arrow" data-option="off">
+									<span class="micon dw dw-message"></span><span class="mtext">Chat</span>
 								</a>
 							</li>
 							<li class="dropdown">
@@ -279,7 +176,7 @@ $conversations = getConversation($user['user_id'], $conn);
 													</div>
 												</div>
 												<div class="modal-footer">
-													<button type="submit" class="btn btn-primary" name="employerNewImageBtn">Submit</button>
+													<button type="submit" class="btn btn-primary" name="jobseekerNewImageBtn">Submit</button>
 												</div>
 											</form>
 										</div>
@@ -728,8 +625,8 @@ $conversations = getConversation($user['user_id'], $conn);
 	<?php if (isset($_GET['newImage'])) : ?>
 		<script>
 			Swal.fire(
-				'New logo',
-				'Is successfully added',
+				'New Profile Picture',
+				'Is successfully updated',
 				'success'
 			)
 		</script>
@@ -737,31 +634,6 @@ $conversations = getConversation($user['user_id'], $conn);
 
 	<script>
 		$(document).ready(function() {
-
-			// Search
-			$("#searchText").on("input", function() {
-				var searchText = $(this).val();
-				if (searchText == "") return;
-				$.post('chat-files/app/ajax/search.php', {
-						key: searchText
-					},
-					function(data, status) {
-						$("#chatList").html(data);
-					});
-			});
-
-			// Search using the button
-			$("#serachBtn").on("click", function() {
-				var searchText = $("#searchText").val();
-				if (searchText == "") return;
-				$.post('app/ajax/search.php', {
-						key: searchText
-					},
-					function(data, status) {
-						$("#chatList").html(data);
-					});
-			});
-
 
 			/** 
 			auto update last seen 

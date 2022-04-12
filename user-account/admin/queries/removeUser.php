@@ -14,6 +14,20 @@ if ($row['type'] == "Jobseeker") {
 	$deleteUser = "DELETE FROM users WHERE user_id = '$userId'";
 	$conn->query($deleteUser);
 
+	$deleteMessages = "DELETE FROM messages WHERE incoming_msg_id = '$userId' OR outgoing_msg_id = '$userId'";
+	$conn->query($deleteMessages);
+
+	$selectUserFiles =  "SELECT job_applicant_file FROM job_applicant WHERE job_applicant_jobseeker_id = '$userId'";
+	$files = $conn->query($selectUserFiles);
+	$filesToDelete = mysqli_fetch_all($files, MYSQLI_ASSOC);
+
+	foreach ($filesToDelete as $fileToDelete) {
+		unlink("../" . $fileToDelete['job_applicant_file']);
+	}
+
+	$deleteUserFiles = "DELETE FROM job_applicant WHERE job_applicant_jobseeker_id = '$userId'";
+	$conn->query($deleteUserFiles);
+
 	header("Location: ../admin-pages/adminPage1.php?successfullyDeleted=1");
 } else {
 

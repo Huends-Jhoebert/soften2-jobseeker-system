@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2022 at 10:44 PM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.2
+-- Generation Time: May 02, 2022 at 01:41 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 7.3.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,79 +35,41 @@ CREATE TABLE `admin` (
   `password` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `chats`
+-- Dumping data for table `admin`
 --
 
-CREATE TABLE `chats` (
-  `chat_id` int(11) NOT NULL,
-  `from_id` int(11) NOT NULL,
-  `to_id` int(11) NOT NULL,
-  `message` text NOT NULL,
-  `opened` tinyint(1) NOT NULL DEFAULT 0,
-  `created_at` datetime NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `chats`
---
-
-INSERT INTO `chats` (`chat_id`, `from_id`, `to_id`, `message`, `opened`, `created_at`) VALUES
-(215, 78, 74, 'asdasd', 0, '2022-03-23 05:31:16'),
-(216, 78, 74, 'asdasd', 0, '2022-03-23 05:31:17'),
-(217, 78, 74, 'asdasd', 0, '2022-03-23 05:31:19'),
-(218, 78, 74, 'asdasd', 0, '2022-03-23 05:31:23'),
-(219, 78, 74, 'asdasd', 0, '2022-03-23 05:31:24'),
-(220, 78, 74, 'asdasd', 0, '2022-03-23 05:31:28'),
-(221, 78, 74, 'asdasd', 0, '2022-03-23 05:31:30'),
-(222, 78, 74, 'asdasdasd', 0, '2022-03-23 05:31:36'),
-(223, 78, 74, 'asdasd', 0, '2022-03-23 05:31:38'),
-(224, 78, 74, 'asdasd', 0, '2022-03-23 05:31:39'),
-(225, 76, 75, 'asdasd', 0, '2022-03-23 05:33:01'),
-(226, 76, 75, 'asdasd', 0, '2022-03-23 05:33:03'),
-(227, 76, 75, 'asdasd', 0, '2022-03-23 05:33:04'),
-(228, 76, 75, 'asdasd', 0, '2022-03-23 05:33:06'),
-(229, 76, 75, 'asdasd', 0, '2022-03-23 05:33:07'),
-(230, 78, 76, 'asdasd', 1, '2022-03-23 05:33:56'),
-(231, 78, 76, 'asdasd', 1, '2022-03-23 05:33:57'),
-(232, 78, 76, 'asdasd', 1, '2022-03-23 05:33:58'),
-(233, 77, 76, 'asdasd', 1, '2022-03-23 05:34:41'),
-(234, 77, 76, 'asdasd', 1, '2022-03-23 05:34:42'),
-(235, 77, 76, 'asdasd', 1, '2022-03-23 05:34:44'),
-(236, 77, 76, 'asdasd', 1, '2022-03-23 05:34:45'),
-(237, 77, 76, 'asdasd', 1, '2022-03-23 05:34:49'),
-(238, 77, 76, 'asdasd', 1, '2022-03-23 05:34:50'),
-(239, 77, 76, 'asdasd', 1, '2022-03-23 05:39:29'),
-(240, 76, 78, 'asdasd', 0, '2022-03-23 05:39:55'),
-(241, 76, 78, 'asdasd', 0, '2022-03-23 05:39:56'),
-(242, 76, 78, 'asdasd', 0, '2022-03-23 05:39:57'),
-(243, 76, 78, 'asdasd', 0, '2022-03-23 05:39:58'),
-(244, 76, 77, 'asdasdasd', 1, '2022-03-23 05:40:17'),
-(245, 76, 77, 'asdasd', 1, '2022-03-23 05:40:19');
+INSERT INTO `admin` (`id`, `name`, `p_p`, `username`, `password`) VALUES
+(11, 'Jhoebert Huenda', '../../../dist/user-images/Z0snTh3m/photo-1633332755192-727a05c4013d.jpeg', 'huends20', 'huends20'),
+(12, 'Huenda Jhoebert', '../../../dist/user-images/tjFt8BEJ/profile.jpg', 'huends2021', 'huends2021'),
+(14, 'Jhoebert Huenda', '../../../dist/user-images/Ubv0aMPx/photo-1633332755192-727a05c4013d (1).jpeg', 'huends2022', 'huends2022');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `conversations`
+-- Table structure for table `feedback`
 --
 
-CREATE TABLE `conversations` (
-  `conversation_id` int(11) NOT NULL,
-  `user_1` int(11) NOT NULL,
-  `user_2` int(11) NOT NULL
+CREATE TABLE `feedback` (
+  `feedback_id` int(20) NOT NULL,
+  `user_id` int(20) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `feedback_message` varchar(2500) NOT NULL,
+  `date_created` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `conversations`
+-- Table structure for table `feedback_report`
 --
 
-INSERT INTO `conversations` (`conversation_id`, `user_1`, `user_2`) VALUES
-(25, 78, 74),
-(26, 76, 75),
-(27, 78, 76),
-(28, 77, 76);
+CREATE TABLE `feedback_report` (
+  `feedback_report_id` int(20) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `type` varchar(10) NOT NULL,
+  `date_created` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -124,16 +86,20 @@ CREATE TABLE `job` (
   `job_skills` varchar(1000) NOT NULL,
   `job_salary_range` varchar(50) NOT NULL,
   `job_description` varchar(10000) NOT NULL,
-  `job_date_posted` timestamp NOT NULL DEFAULT current_timestamp()
+  `job_date_posted` timestamp NOT NULL DEFAULT current_timestamp(),
+  `job_requirements` varchar(500) NOT NULL,
+  `career_growth` varchar(1000) NOT NULL,
+  `rate` int(5) NOT NULL,
+  `number_of_raters` int(5) NOT NULL,
+  `total_rate` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `job`
 --
 
-INSERT INTO `job` (`job_id`, `job_employer_id`, `job_title`, `job_image`, `job_place`, `job_skills`, `job_salary_range`, `job_description`, `job_date_posted`) VALUES
-(18, 75, 'Software Engineer', '../dist/job-images/Z18XeYtm/software-engineer-skills-section-scaled.jpg', 'Metro Manila', 'Basic Computer Programming,Leadership Skills,Communication Skills', '35000 - 45000 Pesos Monthly', '\r\nLorem ipsum dolor sit amet consectetur adipisicing elit. Numquam minima tempora officiis nostrum illum nesciunt saepe quae esse ea ipsam omnis sequi, inventore, fugiat cumque incidunt aspernatur architecto autem laboriosam quasi delectus nobis atque eaque? Nostrum enim sequi laudantium iste possimus assumenda dicta officiis perferendis eaque vel eveniet rem, ducimus vero adipisci saepe exercitationem doloremque alias numquam? Vel qui porro iure harum eos? Excepturi dolore quo provident iste libero illo obcaecati, suscipit in sapiente, enim, nobis quas. Aperiam natus asperiores voluptatem aliquid iusto, voluptate quam in ex inventore dolorem, eveniet sit quos consectetur saepe fuga repellat impedit dolore ipsam omnis.', '2022-03-20 17:55:28'),
-(21, 77, 'System Analyst', '../dist/job-images/nKpJZjq8/Clinical-Systems-Analyst.jpg', 'Sorsogon City', 'Critical Thinking ,Basic Computer Programming,Communication Skills', '35000 - 45000 Pesos Monthly', 'aslda;lsdjalskndkaslkdklasd', '2022-03-22 20:06:56');
+INSERT INTO `job` (`job_id`, `job_employer_id`, `job_title`, `job_image`, `job_place`, `job_skills`, `job_salary_range`, `job_description`, `job_date_posted`, `job_requirements`, `career_growth`, `rate`, `number_of_raters`, `total_rate`) VALUES
+(35, 97, 'Network Engineer', '../dist/job-images/kpRXTyUM/new_windows_11-wallpaper-1920x1080.jpg', 'Sorsogon City', 'html5,css3,javascript', '25000 - 35000', 'We are looking for Secretary for our President & CEO. The candidate we are looking is someone able to speak and write good English.\r\n\r\nOther administrative tasks included but not limited to:\r\nArrange meeting schedule for President & CEO\r\nAssist President & CEO in his daily jobs\r\nTo greet visitors and arrange them to meet President & CEO\r\nAnswer phone calls and reply emails\r\nPerform administrative tasks', '2022-05-01 19:04:04', 'college degree,5 years experience', 'We are looking for Secretary for our President & CEO. The candidate we are looking is someone able to speak and write good English.\r\n\r\nOther administrative tasks included but not limited to:\r\nArrange meeting schedule for President & CEO\r\nAssist President & CEO in his daily jobs\r\nTo greet visitors and arrange them to meet President & CEO\r\nAnswer phone calls and reply emails\r\nPerform administrative tasks', 3, 6, 20);
 
 -- --------------------------------------------------------
 
@@ -156,8 +122,48 @@ CREATE TABLE `job_applicant` (
 --
 
 INSERT INTO `job_applicant` (`job_applicant_id`, `job_id`, `job_applicant_employer_id`, `job_applicant_jobseeker_id`, `job_applicant_file`, `job_applicant_status`, `job_applicant_submitted_time`) VALUES
-(17, 18, 75, 74, '../../dist/jobseeker-files/EVCFGnsB/amor-resume.pdf', 0, '2022-03-20 17:55:56'),
-(21, 21, 77, 76, '../../dist/jobseeker-files/iOgPlDro/tala.docx', 0, '2022-03-22 20:07:29');
+(31, 35, 97, 99, '../../dist/jobseeker-files/03XqG4Kg/GAME OF THE GENERALS.pdf', 0, '2022-05-02 06:22:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `messages`
+--
+
+CREATE TABLE `messages` (
+  `msg_id` int(11) NOT NULL,
+  `incoming_msg_id` int(255) NOT NULL,
+  `outgoing_msg_id` int(255) NOT NULL,
+  `msg` varchar(1000) NOT NULL,
+  `date_created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `messages`
+--
+
+INSERT INTO `messages` (`msg_id`, `incoming_msg_id`, `outgoing_msg_id`, `msg`, `date_created`) VALUES
+(184, 858345289, 597341726, 'Good Morning', '2022-05-01 17:42:22'),
+(185, 597341726, 858345289, 'hey', '2022-05-01 17:48:30'),
+(186, 597341726, 858345289, 'aasasd', '2022-05-01 17:51:26'),
+(187, 597341726, 858345289, 'asdasd', '2022-05-01 17:52:37'),
+(188, 858345289, 597341726, 'Hello world', '2022-05-01 17:52:45'),
+(189, 597341726, 858345289, 'asdasd', '2022-05-01 17:52:53'),
+(190, 597341726, 858345289, 'asdasd', '2022-05-01 17:52:54'),
+(191, 597341726, 858345289, 'asdasd', '2022-05-01 17:52:55'),
+(192, 597341726, 858345289, 'asd', '2022-05-01 17:52:57'),
+(193, 858345289, 597341726, 'asdasd', '2022-05-01 17:53:00'),
+(194, 597341726, 858345289, 'asdasdasd', '2022-05-02 02:16:59'),
+(195, 597341726, 1336420799, 'hey', '2022-05-02 05:02:50'),
+(196, 597341726, 1336420799, 'asdjsaklm askldamklsdasdassssssssssssssssssssssssssssssssssssssssssssssssssssssssssssdml', '2022-05-02 05:20:54'),
+(197, 597341726, 1336420799, 'hey ', '2022-05-02 05:25:23'),
+(198, 1336420799, 597341726, 'heelo world', '2022-05-02 05:25:32'),
+(199, 1336420799, 597341726, ';asdasd', '2022-05-02 05:25:33'),
+(200, 597341726, 1336420799, 'okay asdasd', '2022-05-02 05:25:38'),
+(201, 597341726, 1336420799, 'asdasdasd', '2022-05-02 05:26:31'),
+(202, 1336420799, 597341726, 'asdasdasd', '2022-05-02 10:46:51'),
+(203, 597341726, 1336420799, 'asdasdasd', '2022-05-02 10:47:19'),
+(204, 1336420799, 597341726, 'asdasdasd', '2022-05-02 10:47:21');
 
 -- --------------------------------------------------------
 
@@ -167,6 +173,7 @@ INSERT INTO `job_applicant` (`job_applicant_id`, `job_id`, `job_applicant_employ
 
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
+  `unique_id` int(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `password` varchar(1000) NOT NULL,
   `contact_number` varchar(12) NOT NULL,
@@ -181,22 +188,23 @@ CREATE TABLE `users` (
   `p_p` varchar(255) DEFAULT NULL,
   `skills` varchar(5000) NOT NULL,
   `coe` varchar(5000) NOT NULL,
-  `signup_date` varchar(50) NOT NULL,
+  `signup_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `verification_code` varchar(6) NOT NULL,
   `verification_status` varchar(10) NOT NULL,
-  `last_seen` datetime NOT NULL DEFAULT current_timestamp()
+  `last_seen` datetime NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `name`, `password`, `contact_number`, `email_account`, `address`, `school`, `degree`, `study_field`, `study_years`, `type`, `contact_person`, `p_p`, `skills`, `coe`, `signup_date`, `verification_code`, `verification_status`, `last_seen`) VALUES
-(74, 'Maria Christina Amor', 'amor123', '09095734538', '	itsmariacristinaeve@gmail.com', 'Purok 1 Balogo, Bacon 4700 Sorsogon Bicol', 'The Lewis College', 'Bachelor of Science', 'Information Technology', '2019  - 2023', 'Jobseeker', NULL, '../dist/user-images/naLcyazq/275395979_632056024673866_252733733811926935_n.jpg', 'HTML5,CSS3,JAVASCRIPT,PHP,MYSQL,SQL', 'MAGNA CUM LAUDE,BEST IN KOROPYAHAN,BEST IN IRINUMAN', '22-03-20', '285723', 'verified', '2022-03-21 00:29:35'),
-(75, 'ACCENTURE PHILIPPINES', 'test123', '09095734538', 'test123@gmail.com', 'Bernardino St Bagbaguin, Valenzuela 4500 3rd District Metro Manila', '', '', '', '', 'Employer', 'Jhoebert Huenda', '../dist/user-images/mLUiw55X/download (2).png', '', '', '22-03-20', '978653', 'verified', '2022-03-23 03:34:41'),
-(76, 'Jhoebert Huenda', 'huends20', '09120266165', '	huendahuenda20@gmail.com', 'Purok 9 Sampaloc, Sorsogon City 4700 Sorsogon Bicol', 'The Lewis College', 'Bachelor of Science', 'Information Technology', '2019  - 2023', 'Jobseeker', NULL, '../dist/user-images/SQFZaL0h/profile.jpg', '																	HTML5,																																	CSS3,																																	JAVASCRIPT,PHP', 'BEST IN KAGWAPOHAN', '22-03-20', '330446', 'verified', '2022-03-23 05:44:17'),
-(77, 'Lucky Chinatown', 'Qq@4KlgwtC0e8Gi', '+63951154985', '	abglpaulino@gmail.com', 'Purok 1 Behia, Sorsogon 4705 Magallanes Region V', '', '', '', '', 'Employer', 'Abegail paulino', '../dist/user-images/lp3RgJWY/inbound7237129827717532666.png', '', '', '22-03-22', '209042', 'verified', '2022-03-23 05:44:11'),
-(78, 'Test Corp', 'test99', '09450323708', '	test99@gmail.com', 'Purok 7 Bibincahan, Sorsogon 4705 Sorsogon Bicol', '', '', '', '', 'Employer', 'John Dope II', '../dist/user-images/halhUoYh/corporate-company-logo-design-template-2402e0689677112e3b2b6e0f399d7dc3_screen.jpg', '', '', '22-03-22', '351742', 'verified', '2022-03-23 05:33:55');
+INSERT INTO `users` (`user_id`, `unique_id`, `name`, `password`, `contact_number`, `email_account`, `address`, `school`, `degree`, `study_field`, `study_years`, `type`, `contact_person`, `p_p`, `skills`, `coe`, `signup_date`, `verification_code`, `verification_status`, `last_seen`, `status`) VALUES
+(86, 522287705, 'user', 'user', 'user', 'user@gmail.com', 'sample', '', '', '', '', 'user', NULL, '../dist/user-images/default/default.png', '', '', '2022-04-05 19:01:44', '123456', 'verified', '2022-04-06 02:59:07', 'Offline now'),
+(96, 858345289, 'Christina Amor', 'amor123', '09095734538', 'jhoeberthuenda@thelewiscollege.edu.ph', 'Purok 9 Sampaloc, Sorsogon 4700 Sorsogon Bicol', 'The Lewis College,The Lewis College,The Lewis College', 'Bachelor Of Science in Information Technology,Master\'s in Information Technology,PhD in Information Technology', 'College,Masters,PhD', '2019  - 2022,2023  - 2025,2026  - 2028', 'Jobseeker', NULL, '../dist/user-images/fPkJox3I/id ko.bmp', '																	html5,																																	css3,																																	javascript,React js', 'best in math', '2022-05-02 03:25:32', '557602', 'verified', '2022-05-02 11:25:27', 'Offline now'),
+(97, 597341726, 'Macdonald', 'amor123', '09123456789', '	huendahuenda20@gmail.com', 'purok 9 Balogo, Sorsogon 4700 Sorsogon Bicol', '', '', '', '', 'Employer', 'Maria Cristina Amor', '../dist/user-images/GH191IJE/download (3).jpg', '', '', '2022-05-02 10:46:44', '201150', 'verified', '2022-05-02 18:46:44', 'Active now'),
+(98, 402233168, 'Abegail Paulino', 'love', '09095734538', 'sample1@gmail.com', 'purok 9 Sampaloc, Sorsogon 4700 Sorsogon Bicol', 'The Lewis College,The Lewis College', 'Bachelor Of Science in Information Technology,Master\'s in Information Technology', 'College,Masters', '2020  - 2024,2025  - 2027 ', 'Jobseeker', NULL, '../dist/user-images/uT7T01FJ/th (1).jpg', 'html5,css,javascript', 'best in math', '2022-05-02 04:53:46', '310314', 'verified', '2022-05-02 12:50:50', 'Offline now'),
+(99, 1336420799, 'Jhoebert Huenda', 'sample2', '0912026165', 'sample2@gmail.com', 'purok 9 Sampaloc, Sorsogon 4700 Sorsogon Bicol', 'The Lewis College,The Lewis College', 'Bachelor Of Science in Information Technology,Master\'s in Information Technology', 'College,Masters', '2019  - 2023,2023  - 2025', 'Jobseeker', NULL, '../dist/user-images/oLgordUk/photo-1633332755192-727a05c4013d (1).jpeg', 'html5,css3', 'best in parainom', '2022-05-02 10:46:56', '105630', 'verified', '2022-05-02 18:46:56', 'Active now');
 
 --
 -- Indexes for dumped tables
@@ -209,16 +217,16 @@ ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `chats`
+-- Indexes for table `feedback`
 --
-ALTER TABLE `chats`
-  ADD PRIMARY KEY (`chat_id`);
+ALTER TABLE `feedback`
+  ADD PRIMARY KEY (`feedback_id`);
 
 --
--- Indexes for table `conversations`
+-- Indexes for table `feedback_report`
 --
-ALTER TABLE `conversations`
-  ADD PRIMARY KEY (`conversation_id`);
+ALTER TABLE `feedback_report`
+  ADD PRIMARY KEY (`feedback_report_id`);
 
 --
 -- Indexes for table `job`
@@ -231,6 +239,12 @@ ALTER TABLE `job`
 --
 ALTER TABLE `job_applicant`
   ADD PRIMARY KEY (`job_applicant_id`);
+
+--
+-- Indexes for table `messages`
+--
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`msg_id`);
 
 --
 -- Indexes for table `users`
@@ -246,37 +260,43 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
--- AUTO_INCREMENT for table `chats`
+-- AUTO_INCREMENT for table `feedback`
 --
-ALTER TABLE `chats`
-  MODIFY `chat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=246;
+ALTER TABLE `feedback`
+  MODIFY `feedback_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
--- AUTO_INCREMENT for table `conversations`
+-- AUTO_INCREMENT for table `feedback_report`
 --
-ALTER TABLE `conversations`
-  MODIFY `conversation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+ALTER TABLE `feedback_report`
+  MODIFY `feedback_report_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `job`
 --
 ALTER TABLE `job`
-  MODIFY `job_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `job_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `job_applicant`
 --
 ALTER TABLE `job_applicant`
-  MODIFY `job_applicant_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `job_applicant_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `messages`
+--
+ALTER TABLE `messages`
+  MODIFY `msg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=205;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

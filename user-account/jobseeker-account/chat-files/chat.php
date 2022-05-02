@@ -8,14 +8,26 @@ if (!isset($_SESSION['unique_id'])) {
 <?php include_once "header.php"; ?>
 
 <body class="header-white sidebar-dark">
-  <div class="header">
+  <div class="header" style="width: 100%;">
     <div class="header-left">
-      <div class="menu-icon dw dw-menu"></div>
+      <!-- <div class="menu-icon dw dw-menu"></div> -->
+      <div class="brand-logo">
+        <a href="#">
+          <img src="../../../template-files/vendors/images/logo1-removebg.png" alt="">
+        </a>
+      </div>
     </div>
     <div class="header-right">
+      <div class="mr-5 d-flex align-items-center" style="font-size: 25px;">
+        <a href="../userProfile.php" class="mr-4"><i class="icon-copy fa fa-user text-secondary" aria-hidden=" true"></i></a>
+        <a href="chat-files/chat.php?user_id=<?= $chatUserId; ?>" class="mr-4"><i class="icon-copy fa fa-comment text-primary" aria-hidden=" true"></i></a>
+        <a href="../jobsPosted.php" class="mr-4"><i class="icon-copy fa fa-briefcase text-secondary" aria-hidden="true"></i></a>
+        <a href="../userFeedback.php" class="mr-4"><i class="icon-copy fa fa-commenting text-secondary" aria-hidden="true"></i></a>
+        <a href="#"><i class="icon-copy fa fa-calendar-check-o text-secondary" aria-hidden="true"></i></a>
+      </div>
       <div class="user-info-dropdown">
         <div class="dropdown">
-          <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+          <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" style="padding: 0px !important;">
             <span class="user-icon">
               <img src="../../<?php echo $_SESSION['p_p']; ?>" alt="">
             </span>
@@ -25,13 +37,16 @@ if (!isset($_SESSION['unique_id'])) {
             <!-- <a class="dropdown-item" href="profile.html"><i class="dw dw-user1"></i> Profile</a>
 						<a class="dropdown-item" href="profile.html"><i class="dw dw-settings2"></i> Setting</a>
 						<a class="dropdown-item" href="faq.html"><i class="dw dw-help"></i> Help</a> -->
-            <a class="dropdown-item" href="../logout.php"><i class="dw dw-logout"></i> Log Out</a>
+            <a class="dropdown-item" href="logout.php"><i class="dw dw-logout"></i> Log Out</a>
           </div>
         </div>
       </div>
+      <div class="github-link">
+        <a href="https://github.com/dropways/deskapp" target="_blank"><img src="vendors/images/github.svg" alt=""></a>
+      </div>
     </div>
   </div>
-  <div class="left-side-bar">
+  <!-- <div class="left-side-bar">
     <div class="brand-logo">
       <a href="#">
         Home
@@ -75,12 +90,12 @@ if (!isset($_SESSION['unique_id'])) {
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="mobile-menu-overlay"></div>
-  <div class="main-container">
+  <div class="main-container" style="padding-left: 0px !important;">
     <div class="pd-ltr-20 xs-pd-20-10">
       <div class="min-height-200px">
-        <div class="page-header">
+        <!-- <div class="page-header">
           <div class="row">
             <div class="col-md-12 col-sm-12">
               <nav aria-label="breadcrumb" role="navigation">
@@ -91,7 +106,7 @@ if (!isset($_SESSION['unique_id'])) {
               </nav>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="row">
           <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 mb-30">
             <div class="wrapper">

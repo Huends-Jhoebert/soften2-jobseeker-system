@@ -13,6 +13,8 @@ if (!isset($_GET['moreSkills'])) {
 		"";
 	$_SESSION['added_job_description'] =
 		"";
+	$_SESSION['job_requirements'] = "";
+	$_SESSION['career_growth'] = "";
 }
 
 $getlastChat = "SELECT incoming_msg_id FROM messages WHERE outgoing_msg_id = '$_SESSION[unique_id]' ORDER BY msg_id DESC LIMIT 1";
@@ -40,7 +42,7 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 <head>
 	<!-- Basic Page Info -->
 	<meta charset="utf-8">
-	<title>Employer - Profile</title>
+	<title>Employer - Adding Job</title>
 
 	<!-- Site favicon -->
 	<link rel="apple-touch-icon" sizes="180x180" href="vendors/images/apple-touch-icon.png">
@@ -169,7 +171,7 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 						<div class="form-group row align-items-center">
 							<label class="col-sm-12 col-md-2 col-form-label"><span>Job Image</span> <span class="d-block text-muted">Hd image is recommended</span></label>
 							<div class="col-sm-12 col-md-10">
-								<input type="file" class="form-control-file form-control height-auto" name="image" required>
+								<input type="file" class="form-control-file form-control height-auto" name="image" accept="image/*" required>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -185,6 +187,12 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 							</div>
 						</div>
 						<div class="form-group row align-items-center">
+							<label class="col-sm-12 col-md-2 col-form-label">Job Requirements</label>
+							<div class="col-sm-12 col-md-10">
+								<input class="form-control" data-role="tagsinput" type="text" name="job_requirements" value="<?php echo $_SESSION['job_requirements']; ?>" required>
+							</div>
+						</div>
+						<div class="form-group row align-items-center">
 							<label class="col-sm-12 col-md-2 col-form-label">Core Skills <span class="d-block text-muted">Enter 3 Core Skills</span></label>
 							<div class="col-sm-12 col-md-10">
 								<input class="form-control" data-role="tagsinput" type="text" name="skills" value="<?php echo $_SESSION['added_job_core_skills']; ?>" required>
@@ -193,6 +201,10 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 						<div class="form-group">
 							<label>Job Description</label>
 							<textarea class="form-control" name="description" maxlength="10000" required><?php echo $_SESSION['added_job_description']; ?></textarea>
+						</div>
+						<div class="form-group">
+							<label>Career Growth</label>
+							<textarea class="form-control" name="career_growth" maxlength="10000" required><?php echo $_SESSION['career_growth']; ?></textarea>
 						</div>
 						<div>
 							<button type="submit" name="submitBtn" class="btn btn-primary">Submit</button>

@@ -74,17 +74,35 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 	<link rel="icon" type="image/png" sizes="32x32" href="../../template-files/vendors/images/logo1-removebg.png">
 	<link rel="stylesheet" href="chat-files/css/style.css">
 
+	<style>
+		.checked {
+			color: #deb217;
+		}
+	</style>
+
 </head>
 
 <body class="header-white sidebar-dark">
-	<div class="header">
+	<div class="header" style="width: 100%;">
 		<div class="header-left">
 			<div class="menu-icon dw dw-menu"></div>
+			<div class="brand-logo">
+				<a href="#">
+					<img src="../../template-files/vendors/images/logo1-removebg.png" alt="">
+				</a>
+			</div>
 		</div>
 		<div class="header-right">
+			<div class="mr-5 d-flex align-items-center" style="font-size: 25px;">
+				<a href="userProfile.php" class="mr-4"><i class="icon-copy fa fa-user text-secondary" aria-hidden=" true"></i></a>
+				<a href="chat-files/chat.php?user_id=<?= $chatUserId; ?>" class="mr-4"><i class="icon-copy fa fa-comment text-secondary" aria-hidden=" true"></i></a>
+				<a href="jobsPosted.php" class="mr-4"><i class="icon-copy fa fa-briefcase text-primary" aria-hidden="true"></i></a>
+				<a href="userFeedback.php" class="mr-4"><i class="icon-copy fa fa-commenting text-secondary" aria-hidden="true"></i></a>
+				<a href="#"><i class="icon-copy fa fa-calendar-check-o text-secondary" aria-hidden="true"></i></a>
+			</div>
 			<div class="user-info-dropdown">
 				<div class="dropdown">
-					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" style="padding: 0px !important;">
 						<span class="user-icon">
 							<img src="../<?php echo $_SESSION['p_p']; ?>" alt="">
 						</span>
@@ -103,7 +121,7 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 			</div>
 		</div>
 	</div>
-
+	<!-- 
 	<div class="left-side-bar">
 		<div class="brand-logo">
 			<a href="#">
@@ -148,14 +166,15 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
+
 	<div class="mobile-menu-overlay"></div>
 
-	<div class="main-container">
+	<div class="main-container" style="padding-left: 0px !important;">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="min-height-200px">
 				<div class="container pd-0">
-					<div class="page-header">
+					<!-- <div class="page-header">
 						<div class="row">
 							<div class="col-md-12 col-sm-12">
 								<nav aria-label="breadcrumb" role="navigation">
@@ -166,7 +185,7 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 								</nav>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<div class="page-header rounded-0">
 						<form action="" method="POST">
 							<div class="row justify-content-center">
@@ -209,6 +228,51 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 													</h4>
 													<p><?php echo $row['name']; ?><span class="badge badge-pill badge-primary ml-1" data-toggle="tooltip" data-placement="top" title="" data-original-title="Number of applicants">+ <?php echo $applicants['NumberOfApplicants']; ?></span></p>
 													<div class="work text-success"><span class="icon-copy ti-location-pin"></span> <?php echo $job['job_place']; ?></div>
+												</div>
+												<div>
+													<!-- <p><?= $job['rate']; ?></p> -->
+													<?php if ($job['rate'] == 0) : ?>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+													<?php endif; ?>
+													<?php if ($job['rate'] == 1) : ?>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+													<?php endif; ?>
+													<?php if ($job['rate'] == 2) : ?>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+													<?php endif; ?>
+													<?php if ($job['rate'] == 3) : ?>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star"></span>
+														<span class="fa fa-star"></span>
+													<?php endif; ?>
+													<?php if ($job['rate'] == 4) : ?>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star"></span>
+													<?php endif; ?>
+													<?php if ($job['rate'] == 5) : ?>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+														<span class="fa fa-star checked"></span>
+													<?php endif; ?>
 												</div>
 												<div class="contact-skill">
 													<?php $jobSkills = (explode(",", $job['job_skills'])); ?>

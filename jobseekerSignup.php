@@ -15,9 +15,16 @@ if (!isset($_GET['emailHasBeenUsed'])) {
 	$_SESSION['region'] = "";
 	$_SESSION['school'] = "";
 	$_SESSION['degree'] = "";
-	$_SESSION['field_study'] = "";
 	$_SESSION['start_year'] = "";
 	$_SESSION['year_ended'] = "";
+	$_SESSION['school1'] = "";
+	$_SESSION['degree1'] = "";
+	$_SESSION['start_year1'] = "";
+	$_SESSION['year_ended1'] = "";
+	$_SESSION['school2'] = "";
+	$_SESSION['degree2'] = "";
+	$_SESSION['start_year2'] = "";
+	$_SESSION['year_ended2'] = "";
 	$_SESSION['skills'] = "";
 	$_SESSION['coe'] = "";
 }
@@ -159,35 +166,103 @@ if (!isset($_GET['emailHasBeenUsed'])) {
 								<!-- Step 3 -->
 								<h5>Educational Attaintment</h5>
 								<section>
+									<h6 class="mb-3">College <span class="text-muted" style="font-size: 10px; font-weight: normal">Required</span></h6>
 									<div class="form-wrap max-width-600 mx-auto">
 										<div class="form-group row align-items-center">
 											<label class="col-sm-4 col-form-label">School</label>
 											<div class="col-sm-8">
-												<input type="text" name="school" class="form-control" placeholder="ex. The Lewis College" value="<?php echo $_SESSION['school']; ?>">
+												<input type="text" name="school" class="form-control" value="<?php echo $_SESSION['school']; ?>" required>
 											</div>
 										</div>
 										<div class="form-group row align-items-center">
 											<label class="col-sm-4 col-form-label">Degree</label>
 											<div class="col-sm-8">
-												<input type="text" name="degree" class="form-control" placeholder="ex. Bachelor's" value="<?php echo $_SESSION['degree']; ?>">
+												<input type="text" name="degree" class="form-control" value="<?php echo $_SESSION['degree']; ?>" required>
 											</div>
 										</div>
-										<div class="form-group row align-items-center">
-											<label class="col-sm-4 col-form-label">Field of study</label>
-											<div class="col-sm-8">
-												<input type="text" name="field_study" class="form-control" placeholder="ex. Business" value="<?php echo $_SESSION['field_study']; ?>">
-											</div>
+										<!-- <input type="hidden" name="level" class="form-control" value="College"> -->
+										<!-- <div class="form-group row align-items-center">
+											<label class="col-sm-4 col-form-label">Level</label>
+										<div class="col-sm-8">
 										</div>
+									</div> -->
 										<div class="form-group row align-items-center">
 											<label class="col-sm-4 col-form-label">Start Year</label>
 											<div class="col-sm-8">
-												<input type="text" name="start_year" class="form-control" value="<?php echo $_SESSION['start_year']; ?>">
+												<input type="number" name="start_year" class="form-control" value="<?php echo $_SESSION['start_year']; ?>" required>
 											</div>
 										</div>
 										<div class="form-group row align-items-center">
 											<label class="col-sm-4 col-form-label">Year Ended</label>
 											<div class="col-sm-8">
-												<input type="text" name="year_ended" class="form-control" value="<?php echo $_SESSION['year_ended']; ?>">
+												<input type="number" name="year_ended" class="form-control" value="<?php echo $_SESSION['year_ended']; ?>" required>
+											</div>
+										</div>
+									</div>
+									<h6 class="my-4">Master's</h6>
+									<div class="form-wrap max-width-600 mx-auto">
+										<!-- <input type="hidden" name="level1" value="Master's"> -->
+										<!-- <div class="form-group row align-items-center">
+											<label class="col-sm-4 col-form-label">Level</label>
+											<div class="col-sm-8">
+										
+											</div>
+										</div> -->
+										<div class="form-group row align-items-center">
+											<label class="col-sm-4 col-form-label">School</label>
+											<div class="col-sm-8">
+												<input type="text" name="school1" class="form-control" value="<?php echo $_SESSION['school1']; ?>">
+											</div>
+										</div>
+										<div class="form-group row align-items-center">
+											<label class="col-sm-4 col-form-label">Degree</label>
+											<div class="col-sm-8">
+												<input type="text" name="degree1" class="form-control" value="<?php echo $_SESSION['degree1']; ?>">
+											</div>
+										</div>
+										<div class="form-group row align-items-center">
+											<label class="col-sm-4 col-form-label">Start Year</label>
+											<div class="col-sm-8">
+												<input type="number" name="start_year1" class="form-control" value="<?php echo $_SESSION['start_year1']; ?>">
+											</div>
+										</div>
+										<div class="form-group row align-items-center">
+											<label class="col-sm-4 col-form-label">Year Ended</label>
+											<div class="col-sm-8">
+												<input type="number" name="year_ended1" class="form-control" value="<?php echo $_SESSION['year_ended1']; ?>">
+											</div>
+										</div>
+									</div>
+									<h6 class="my-4">PhD</h6>
+									<div class="form-wrap max-width-600 mx-auto">
+										<div class="form-group row align-items-center">
+											<label class="col-sm-4 col-form-label">School</label>
+											<div class="col-sm-8">
+												<input type="text" name="school2" class="form-control" value="<?php echo $_SESSION['school2']; ?>">
+											</div>
+										</div>
+										<div class="form-group row align-items-center">
+											<label class="col-sm-4 col-form-label">Degree</label>
+											<div class="col-sm-8">
+												<input type="text" name="degree2" class="form-control" value="<?php echo $_SESSION['degree2']; ?>">
+											</div>
+										</div>
+										<!-- <input type="hidden" name="level2" class="form-control" value="PhD"> -->
+										<!-- <div class="form-group row align-items-center">
+											<label class="col-sm-4 col-form-label">Level</label>
+											<div class="col-sm-8">
+											</div>
+										</div> -->
+										<div class="form-group row align-items-center">
+											<label class="col-sm-4 col-form-label">Start Year</label>
+											<div class="col-sm-8">
+												<input type="number" name="start_year2" class="form-control" value="<?php echo $_SESSION['start_year2']; ?>">
+											</div>
+										</div>
+										<div class="form-group row align-items-center">
+											<label class="col-sm-4 col-form-label">Year Ended</label>
+											<div class="col-sm-8">
+												<input type="number" name="year_ended2" class="form-control" value="<?php echo $_SESSION['year_ended2']; ?>">
 											</div>
 										</div>
 									</div>
@@ -212,21 +287,6 @@ if (!isset($_GET['emailHasBeenUsed'])) {
 										</ul>
 										<!-- success Popup html Start -->
 										<button type="submit" id="success-modal-btn" hidden data-toggle="modal" data-target="#success-modal" data-backdrop="static" name="jobSeekerSubmitBtn">Launch modal</button>
-										<!-- <div class="modal fade" id="success-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-											<div class="modal-dialog modal-dialog-centered max-width-400" role="document">
-												<div class="modal-content">
-													<div class="modal-body text-center font-18">
-														<h3 class="mb-20">Account details are set</h3>
-														<div class="mb-30 text-center"><img src="template-files/vendors/images/success.png"></div>
-														Verify Your account.
-													</div>
-													<div class="modal-footer justify-content-center">
-														<button class="btn btn-primary" name="doneBtn">Veify my account</button>
-													</div>
-												</div>
-											</div>
-										</div> -->
-										<!-- success Popup html End -->
 									</div>
 								</section>
 							</form>

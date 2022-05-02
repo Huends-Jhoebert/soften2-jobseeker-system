@@ -52,14 +52,26 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 </head>
 
 <body class="header-white sidebar-dark">
-	<div class="header">
+	<div class="header" style="width: 100%;">
 		<div class="header-left">
 			<div class="menu-icon dw dw-menu"></div>
+			<div class="brand-logo">
+				<a href="#">
+					<img src="../../template-files/vendors/images/logo1-removebg.png" alt="">
+				</a>
+			</div>
 		</div>
 		<div class="header-right">
+			<div class="mr-5 d-flex align-items-center" style="font-size: 25px;">
+				<a href="userProfile.php" class="mr-4"><i class="icon-copy fa fa-user text-secondary" aria-hidden=" true"></i></a>
+				<a href="chat-files/chat.php?user_id=<?= $chatUserId; ?>" class="mr-4"><i class="icon-copy fa fa-comment text-secondary" aria-hidden=" true"></i></a>
+				<a href="jobsPosted.php" class="mr-4"><i class="icon-copy fa fa-briefcase text-secondary" aria-hidden="true"></i></a>
+				<a href="userFeedback.php" class="mr-4"><i class="icon-copy fa fa-commenting text-primary" aria-hidden="true"></i></a>
+				<a href="#"><i class="icon-copy fa fa-calendar-check-o text-secondary" aria-hidden="true"></i></a>
+			</div>
 			<div class="user-info-dropdown">
 				<div class="dropdown">
-					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" style="padding: 0px !important;">
 						<span class="user-icon">
 							<img src="../<?php echo $_SESSION['p_p']; ?>" alt="">
 						</span>
@@ -80,7 +92,7 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 	</div>
 
 
-	<div class="left-side-bar">
+	<!-- <div class="left-side-bar">
 		<div class="brand-logo">
 			<a href="#">
 				Home
@@ -124,13 +136,13 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<div class="mobile-menu-overlay"></div>
 
-	<div class="main-container">
+	<div class="main-container" style="padding-left: 0px !important;">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="min-height-200px">
-				<div class="page-header">
+				<!-- <div class="page-header">
 					<div class="row">
 						<div class="col-md-6 col-sm-12">
 							<nav aria-label="breadcrumb" role="navigation">
@@ -142,7 +154,7 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 							</nav>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<!-- Default Basic Forms Start -->
 				<div class="pd-20 card-box mb-30">
 					<div class="clearfix">

@@ -33,6 +33,9 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 	$chatUserId = $lastChat1['outgoing_msg_id'];
 }
 
+$checkIfExist = "SELECT * FROM job_applicant WHERE job_id = '$job[job_id]' AND job_applicant_jobseeker_id = '$_SESSION[user_id]'";
+$getEmployerDetailsresult = $conn2->query($checkIfExist);
+
 ?>
 
 
@@ -60,20 +63,82 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 	<link rel="stylesheet" href="../../template-files/sweetalert/sweetalert2.min.css">
 	<link rel="icon" type="image/png" sizes="32x32" href="../../template-files/vendors/images/logo1-removebg.png">
 	<link rel="stylesheet" href="chat-files/css/style.css">
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
 
+		.rate {
+			/* float: left; */
+			height: 46px;
+			padding: 0 10px;
+			width: 40%;
+		}
+
+		.rate:not(:checked)>input {
+			position: absolute;
+			top: -9999px;
+		}
+
+		.rate:not(:checked)>label {
+			float: right;
+			width: 1em;
+			overflow: hidden;
+			white-space: nowrap;
+			cursor: pointer;
+			font-size: 30px;
+			color: #ccc;
+		}
+
+		.rate:not(:checked)>label:before {
+			content: '★ ';
+		}
+
+		.rate>input:checked~label {
+			color: #ffc700;
+		}
+
+		.rate:not(:checked)>label:hover,
+		.rate:not(:checked)>label:hover~label {
+			color: #deb217;
+		}
+
+		.rate>input:checked+label:hover,
+		.rate>input:checked+label:hover~label,
+		.rate>input:checked~label:hover,
+		.rate>input:checked~label:hover~label,
+		.rate>label:hover~input:checked~label {
+			color: #c59b08;
+		}
+
+		/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */
+	</style>
 
 
 </head>
 
 <body class="header-white sidebar-dark">
-	<div class="header">
+	<div class="header" style="width: 100%;">
 		<div class="header-left">
 			<div class="menu-icon dw dw-menu"></div>
+			<div class="brand-logo">
+				<a href="#">
+					<img src="../../template-files/vendors/images/logo1-removebg.png" alt="">
+				</a>
+			</div>
 		</div>
 		<div class="header-right">
+			<div class="mr-5 d-flex align-items-center" style="font-size: 25px;">
+				<a href="userProfile.php" class="mr-4"><i class="icon-copy fa fa-user text-secondary" aria-hidden=" true"></i></a>
+				<a href="chat-files/chat.php?user_id=<?= $chatUserId; ?>" class="mr-4"><i class="icon-copy fa fa-comment text-secondary" aria-hidden=" true"></i></a>
+				<a href="jobsPosted.php" class="mr-4"><i class="icon-copy fa fa-briefcase text-primary" aria-hidden="true"></i></a>
+				<a href="userFeedback.php" class="mr-4"><i class="icon-copy fa fa-commenting text-secondary" aria-hidden="true"></i></a>
+				<a href="#"><i class="icon-copy fa fa-calendar-check-o text-secondary" aria-hidden="true"></i></a>
+			</div>
 			<div class="user-info-dropdown">
 				<div class="dropdown">
-					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+					<a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" style="padding: 0px !important;">
 						<span class="user-icon">
 							<img src="../<?php echo $_SESSION['p_p']; ?>" alt="">
 						</span>
@@ -93,7 +158,7 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 		</div>
 	</div>
 
-
+	<!-- 
 	<div class="left-side-bar">
 		<div class="brand-logo">
 			<a href="#">
@@ -138,13 +203,13 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<div class="mobile-menu-overlay"></div>
 
-	<div class="main-container">
+	<div class="main-container" style="padding-left: 0px !important;">
 		<div class="pd-ltr-20 xs-pd-20-10">
 			<div class="min-height-200px">
-				<div class="page-header">
+				<!-- <div class="page-header">
 					<div class="row">
 						<div class="col-md-12 col-sm-12">
 							<nav aria-label="breadcrumb" role="navigation">
@@ -156,7 +221,7 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 							</nav>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<div class="row">
 					<div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
 						<div class="pd-20 card-box height-50-p">
@@ -211,7 +276,41 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 										</div>
 										<div class="d-flex justify-content-between align-items-center">
 											<h5 class="text-dark mt-3 h3"><?php echo $job['job_title']; ?></h5>
-											<a href="#" class="text-primary" data-toggle="modal" data-target="#modal">Send resume</a>
+											<?php if ($getEmployerDetailsresult->num_rows > 0) : ?>
+												<a href="#" class="text-primary mr-3" data-toggle="modal" data-target="#rateModal">Rate</a>
+											<?php endif; ?>
+											<?php if ($getEmployerDetailsresult->num_rows < 1) : ?>
+												<a href="#" class="text-primary" data-toggle="modal" data-target="#modal">Send resume</a>
+											<?php endif; ?>
+											<div class="modal fade" id="rateModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" style="display: none;">
+												<div class="modal-dialog modal-dialog-centered" role="document">
+													<div class="modal-content">
+														<form action="" method="POST" enctype="multipart/form-data">
+															<div class="modal-body pd-5 p-2">
+																<h5 class="mb-3">Rate</h5>
+																<div class="form-group mb-0">
+																	<div class="rate">
+																		<input type="radio" id="star5" name="rate" value="5" />
+																		<label for="star5" title="text">5 stars</label>
+																		<input type="radio" id="star4" name="rate" value="4" />
+																		<label for="star4" title="text">4 stars</label>
+																		<input type="radio" id="star3" name="rate" value="3" />
+																		<label for="star3" title="text">3 stars</label>
+																		<input type="radio" id="star2" name="rate" value="2" />
+																		<label for="star2" title="text">2 stars</label>
+																		<input type="radio" id="star1" name="rate" value="1" />
+																		<label for="star1" title="text">1 star</label>
+																	</div>
+																</div>
+																<input type="hidden" name="job_id" value="<?php echo $job['job_id']; ?>">
+															</div>
+															<div class="modal-footer">
+																<button type="submit" class="btn btn-primary" name="submitRateBtn">Submit</button>
+															</div>
+														</form>
+													</div>
+												</div>
+											</div>
 											<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" style="display: none;">
 												<div class="modal-dialog modal-dialog-centered" role="document">
 													<div class="modal-content">
@@ -233,18 +332,41 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 												</div>
 											</div>
 										</div>
-										<div>
+										<div class="mb-2">
 											<p class="h6 m-0"><?php echo $job['job_place']; ?></p>
 											<p class="m-0">Salary <?php echo $job['job_salary_range']; ?></p>
 											<p class="text-muted" style="font-size: 13px;">Posted <?php echo time_posted($job['job_date_posted']); ?></p>
 										</div>
 										<div class="mt-5">
 											<h5 class="h5">
+												Job Requirements
+											</h5>
+											<?php
+											$requirements = explode(',', $job['job_requirements']);
+											?>
+											<ul style="margin-left: 20px;">
+												<?php foreach ($requirements  as $requirement) : ?>
+													<li style="list-style: disc;" class="text-capitalize"><?= $requirement; ?></li>
+												<?php endforeach; ?>
+											</ul>
+										</div>
+										<div class="mt-3">
+											<h5 class="h5">
 												Job description
 											</h5>
 											<p class="text-justify">
 												<?php
 												echo $job['job_description'];
+												?>
+											</p>
+										</div>
+										<div class="mt-3">
+											<h5 class="h5">
+												Career Growth
+											</h5>
+											<p class="text-justify">
+												<?php
+												echo $job['career_growth'];
 												?>
 											</p>
 										</div>
@@ -342,6 +464,45 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 			}
 		}
 	}
+	?>
+
+	<?php
+
+	if (isset($_POST['submitRateBtn'])) {
+
+		$getRate = "SELECT rate, number_of_raters, total_rate FROM job WHERE job_id = '$_POST[job_id]'";
+		$getRateResult = $conn2->query($getRate);
+		$getRateResultDatas = $getRateResult->fetch_assoc();
+
+		$currentRate = $getRateResultDatas['rate'];
+		$currentNumberOfRaters = $getRateResultDatas['number_of_raters'];
+		$currentTotalRate = $getRateResultDatas['total_rate'];
+
+		$updateRate = intval($currentRate) + intval($_POST['rate']);
+		$newNumberOfRaters = $currentNumberOfRaters + 1;
+		$newTotalRate = intval($currentTotalRate) + intval($_POST['rate']);
+
+		$newRate = intval($newTotalRate) / intval($newNumberOfRaters);
+
+		$updateRate = "UPDATE job SET rate = '$newRate',
+		number_of_raters = '$newNumberOfRaters',
+		total_rate = '$newTotalRate'
+		WHERE job_id = '$_POST[job_id]'";
+
+		if ($conn2->query($updateRate) === TRUE) {
+			echo "<script>";
+			echo "Swal.fire(";
+			echo "'Rate',";
+			echo "'Is successfully submitted',";
+			echo "'success'";
+			echo ")";
+			echo "</script>";
+			$conn2->close();
+		} else {
+			echo "Error: " . $updateRate . "<br>" . $conn2->error;
+		}
+	}
+
 	?>
 
 </body>

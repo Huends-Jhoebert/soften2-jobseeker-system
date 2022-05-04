@@ -52,7 +52,7 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 </head>
 
 <body class="header-white sidebar-dark">
-	<div class="header" style="width: 100%;">
+	<div class="header bg-light" style="width: 100%;">
 		<div class="header-left">
 			<div class="menu-icon dw dw-menu"></div>
 			<div class="brand-logo">

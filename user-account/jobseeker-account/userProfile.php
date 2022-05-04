@@ -67,7 +67,7 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 </head>
 
 <body class="header-white sidebar-dark">
-	<div class="header" style="width: 100%;">
+	<div class="header bg-light" style="width: 100%;">
 		<div class="header-left">
 			<div class="menu-icon dw dw-menu"></div>
 			<div class="brand-logo">
@@ -225,21 +225,21 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 													<div class="modal-body pd-5 p-2">
 														<h5 class="mb-3">Education</h5>
 														<div class="form-group">
+															<label class="col-sm-4 col-form-label">Level</label>
+															<div class="col-sm-8">
+																<input type="text" name="field_of_study" class="form-control" value="" required>
+															</div>
+														</div>
+														<div class="form-group">
 															<label class="col-sm-4 col-form-label">School*</label>
 															<div class="col-sm-8">
-																<input type="text" name="school" class="form-control" placeholder="ex. The Lewis College" value="" required>
+																<input type="text" name="school" class="form-control" College" value="" required>
 															</div>
 														</div>
 														<div class="form-group">
 															<label class="col-sm-4 col-form-label">Degree*</label>
 															<div class="col-sm-8">
-																<input type="text" name="degree" class="form-control" placeholder="ex. Bachelor's" value="" required>
-															</div>
-														</div>
-														<div class="form-group">
-															<label class="col-sm-4 col-form-label">Field of Study*</label>
-															<div class="col-sm-8">
-																<input type="text" name="field_of_study" class="form-control" placeholder="ex. Business" value="" required>
+																<input type="text" name="degree" class="form-control" value="" required>
 															</div>
 														</div>
 														<div class="form-group">

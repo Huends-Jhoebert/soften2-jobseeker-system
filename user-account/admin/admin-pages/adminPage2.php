@@ -103,7 +103,7 @@ $getAllFeedbackDatas = $getAllFeedbackDataSql->fetch_all(MYSQLI_ASSOC);
 								</a>
 							</li>
 							<li>
-								<a href="#" class="dropdown-toggle no-arrow">
+								<a href="adminPage3.php" class="dropdown-toggle no-arrow">
 									<span class="micon dw dw-calendar1"></span><span class="mtext">Report Generation</span>
 								</a>
 							</li>

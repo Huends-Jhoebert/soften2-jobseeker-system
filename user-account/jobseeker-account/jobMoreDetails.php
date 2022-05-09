@@ -453,7 +453,7 @@ $getEmployerDetailsresult = $conn2->query($checkIfExist);
 			if ($conn2->query($sql) === TRUE) {
 				echo "<script>";
 				echo "Swal.fire(";
-				echo	"'Resume',";
+				echo "'Resume',";
 				echo "'Is successfully submitted',";
 				echo "'success'";
 				echo ")";

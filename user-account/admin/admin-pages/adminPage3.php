@@ -4,22 +4,44 @@ session_start();
 include_once "../queries/db-connection.php";
 include_once "timeAgo.php";
 
-$countNumberOfUsers = "SELECT COUNT(user_id) as numberOfUsers from users";
-$countNumberOfUsersResult = $conn->query($countNumberOfUsers);
-$numberOfUsers = $countNumberOfUsersResult->fetch_assoc();
+if (isset($_POST['searchJobBtn'])) {
 
-$countNumberOfJobseekers = "SELECT COUNT(user_id) as numberOfJobseekers from users WHERE type = 'Jobseeker'";
-$countNumberOfJobseekersResult = $conn->query($countNumberOfJobseekers);
-$numberOfJobseekers = $countNumberOfJobseekersResult->fetch_assoc();
+	$startDate = date("Y-m-d", strtotime($_POST['startDate']));
+	$endDate = date("Y-m-d", strtotime($_POST['endDate']));
 
-$countNumberOfEmployers = "SELECT COUNT(user_id) as numberOfEmployers from users WHERE type = 'Employer'";
-$countNumberOfEmployersResult = $conn->query($countNumberOfEmployers);
-$numberOfEmployers = $countNumberOfEmployersResult->fetch_assoc();
+	$countNumberOfJobseekers = "SELECT COUNT(user_id) as numberOfJobseekers from users WHERE type = 'Jobseeker' and signup_date between '$startDate' and '$endDate'";
+	$countNumberOfJobseekersResult = $conn->query($countNumberOfJobseekers);
+	$numberOfJobseekers = $countNumberOfJobseekersResult->fetch_assoc();
+
+	$countNumberOfEmployers = "SELECT COUNT(user_id) as numberOfEmployers from users WHERE type = 'Employer' and signup_date between '$startDate' and '$endDate'";
+	$countNumberOfEmployersResult = $conn->query($countNumberOfEmployers);
+	$numberOfEmployers = $countNumberOfEmployersResult->fetch_assoc();
+} else {
+	$countNumberOfJobseekers = "SELECT COUNT(user_id) as numberOfJobseekers from users WHERE type = 'Jobseeker'";
+	$countNumberOfJobseekersResult = $conn->query($countNumberOfJobseekers);
+	$numberOfJobseekers = $countNumberOfJobseekersResult->fetch_assoc();
+
+	$countNumberOfEmployers = "SELECT COUNT(user_id) as numberOfEmployers from users WHERE type = 'Employer'";
+	$countNumberOfEmployersResult = $conn->query($countNumberOfEmployers);
+	$numberOfEmployers = $countNumberOfEmployersResult->fetch_assoc();
+}
+
+// $countNumberOfUsers = "SELECT COUNT(user_id) as numberOfUsers from users";
+// $countNumberOfUsersResult = $conn->query($countNumberOfUsers);
+// $numberOfUsers = $countNumberOfUsersResult->fetch_assoc();
+
+// $countNumberOfJobseekers = "SELECT COUNT(user_id) as numberOfJobseekers from users WHERE type = 'Jobseeker'";
+// $countNumberOfJobseekersResult = $conn->query($countNumberOfJobseekers);
+// $numberOfJobseekers = $countNumberOfJobseekersResult->fetch_assoc();
+
+// $countNumberOfEmployers = "SELECT COUNT(user_id) as numberOfEmployers from users WHERE type = 'Employer'";
+// $countNumberOfEmployersResult = $conn->query($countNumberOfEmployers);
+// $numberOfEmployers = $countNumberOfEmployersResult->fetch_assoc();
 
 
-$getAllUsersData = "SELECT * FROM users WHERE type <> 'user'";
-$getAllUsersDataSql = $conn->query($getAllUsersData);
-$allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
+// $getAllUsersData = "SELECT * FROM users WHERE type <> 'user'";
+// $getAllUsersDataSql = $conn->query($getAllUsersData);
+// $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 
 
 ?>
@@ -102,7 +124,7 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 								</a>
 							</li>
 							<li>
-								<a href="adminPage3.php" class="dropdown-toggle no-arrow">
+								<a href="#" class="dropdown-toggle no-arrow">
 									<span class="micon dw dw-calendar1"></span><span class="mtext">Report Generation</span>
 								</a>
 							</li>
@@ -114,88 +136,46 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 	</div>
 	<div class="mobile-menu-overlay"></div>
 
-	<div class="main-container">
-		<div class="row mt-3">
-			<div class="col-xl-3 mb-30 text-center">
-				<div class="card-box height-100-p widget-style1">
-					<div class="d-flex flex-wrap align-items-center">
-						<i class="icon-copy fa fa-users text-primary" style="font-size: 4.5rem;" aria-hidden="true"></i>
-						<div class="widget-data">
-							<div class="h4 mb-0"><?php echo $numberOfUsers['numberOfUsers']; ?></div>
-							<div class="weight-600 font-14">Total Users</div>
+	<div class="main-container mt-4">
+		<div class="page-header rounded-0">
+			<form action="" method="post">
+				<div class="row justify-content-center align-items-center">
+					<div class="col-lg-4 col-md-4 col-sm-4 search-div">
+						<div class="form-group row align-items-center">
+							<label class="col-sm-12 col-md-2 col-form-label">From</label>
+							<div class="col-sm-12 col-md-10">
+								<input class="form-control date-picker" name="startDate" placeholder="Select Date" type="text">
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div class="col-xl-3 mb-30 text-center">
-				<div class="card-box height-100-p widget-style1">
-					<div class="d-flex flex-wrap align-items-center">
-						<i class="icon-copy fa fa-briefcase text-info" style="font-size: 5rem;" aria-hidden="true"></i>
-						<div class="widget-data">
-							<div class="h4 mb-0"><?php echo $numberOfJobseekers['numberOfJobseekers']; ?></div>
-							<div class="weight-600 font-14">Total Jobseekers</div>
+					<div class="col-lg-4 col-md-4 col-sm-4 search-div">
+						<div class="form-group row align-items-center">
+							<label class="col-sm-12 col-md-2 col-form-label">To</label>
+							<div class="col-sm-12 col-md-10">
+								<input class="form-control date-picker" name="endDate" placeholder="Select Date" type="text">
+							</div>
 						</div>
 					</div>
+					<div class="col-lg-2 col-md-2 col-sm-4 search-div">
+						<button type="submit" name="searchJobBtn" class="btn btn-primary d-block">SEARCH</button>
+					</div>
 				</div>
-			</div>
-			<div class="col-xl-3 mb-30 text-center">
-				<div class="card-box height-100-p widget-style1">
-					<div class="d-flex flex-wrap align-items-center">
-						<i class="icon-copy fa fa-user text-info" style="font-size: 5rem;" aria-hidden="true"></i>
-						<div class="widget-data">
-							<div class="h4 mb-0"><?php echo $numberOfEmployers['numberOfEmployers']; ?></div>
-							<div class="weight-600 font-14">Total Employers</div>
+			</form>
+		</div>
+
+		<div class="row">
+			<!-- <h1><?= $numberOfJobseekers['numberOfJobseekers']; ?></h1> -->
+			<div class="col-6">
+				<div class="card">
+					<div class="row">
+						<div class="col-12 p-4">
+							<canvas id="myChart" width="200" height="200"></canvas>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- Simple Datatable start -->
-		<div class="card-box mb-30">
-			<div class="pd-20 d-flex justify-content-between align-items-center">
-				<h4 class="text-blue h4">Users Data</h4>
-			</div>
-			<div class="pb-20">
-				<table class="data-table table stripe hover nowrap">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Full Name</th>
-							<th>Account Type</th>
-							<th>Sign Up Date</th>
-							<th>Last Seen</th>
-							<th class="datatable-nosort">Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php foreach ($allUsersData as $key => $userData) : ?>
-							<tr>
-								<td><?= $key + 1; ?></td>
-								<td><?= $userData['name']; ?></td>
-								<td><?= $userData['type']; ?></td>
-								<td>
-									<?php
-									$date = $userData['signup_date'];
-									echo date('h:i:s a m/d/Y', strtotime($date));
-									?></td>
-								<td><?= last_seen($userData['last_seen']); ?></td>
-								<td>
-									<div class="dropdown">
-										<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
-											<i class="dw dw-more"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-											<a class="dropdown-item bg-danger text-white" href="../queries/removeUser.php?userId=<?= $userData['user_id']; ?>"><i class="icon-copy fi-trash"></i>Remove</a>
-										</div>
-									</div>
-								</td>
-							</tr>
-						<?php endforeach; ?>
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<!-- Simple Datatable End -->
+
 	</div>
 	<!-- js -->
 	<script src="../../../template-files/vendors/scripts/core.js"></script>
@@ -220,46 +200,42 @@ $allUsersData = $getAllUsersDataSql->fetch_all(MYSQLI_ASSOC);
 	<!-- Datatable Setting js -->
 	<script src="../../../template-files/vendors/scripts/datatable-setting.js"></script>
 
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-	<script>
-		window.addEventListener('DOMContentLoaded', function() {
-			var image = document.getElementById('image');
-			var cropBoxData;
-			var canvasData;
-			var cropper;
+	<?php
 
-			$('#modal').on('shown.bs.modal', function() {
-				cropper = new Cropper(image, {
-					autoCropArea: 0.5,
-					dragMode: 'move',
-					aspectRatio: 3 / 3,
-					restore: false,
-					guides: false,
-					center: false,
-					highlight: false,
-					cropBoxMovable: false,
-					cropBoxResizable: false,
-					toggleDragModeOnDblclick: false,
-					ready: function() {
-						cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
+	echo "<script>
+		const ctx = document.getElementById('myChart');
+		const myChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: ['Employer', 'Jobseeker'],
+				datasets: [{
+					label: '# of Users',
+					data: [" . $numberOfEmployers['numberOfEmployers'] . "," . $numberOfJobseekers['numberOfJobseekers'] . "],
+					backgroundColor: [
+						'rgba(21, 2, 189, 0.2)',
+						'rgba(255, 160, 160, 0.2)'
+					],
+					borderColor: [
+						'rgba(21, 2, 189, 1)',
+						'rgba(255, 160, 160, 1)'
+					],
+					borderWidth: 1
+				}]
+			},
+			options: {
+				scales: {
+					y: {
+						beginAtZero: true
 					}
-				});
-			}).on('hidden.bs.modal', function() {
-				cropBoxData = cropper.getCropBoxData();
-				canvasData = cropper.getCanvasData();
-				cropper.destroy();
-			});
+				}
+			}
 		});
-	</script>
-	<?php if (isset($_GET['successfullyDeleted'])) : ?>
-		<script>
-			Swal.fire(
-				'User',
-				'Is successfully removed',
-				'success'
-			)
-		</script>
-	<?php endif; ?>
+	</script>";
+	?>
+
 </body>
+
 
 </html>

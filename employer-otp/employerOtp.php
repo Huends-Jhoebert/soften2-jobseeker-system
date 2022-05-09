@@ -26,7 +26,7 @@ if (isset($_POST['employerSignUpBtn'])) {
 	$_SESSION['province'] = $_POST['province'];
 	$_SESSION['region'] = $_POST['region'];
 	$_SESSION['address'] =  $_POST['address_more_info'] . " " . $_POST['barangay'] . ", " . $_POST['city'] .  " " .	$_POST['postal_code'] . " " . $_POST['province'] . " " . $_POST['region'];
-	$date = date("y-m-d");
+	$date = date("Y-m-d");
 
 	$searchEmail = "SELECT * FROM users WHERE email_account LIKE '%$_SESSION[email_address]%'";
 	$searchEmailQuery  = $conn->query($searchEmail);
@@ -72,8 +72,8 @@ if (isset($_POST['employerSignUpBtn'])) {
 				$_SESSION["p_p"] = $folder;
 			}
 
-			$sql = "INSERT INTO users (unique_id, name, password, contact_number, email_account, address, type, contact_person, p_p, verification_code, verification_status)
-        VALUES ('$_SESSION[unique_id]','$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '	$_SESSION[email_address]', '$_SESSION[address]', 'Employer', '$_SESSION[contact_person]','$_SESSION[p_p]', $verification_code, 'unverified')";
+			$sql = "INSERT INTO users (unique_id, name, password, contact_number, email_account, address, type, contact_person, p_p, verification_code, verification_status, signup_date)
+        VALUES ('$_SESSION[unique_id]','$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '$_SESSION[email_address]', '$_SESSION[address]', 'Employer', '$_SESSION[contact_person]','$_SESSION[p_p]', $verification_code, 'unverified', '$date')";
 
 			if ($conn->query($sql) === TRUE) {
 				$_SESSION['user_id'] = $conn->insert_id;

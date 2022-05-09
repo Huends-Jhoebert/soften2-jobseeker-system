@@ -58,7 +58,7 @@ if (isset($_POST['jobSeekerSubmitBtn'])) {
 	// education
 	$_SESSION['skills'] = $_POST['skills'];
 	$_SESSION['coe'] = $_POST['coe'];
-	$date = date("y-m-d");
+	$date = date("Y-m-d");
 
 	$searchEmail = "SELECT * FROM users WHERE email_account LIKE '%$_SESSION[email_address]%'";
 	$searchEmailQuery  = $conn->query($searchEmail);
@@ -105,14 +105,14 @@ if (isset($_POST['jobSeekerSubmitBtn'])) {
 			}
 
 			if ($_POST['school1'] == "" && $_POST['school2'] = "") {
-				$sql = "INSERT INTO users (unique_id, name, password, contact_number, email_account, address, school, degree, study_field, study_years, type, p_p, skills, coe, verification_code, verification_status)
-        VALUES ('$_SESSION[unique_id]','$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '$_SESSION[email_address]', '$_SESSION[address]', '$_SESSION[school]', '$_SESSION[degree]', 'College', '$_SESSION[year]', 'Jobseeker','$_SESSION[p_p]', '$_SESSION[skills]', '$_SESSION[coe]', $verification_code, 'unverified')";
+				$sql = "INSERT INTO users (unique_id, name, password, contact_number, email_account, address, school, degree, study_field, study_years, type, p_p, skills, coe, verification_code, verification_status, signup_date)
+        VALUES ('$_SESSION[unique_id]','$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '$_SESSION[email_address]', '$_SESSION[address]', '$_SESSION[school]', '$_SESSION[degree]', 'College', '$_SESSION[year]', 'Jobseeker','$_SESSION[p_p]', '$_SESSION[skills]', '$_SESSION[coe]', $verification_code, 'unverified', '$date')";
 			} else if ($_POST['school1'] != "" && $_POST['school2'] == "") {
-				$sql = "INSERT INTO users (unique_id, name, password, contact_number, email_account, address, school, degree, study_field, study_years, type, p_p, skills, coe, verification_code, verification_status)
-        VALUES ('$_SESSION[unique_id]','$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '$_SESSION[email_address]', '$_SESSION[address]', '$_SESSION[mastersSchool]', '$_SESSION[mastersDegree]', 'College,Masters', '$_SESSION[mastersYears]', 'Jobseeker','$_SESSION[p_p]', '$_SESSION[skills]', '$_SESSION[coe]', $verification_code, 'unverified')";
+				$sql = "INSERT INTO users (unique_id, name, password, contact_number, email_account, address, school, degree, study_field, study_years, type, p_p, skills, coe, verification_code, verification_status, signup_date)
+        VALUES ('$_SESSION[unique_id]','$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '$_SESSION[email_address]', '$_SESSION[address]', '$_SESSION[mastersSchool]', '$_SESSION[mastersDegree]', 'College,Masters', '$_SESSION[mastersYears]', 'Jobseeker','$_SESSION[p_p]', '$_SESSION[skills]', '$_SESSION[coe]', $verification_code, 'unverified', '$date')";
 			} else if ($_POST['school1'] != "" && $_POST['school2'] != "") {
-				$sql = "INSERT INTO users (unique_id, name, password, contact_number, email_account, address, school, degree, study_field, study_years, type, p_p, skills, coe, verification_code, verification_status)
-        VALUES ('$_SESSION[unique_id]','$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '$_SESSION[email_address]', '$_SESSION[address]', '$_SESSION[phdSchool]', '$_SESSION[phdDegree]', 'College,Masters,PhD', '$_SESSION[phdYears]', 'Jobseeker','$_SESSION[p_p]', '$_SESSION[skills]', '$_SESSION[coe]', $verification_code, 'unverified')";
+				$sql = "INSERT INTO users (unique_id, name, password, contact_number, email_account, address, school, degree, study_field, study_years, type, p_p, skills, coe, verification_code, verification_status, signup_date)
+        VALUES ('$_SESSION[unique_id]','$_SESSION[full_name]', '$_SESSION[password]', '$_SESSION[contact_number]', '$_SESSION[email_address]', '$_SESSION[address]', '$_SESSION[phdSchool]', '$_SESSION[phdDegree]', 'College,Masters,PhD', '$_SESSION[phdYears]', 'Jobseeker','$_SESSION[p_p]', '$_SESSION[skills]', '$_SESSION[coe]', $verification_code, 'unverified', '$date')";
 			}
 
 			if ($conn->query($sql) === TRUE) {

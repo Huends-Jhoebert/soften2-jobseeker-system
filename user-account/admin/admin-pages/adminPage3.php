@@ -16,6 +16,14 @@ if (isset($_POST['searchJobBtn'])) {
 	$countNumberOfEmployers = "SELECT COUNT(user_id) as numberOfEmployers from users WHERE type = 'Employer' and signup_date between '$startDate' and '$endDate'";
 	$countNumberOfEmployersResult = $conn->query($countNumberOfEmployers);
 	$numberOfEmployers = $countNumberOfEmployersResult->fetch_assoc();
+
+	$countNumberOfGoodReviews = "SELECT COUNT(feedback_report_id) as goodReviews from feedback_report WHERE type = 'good' and date_created between '$startDate' and '$endDate'";
+	$countNumberOfGoodReviewsResult = $conn->query($countNumberOfGoodReviews);
+	$numberOfGoodReviews = $countNumberOfGoodReviewsResult->fetch_assoc();
+
+	$countNumberOfBadReviews = "SELECT COUNT(feedback_report_id) as badReviews from feedback_report WHERE type = 'bad' and date_created between '$startDate' and '$endDate'";
+	$countNumberOfBadReviewsResult = $conn->query($countNumberOfBadReviews);
+	$numberOfBadReviews = $countNumberOfBadReviewsResult->fetch_assoc();
 } else {
 	$countNumberOfJobseekers = "SELECT COUNT(user_id) as numberOfJobseekers from users WHERE type = 'Jobseeker'";
 	$countNumberOfJobseekersResult = $conn->query($countNumberOfJobseekers);
@@ -24,6 +32,14 @@ if (isset($_POST['searchJobBtn'])) {
 	$countNumberOfEmployers = "SELECT COUNT(user_id) as numberOfEmployers from users WHERE type = 'Employer'";
 	$countNumberOfEmployersResult = $conn->query($countNumberOfEmployers);
 	$numberOfEmployers = $countNumberOfEmployersResult->fetch_assoc();
+
+	$countNumberOfGoodReviews = "SELECT COUNT(feedback_report_id) as goodReviews from feedback_report WHERE type = 'good'";
+	$countNumberOfGoodReviewsResult = $conn->query($countNumberOfGoodReviews);
+	$numberOfGoodReviews = $countNumberOfGoodReviewsResult->fetch_assoc();
+
+	$countNumberOfBadReviews = "SELECT COUNT(feedback_report_id) as badReviews from feedback_report WHERE type = 'bad'";
+	$countNumberOfBadReviewsResult = $conn->query($countNumberOfBadReviews);
+	$numberOfBadReviews = $countNumberOfBadReviewsResult->fetch_assoc();
 }
 
 // $countNumberOfUsers = "SELECT COUNT(user_id) as numberOfUsers from users";
@@ -73,10 +89,18 @@ if (isset($_POST['searchJobBtn'])) {
 	<link rel="stylesheet" type="text/css" href="../../../template-files/src/plugins/datatables/css/dataTables.bootstrap4.min.css">
 	<link rel="stylesheet" type="text/css" href="../../../template-files/src/plugins/datatables/css/responsive.bootstrap4.min.css">
 
+	<style>
+		@media print {
+			.headeroff {
+				display: none;
+			}
+		}
+	</style>
+
 </head>
 
 <body class="header-white sidebar-dark">
-	<div class="header">
+	<div class="header headeroff">
 		<div class="header-left">
 			<div class="menu-icon dw dw-menu"></div>
 		</div>
@@ -136,8 +160,8 @@ if (isset($_POST['searchJobBtn'])) {
 	</div>
 	<div class="mobile-menu-overlay"></div>
 
-	<div class="main-container mt-4">
-		<div class="page-header rounded-0">
+	<div class="main-container">
+		<div class="page-header headeroff rounded-0">
 			<form action="" method="post">
 				<div class="row justify-content-center align-items-center">
 					<div class="col-lg-4 col-md-4 col-sm-4 search-div">
@@ -163,13 +187,72 @@ if (isset($_POST['searchJobBtn'])) {
 			</form>
 		</div>
 
-		<div class="row">
-			<!-- <h1><?= $numberOfJobseekers['numberOfJobseekers']; ?></h1> -->
-			<div class="col-6">
+		<div class="row justify-content-center" id="print">
+			<div class="col-12">
+				<div class="row justify-content-left">
+					<div class="col-3">
+						<input type="button" class="btn btn-primary mb-3 headeroff" style="margin-left: 90px;" value="Print Report" onclick="printpart()" />
+					</div>
+					<div class="col-3">
+						<a href="#" class="btn btn-success" data-toggle="modal" data-target="#Medium-modal" type="button">Create a report
+						</a>
+						<form method="post">
+							<div class="modal fade" id="Medium-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" style="display: none;" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h4 class="modal-title" id="myLargeModalLabel">Create Update</h4>
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										</div>
+										<div class="modal-body">
+											<div class="form-group row">
+												<label class="col-sm-6 col-md-2 col-form-label">Update Title</label>
+												<div class="col-sm-6 col-md-10">
+													<input class="form-control" name="updateTitle" type="text" placeholder="Enter Update Title">
+												</div>
+											</div>
+											<div class="form-group">
+												<label>Update Information</label>
+												<textarea class="form-control" name="updateInformation"></textarea>
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											<button type="submit" name="reportBtn" class="btn btn-primary">Post</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="col-10">
 				<div class="card">
 					<div class="row">
 						<div class="col-12 p-4">
-							<canvas id="myChart" width="200" height="200"></canvas>
+							<?php if (!isset($_POST['searchJobBtn'])) : ?>
+								<p>Number of users as of <?= date('Y-m-d'); ?></p>
+							<?php endif; ?>
+							<?php if (isset($_POST['searchJobBtn'])) : ?>
+								<p>Number of users from <?= $_POST['startDate']; ?> to <?= $_POST['endDate']; ?></p>
+							<?php endif; ?>
+							<canvas id="myChart" width="200" height="75"></canvas>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-10 mt-4">
+				<div class="card">
+					<div class="row">
+						<div class="col-12 p-4">
+							<?php if (!isset($_POST['searchJobBtn'])) : ?>
+								<p>Number of Feedbacks as of <?= date('Y-m-d'); ?></p>
+							<?php endif; ?>
+							<?php if (isset($_POST['searchJobBtn'])) : ?>
+								<p>Number of Feedbacks from <?= $_POST['startDate']; ?> to <?= $_POST['endDate']; ?></p>
+							<?php endif; ?>
+							<canvas id="myChart1" width="200" height="75"></canvas>
 						</div>
 					</div>
 				</div>
@@ -201,6 +284,7 @@ if (isset($_POST['searchJobBtn'])) {
 	<script src="../../../template-files/vendors/scripts/datatable-setting.js"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jspdf@1.5.3/dist/jspdf.min.js"></script>
 
 	<?php
 
@@ -209,9 +293,9 @@ if (isset($_POST['searchJobBtn'])) {
 		const myChart = new Chart(ctx, {
 			type: 'bar',
 			data: {
-				labels: ['Employer', 'Jobseeker'],
+				labels: ['Employers', 'Jobseekers'],
 				datasets: [{
-					label: '# of Users',
+					label: 'Employer',
 					data: [" . $numberOfEmployers['numberOfEmployers'] . "," . $numberOfJobseekers['numberOfJobseekers'] . "],
 					backgroundColor: [
 						'rgba(21, 2, 189, 0.2)',
@@ -233,6 +317,60 @@ if (isset($_POST['searchJobBtn'])) {
 			}
 		});
 	</script>";
+
+	echo "<script>
+		const ctx1 = document.getElementById('myChart1');
+		const myChart1 = new Chart(ctx1, {
+			type: 'doughnut',
+			data: {
+				labels: ['Good Review', 'Bad Reviews'],
+				datasets: [{
+					label: '# of Feedbacks',
+					data: [" . $numberOfGoodReviews['goodReviews'] . "," . $numberOfBadReviews['badReviews'] . "],
+					backgroundColor: [
+						'rgba(21, 2, 189, 0.2)',
+						'rgba(255, 160, 160, 0.2)'
+					],
+					borderColor: [
+						'rgba(21, 2, 189, 1)',
+						'rgba(255, 160, 160, 1)'
+					],
+					borderWidth: 1
+				}]
+			},
+			options: {
+				scales: {
+					y: {
+						beginAtZero: true
+					}
+				}
+			}
+		});
+	</script>";
+	?>
+
+	<script>
+		function printpart() {
+			window.print();
+		}
+	</script>
+
+
+	<?php
+
+
+	if (isset($_POST['reportBtn'])) {
+
+		$updateTitle = $_POST['updateTitle'];
+		$updateInformation = $conn->real_escape_string($_POST['updateInformation']);
+		$date = date('Y-m-d');
+
+		$sql = "INSERT INTO system_update (update_title, update_information, date)
+VALUES ('$updateTitle', '$updateInformation', '$date')";
+
+		$conn->query($sql);
+	}
+
 	?>
 
 </body>

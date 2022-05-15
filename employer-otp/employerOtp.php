@@ -49,9 +49,9 @@ if (isset($_POST['employerSignUpBtn'])) {
 			$mail->isSMTP(); // using SMTP protocol                                     
 			$mail->Host = 'smtp.gmail.com'; // SMTP host as gmail 
 			$mail->SMTPAuth = true;  // enable smtp authentication                             
-			$mail->Username = 'jobseekersystem2022@gmail.com';  // sender gmail host              
+			$mail->Username = 'huendshuends2021@gmail.com';  // sender gmail host              
 			$mail->SMTPDebug = 2;
-			$mail->Password = 'jobseeker12345';
+			$mail->Password = 'helloworld06061998';
 			// sender gmail host password                          
 			$mail->SMTPSecure = 'TLS';  // for encrypted connection                           
 			$mail->Port = 587;   // port for SMTP     

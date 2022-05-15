@@ -115,7 +115,7 @@ if ($lastChat == NULL && $lastChat1 == NULL) {
 								</a>
 							</li>
 							<li>
-								<a href="#" class="dropdown-toggle no-arrow">
+								<a href="update.php" class="dropdown-toggle no-arrow">
 									<span class="micon dw dw-calendar1"></span><span class="mtext">Update</span>
 								</a>
 							</li>

@@ -23,7 +23,7 @@ if (!isset($_SESSION['unique_id'])) {
         <a href="chat-files/chat.php?user_id=<?= $chatUserId; ?>" class="mr-4"><i class="icon-copy fa fa-comment text-primary" aria-hidden=" true"></i></a>
         <a href="../jobsPosted.php" class="mr-4"><i class="icon-copy fa fa-briefcase text-secondary" aria-hidden="true"></i></a>
         <a href="../userFeedback.php" class="mr-4"><i class="icon-copy fa fa-commenting text-secondary" aria-hidden="true"></i></a>
-        <a href="#"><i class="icon-copy fa fa-calendar-check-o text-secondary" aria-hidden="true"></i></a>
+        <a href="../update.php"><i class="icon-copy fa fa-calendar-check-o text-secondary" aria-hidden="true"></i></a>
       </div>
       <div class="user-info-dropdown">
         <div class="dropdown">
